@@ -122,7 +122,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' #debug true
+
+STATICFILES_DIR = [
+    BASE_DIR / 'static'
+] #debug true
+
+STATIC_ROOT = BASE_DIR / 'static_root' #for production: python manage.py collecstatic
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
