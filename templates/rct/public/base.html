@@ -54,17 +54,19 @@
             </ul>
             </nav><!-- .navbar -->
 
-            <a class="btn-book-a-table" href="#">Log In</a>
+            <a class="btn" href="{% url 'registro' %}">Registrarse</a>
+            <a class="btn-book-a-table" href="{% url 'login' %}">Log In</a>
             <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 
         </div>
         </header><!-- End Header -->
+        <br><br><br>
         <main>
             {% block contenido %}
             {% endblock contenido %}
         </main>
-        
+
         {% include "./footer.html" %}
 
         <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
