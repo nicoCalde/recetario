@@ -26,4 +26,16 @@ def login(request):
 def receta(request):
     return render(request,'rct/public/receta.html',)
 
+def crear_receta(request):
+    return render(request,'rct/public/crear_receta.html',)
+
+def editar_receta(request):
+    return render(request,'rct/public/editar_receta.html',)
+
+def buscar_receta(request):
+    return render(request,'rct/public/buscar_receta.html',)
+
 #ADMINITRACION
+def index_administracion(request):
+    variable = 'test variable'
+    return render(request,'rct/administration/index_administracion.html',{'variable':variable})

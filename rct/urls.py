@@ -9,5 +9,10 @@ urlpatterns = [
     path('registro',views.registro,name='registro'),
     path('login',views.login,name='login'),
     path('receta',views.receta,name='receta'),
+    path('crear_receta',views.crear_receta,name='crear_receta'),
+    path('editar_receta',views.editar_receta,name='editar_receta'),
+    path('buscar_receta',views.buscar_receta,name='buscar_receta'),
     path('contact',views.contact,name='contact'),
+    #ADMINISTRACION
+    path('administracion',views.index_administracion,name='index_administracion'),
 ]

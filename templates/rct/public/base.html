@@ -45,9 +45,9 @@
                 <li class="dropdown"><a href="{% url 'mis_recetas' %}"><span>Mis Recetas</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                 <ul>
                     <li><a href="{% url 'mis_recetas' %}">Recetas Guardadas</a></li>
-                    <li><a href="#">Crear Receta</a></li>
-                    <li><a href="#">Editar Receta</a></li>
-                    <li><a href="#">Buscar Receta</a></li>
+                    <li><a href="{% url 'crear_receta' %}">Crear Receta</a></li>
+                    <li><a href="{% url 'editar_receta' %}">Editar Receta</a></li>
+                    <li><a href="{% url 'buscar_receta' %}">Buscar Receta</a></li>
                 </ul>
                 </li>
                 <li><a href="{% url 'contact' %}">Contacto</a></li>
