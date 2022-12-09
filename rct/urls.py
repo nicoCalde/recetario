@@ -15,4 +15,7 @@ urlpatterns = [
     path('contact',views.contact,name='contact'),
     #ADMINISTRACION
     path('administracion',views.index_administracion,name='index_administracion'),
+    path('administracion/login',views.login_administracion,name='login_admin'),
+    path('administracion/register',views.register_adminitracion,name='register_admin'),
+    path('administracion/forgotpassword',views.forgotpass_administracion,name='forgotpass_admin'),
 ]

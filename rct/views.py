@@ -39,3 +39,12 @@ def buscar_receta(request):
 def index_administracion(request):
     variable = 'test variable'
     return render(request,'rct/administration/index_administracion.html',{'variable':variable})
+
+def register_adminitracion(request):
+    return render(request,'rct/administration/register_administracion.html',)
+
+def login_administracion(request):
+    return render(request,'rct/administration/login_administracion.html',)
+
+def forgotpass_administracion(request):
+    return render(request,'rct/administration/forgotpass_administracion.html',)
