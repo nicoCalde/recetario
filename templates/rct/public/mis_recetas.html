@@ -11,13 +11,14 @@
         <h2>Recetario</h2>
         <p>Tus <span>Recetas</span> Guardadas</p>
         </div>
-
+        {% if misrecetas|length > 0 %}
         <div class="row gy-4">
-            
+            {% for mireceta in misrecetas %}
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="chef-member">
                     <div class="member-img">
-                        <img src="" class="img-fluid" alt="">
+
+                        <img src="https://picsum.photos/id/{{ forloop.counter|add:520 }}/400/250" class="img-fluid" alt="{{mireceta.nombre_receta}}">
                         <div class="social">
                             <a href=""><i class="bi bi-twitter"></i></a>
                             <a href=""><i class="bi bi-facebook"></i></a>
@@ -26,53 +27,15 @@
                         </div>
                     </div>
                     <div class="member-info">
-                        <a href="{% url 'receta' %}"><h4>Nombre Receta</h4></a>
-                        <span>Tipo receta</span>
-                        <p>Breve Contenido</p>
+                        <a href="{% url 'receta' %}"><h4>{{mireceta.nombre_receta}}</h4></a>
+                        <span>{{mireceta.tipo_receta}}</span>
+                        <p>{{mireceta.productos_necesarios}}</p>
                     </div>
                     </div>
                 </div><!-- End Chefs Member -->
-            
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                <div class="chef-member">
-                <div class="member-img">
-                    <img src="" class="img-fluid" alt="">
-                    <div class="social">
-                    <a href=""><i class="bi bi-twitter"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="member-info">
-                    <a href="{% url 'receta' %}"><h4>Nombre Receta</h4></a>
-                    <span>Tipo receta</span>
-                    <p>Breve Contenido</p>
-                </div>
-                </div>
-            </div><!-- End Chefs Member -->
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                <div class="chef-member">
-                <div class="member-img">
-                    <img src="" class="img-fluid" alt="">
-                    <div class="social">
-                    <a href=""><i class="bi bi-twitter"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="member-info">
-                    <a href="{% url 'receta' %}"><h4>Nombre Receta</h4></a>
-                    <span>Tipo receta</span>
-                    <p>Breve Contenido</p>
-                </div>
-                </div>
-            </div><!-- End Chefs Member -->
-
+            {% endfor %}
         </div>
-
+        {% endif %}
     </div>
 </section><!-- End Chefs Section -->
 {% endblock contenido %}

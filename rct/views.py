@@ -13,31 +13,49 @@ def recetas(request):
         'nombre_receta' : 'Pollo al horno con papas',
         'tipo_receta' : 'carnes',
         'productos_necesarios' : 'pollo',
-        'imagen' : 'https://picsum.photos/200/300',
     },
     {
         'nombre_receta' : 'Carne al horno con papas',
         'tipo_receta' : 'carnes',
         'productos_necesarios' : 'carne',
-        'imagen' : 'https://picsum.photos/200/300',
     },
     {
         'nombre_receta' : 'Tortilla de papas',
         'tipo_receta' : 'Acompañamientos',
         'productos_necesarios' : 'Huevos',
-        'imagen' : 'https://picsum.photos/200/300',
     },
     {
         'nombre_receta' : 'Salmon a la plancha con esparragos',
         'tipo_receta' : 'Pescados',
         'productos_necesarios' : 'Salmon',
-        'imagen' : 'https://picsum.photos/200/300',
     },
 ]
     return render(request,'rct/public/recetas.html',{'recetas' : listado_recetas},)
 
 def mis_recetas(request):
-    return render(request,'rct/public/mis_recetas.html',)
+    listado_recetas = [
+    {
+        'nombre_receta' : 'Fideos a la carbonara',
+        'tipo_receta' : 'pasta',
+        'productos_necesarios' : ['fideos','huevos','aceite']
+    },
+    {
+        'nombre_receta' : 'Carre de cerdo al horno',
+        'tipo_receta' : 'carnes',
+        'productos_necesarios' : 'carne',
+    },
+    {
+        'nombre_receta' : 'Torrejas de verdura',
+        'tipo_receta' : 'Acompañamientos',
+        'productos_necesarios' : 'Huevos',
+    },
+    {
+        'nombre_receta' : 'Brotola con ensalada',
+        'tipo_receta' : 'Pescados',
+        'productos_necesarios' : 'Salmon',
+    },
+]
+    return render(request,'rct/public/mis_recetas.html',{'misrecetas':listado_recetas})
 
 def contact(request):
     return render(request,'rct/public/contact.html',)

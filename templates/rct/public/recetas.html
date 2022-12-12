@@ -19,7 +19,7 @@
                     <div class="chef-member">
                     <div class="member-img">
 
-                        <img src="{{ recetas.imagen }}" class="img-fluid" alt="{{ recetas.nombre_receta }}">
+                        <img src="https://picsum.photos/id/{{ forloop.counter|add:400 }}/400/250" class="img-fluid" alt="{{receta.nombre_receta}}">
                         <div class="social">
                             <a href=""><i class="bi bi-twitter"></i></a>
                             <a href=""><i class="bi bi-facebook"></i></a>
@@ -28,9 +28,9 @@
                         </div>
                     </div>
                     <div class="member-info">
-                        <a href="{% url 'receta' %}"><h4>{{ recetas.nombre_receta }}</h4></a>
-                        <span>{{ recetas.tipo_receta }}</span>
-                        <p>{{ recetas.productos_necesarios }}</p>
+                        <a href="{% url 'receta' %}"><h4>{{receta.nombre_receta}}</h4></a>
+                        <span>{{receta.tipo_receta}}</span>
+                        <p>{{receta.productos_necesarios}}</p>
                     </div>
                     </div>
                 </div><!-- End Chefs Member -->
