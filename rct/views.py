@@ -5,11 +5,36 @@ from django.shortcuts import render
 
 #PUBLIC
 def index(request):
-    # listado_recetas =
-    return render(request,'rct/public/index.html',)#'recetas':listado_recetas )
+    return render(request,'rct/public/index.html',)
 
 def recetas(request):
-    return render(request,'rct/public/recetas.html',)
+    listado_recetas = [
+    {
+        'nombre_receta' : 'Pollo al horno con papas',
+        'tipo_receta' : 'carnes',
+        'productos_necesarios' : 'pollo',
+        'imagen' : 'https://picsum.photos/200/300',
+    },
+    {
+        'nombre_receta' : 'Carne al horno con papas',
+        'tipo_receta' : 'carnes',
+        'productos_necesarios' : 'carne',
+        'imagen' : 'https://picsum.photos/200/300',
+    },
+    {
+        'nombre_receta' : 'Tortilla de papas',
+        'tipo_receta' : 'Acompañamientos',
+        'productos_necesarios' : 'Huevos',
+        'imagen' : 'https://picsum.photos/200/300',
+    },
+    {
+        'nombre_receta' : 'Salmon a la plancha con esparragos',
+        'tipo_receta' : 'Pescados',
+        'productos_necesarios' : 'Salmon',
+        'imagen' : 'https://picsum.photos/200/300',
+    },
+]
+    return render(request,'rct/public/recetas.html',{'recetas' : listado_recetas},)
 
 def mis_recetas(request):
     return render(request,'rct/public/mis_recetas.html',)
