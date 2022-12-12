@@ -29,7 +29,7 @@
                     <div class="member-info">
                         <a href="{% url 'receta' %}"><h4>{{mireceta.nombre_receta}}</h4></a>
                         <span>{{mireceta.tipo_receta}}</span>
-                        <p>{{mireceta.productos_necesarios}}</p>
+                        <p>{% for productos in mireceta.productos_necesarios %}{{productos}} {% endfor %}</p>
                     </div>
                     </div>
                 </div><!-- End Chefs Member -->

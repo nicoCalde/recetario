@@ -37,22 +37,22 @@ def mis_recetas(request):
     {
         'nombre_receta' : 'Fideos a la carbonara',
         'tipo_receta' : 'pasta',
-        'productos_necesarios' : ['fideos','huevos','aceite']
+        'productos_necesarios' : ['Fideos','Huevos','Aceite'],
     },
     {
         'nombre_receta' : 'Carre de cerdo al horno',
         'tipo_receta' : 'carnes',
-        'productos_necesarios' : 'carne',
+        'productos_necesarios' : ['Cerdo','Ciruelas','Sal'],
     },
     {
         'nombre_receta' : 'Torrejas de verdura',
         'tipo_receta' : 'Acompañamientos',
-        'productos_necesarios' : 'Huevos',
+        'productos_necesarios' : ['Espinaca','Huevos','Aceite'],
     },
     {
         'nombre_receta' : 'Brotola con ensalada',
         'tipo_receta' : 'Pescados',
-        'productos_necesarios' : 'Salmon',
+        'productos_necesarios' : ['Brotola','Zanahoria','Lechuga','Tomate'],
     },
 ]
     return render(request,'rct/public/mis_recetas.html',{'misrecetas':listado_recetas})
