@@ -3,6 +3,32 @@
 {% block titulo %}recetArio - Log In{% endblock titulo %}
 
 {% block contenido %}
-<br><br><br><br>
-<div>¿No tenes cuenta? <a href="{% url 'registro' %}">Registrate</a></div>
+<br>
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+        
+        <div class="section-header">
+            <h2>Ingreso</h2>
+            <p>Log <span>In</span></p>
+        </div>
+        <form action="" method="post" role="form" class="php-email-form p-3 p-md-4">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-6 form-group">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="col-xl-6 form-group">
+                    <input type="password" name="name" class="form-control" id="name" placeholder="Contraseña" required>
+                </div>
+            </div>
+            <div class="my-3">
+                <div class="loading">Cargando</div>
+                <div class="error-message"></div>
+            </div>
+            <div class="text-center"><button type="submit">Ingresar</button></div>
+            <div class="text-center">¿No tenes cuenta? <a href="{% url 'registro' %}">Registrate</a></div>
+        </form>
+    </div>
+</section><!-- End Login Section -->    
+
 {% endblock contenido %}
