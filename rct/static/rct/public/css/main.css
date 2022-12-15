@@ -1435,6 +1435,11 @@ section {
   padding-bottom: 20px;
 }
 
+.error {
+  color: #df1529;
+  text-decoration: none;
+}
+
 .contact .php-email-form .error-message {
   display: none;
   color: #fff;

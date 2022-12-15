@@ -1,5 +1,6 @@
 # from django.http import HttpResponse
 from django.shortcuts import render
+from rct.forms import ContactoForm,RegisterForm,LoginForm
 
 # Create your views here.
 
@@ -58,13 +59,32 @@ def mis_recetas(request):
     return render(request,'rct/public/mis_recetas.html',{'misrecetas':listado_recetas})
 
 def contact(request):
-    return render(request,'rct/public/contact.html',)
+    if(request.method == 'POST'):
+        contacto_form = ContactoForm(request.POST)
+        if(contacto_form.is_valid()):
+            pass
+    else:
+        contacto_form = ContactoForm()
+
+    return render(request,'rct/public/contact.html',{'contacto_form':contacto_form})
 
 def registro(request):
-    return render(request,'rct/public/registro.html',)
+    if(request.method == 'POST'):
+        register_form = RegisterForm(request.POST)
+        if(register_form.is_valid()):
+            pass
+    else:
+        register_form = RegisterForm()
+    return render(request,'rct/public/registro.html',{'register_form':register_form})
 
 def login(request):
-    return render(request,'rct/public/login.html',)
+    if(request.method == 'POST'):
+        login_form = LoginForm(request.POST)
+        if(login_form.is_valid()):
+            pass
+    else:
+        login_form = LoginForm()
+    return render(request,'rct/public/login.html',{'login_form':login_form})
 
 def receta(request):
     return render(request,'rct/public/receta.html',)

@@ -61,28 +61,19 @@
 
         </div>
         
-        <form action="" method="post" role="form" class="php-email-form p-3 p-md-4">
+        <form action="{% url 'contact' %}" method="POST" id="contact-form" name="contact-form" class="php-email-form p-3 p-md-4">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-xl-6 form-group">
-            <input type="text" name="name" class="form-control" id="name" placeholder="Nombre" required>
+            <div class="row">
+                {% for campo in contacto_form %}
+                    <div class="form-group">
+                        {{ campo }}
+                    </div>
+                    <div class="error">
+                        {{ campo.errors }}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="col-xl-6 form-group">
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" required>
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Mensage" required></textarea>
-        </div>
-        <div class="my-3">
-            <div class="loading">Cargando</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Tu mensaje ha sido enviado. Gracias!</div>
-        </div>
-        <div class="text-center"><button type="submit">Enviar Mensage</button></div>
+            <div class="text-center"><button type="submit">Enviar Mensage</button></div>
         </form>
         <!--End Contact Form -->
 

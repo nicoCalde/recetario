@@ -11,26 +11,17 @@
             <h2>Registro</h2>
             <p>Crea tu cuenta para poder <span>comenzar</span></p>
         </div>
-        <form action="" method="post" role="form" class="php-email-form p-3 p-md-4">
+        <form action="{% url 'registro' %}" method="POST" class="php-email-form p-3 p-md-4">
             {% csrf_token %}
             <div class="row">
-                <div class="col-xl-6 form-group">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Nombre" required>
-                </div>
-                <div class="col-xl-6 form-group">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Apellido" required>
-                </div>
-                <div class="col-xl-6 form-group">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
-                </div>
-                <div class="col-xl-6 form-group">
-                    <input type="password" class="form-control" name="email" id="email" placeholder="Contraseña" required>
-                </div>
-            </div>
-            <div class="my-3">
-                <div class="loading">Cargando</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Tu cuenta ha sido creada correctamente.</div>
+                {% for field in register_form %}
+                    <div class="form-group">
+                        {{ field }}
+                    </div>
+                    <div class="error">
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="text-center"><button type="submit">Enviar</button></div>
             <div class="text-center">¿Tenes cuenta? <a href="{% url 'login' %}">Log In</a></div>
