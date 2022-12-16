@@ -63,6 +63,9 @@
         
         <form action="{% url 'contact' %}" method="POST" id="contact-form" name="contact-form" class="php-email-form p-3 p-md-4">
         {% csrf_token %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+            {% endfor %}
             <div class="row">
                 {% for campo in contacto_form %}
                     <div class="form-group">

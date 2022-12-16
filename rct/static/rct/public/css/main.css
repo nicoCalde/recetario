@@ -1437,7 +1437,7 @@ section {
 
 .error {
   color: #df1529;
-  text-decoration: none;
+  font-size: 13px;
 }
 
 .contact .php-email-form .error-message {

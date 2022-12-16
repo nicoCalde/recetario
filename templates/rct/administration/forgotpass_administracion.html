@@ -43,12 +43,13 @@
                                         <p class="mb-4">Sólo tienes que introducir tu dirección de correo electrónico a continuación
                                             y te enviaremos un enlace para restablecer tu contraseña!</p>
                                     </div>
+                                    <div class='alert-danger text-center'>{{ message }}</div>
                                     <form class="user">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            {% for field in reset_form %}
+                                                {{ field }}
+                                            {% endfor %}
                                         </div>
                                         <a href="login.html" class="btn btn-primary btn-user btn-block">
                                             Resetear Contraseña

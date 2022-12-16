@@ -1,6 +1,7 @@
 # from django.http import HttpResponse
 from django.shortcuts import render
-from rct.forms import ContactoForm,RegisterForm,LoginForm
+from rct.forms import ContactoForm,RegisterForm,LoginForm,AdminLoginForm,AdminRegisterForm,AdminResetForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -62,7 +63,9 @@ def contact(request):
     if(request.method == 'POST'):
         contacto_form = ContactoForm(request.POST)
         if(contacto_form.is_valid()):
-            pass
+            messages.success(request,'¡Gracias por comunicarte con nostros, te estaremos respondiedo a la brevedad!')
+            contacto_form = ContactoForm()
+            #enviar un mail al administrador
     else:
         contacto_form = ContactoForm()
 
@@ -72,6 +75,8 @@ def registro(request):
     if(request.method == 'POST'):
         register_form = RegisterForm(request.POST)
         if(register_form.is_valid()):
+            #enviar email al administrador con los datos que recibio y guardar los datos en la base de datos
+            #enviarle al usuario alguna respuesta
             pass
     else:
         register_form = RegisterForm()
@@ -82,6 +87,8 @@ def login(request):
         login_form = LoginForm(request.POST)
         if(login_form.is_valid()):
             pass
+        else:
+            messages.error(request,'El email y/o la contraseña no son validos')
     else:
         login_form = LoginForm()
     return render(request,'rct/public/login.html',{'login_form':login_form})
@@ -104,10 +111,34 @@ def index_administracion(request):
     return render(request,'rct/administration/index_administracion.html',{'variable':variable})
 
 def register_adminitracion(request):
-    return render(request,'rct/administration/register_administracion.html',)
+    if(request.method == 'POST'):
+        register_form = AdminRegisterForm(request.POST)
+        if(register_form.is_valid()):
+            #enviar email al administrador con los datos que recibio y guardar los datos en la base de datos
+            #enviarle al usuario alguna respuesta
+            pass
+    else:
+        register_form = AdminRegisterForm()
+    return render(request,'rct/administration/register_administracion.html',{'register_form':register_form})
 
 def login_administracion(request):
-    return render(request,'rct/administration/login_administracion.html',)
+    if(request.method == 'POST'):
+        login_form = AdminLoginForm(request.POST)
+        if(login_form.is_valid()):
+            pass
+        else:
+            messages.error(request,'El email y/o la contraseña no son validos')
+    else:
+        login_form = AdminLoginForm()
+    return render(request,'rct/administration/login_administracion.html',{'login_form':login_form})
 
 def forgotpass_administracion(request):
-    return render(request,'rct/administration/forgotpass_administracion.html',)
+    if(request.method == 'POST'):
+        reset_form = AdminResetForm(request.POST)
+        if(reset_form.is_valid()):
+            pass
+        else:
+            messages.error(request,'El email ingresado no es valido.')
+    else:
+        reset_form = AdminResetForm()
+    return render(request,'rct/administration/forgotpass_administracion.html',{'reset_form':reset_form})
