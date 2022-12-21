@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from rct.forms import ContactoForm,RegisterForm,LoginForm,AdminLoginForm,AdminRegisterForm,AdminResetForm
 from django.contrib import messages
+from rct.models import *
 
 # Create your views here.
 
@@ -10,29 +11,10 @@ def index(request):
     return render(request,'rct/public/index.html',)
 
 def recetas(request):
-    listado_recetas = [
-    {
-        'nombre_receta' : 'Pollo al horno con papas',
-        'tipo_receta' : 'carnes',
-        'productos_necesarios' : 'pollo',
-    },
-    {
-        'nombre_receta' : 'Carne al horno con papas',
-        'tipo_receta' : 'carnes',
-        'productos_necesarios' : 'carne',
-    },
-    {
-        'nombre_receta' : 'Tortilla de papas',
-        'tipo_receta' : 'Acompañamientos',
-        'productos_necesarios' : 'Huevos',
-    },
-    {
-        'nombre_receta' : 'Salmon a la plancha con esparragos',
-        'tipo_receta' : 'Pescados',
-        'productos_necesarios' : 'Salmon',
-    },
-]
-    return render(request,'rct/public/recetas.html',{'recetas' : listado_recetas},)
+    recetas = Recetas.objects.all()
+    ingredientes = Ingredientes.objects.all()
+    productos = Productos.objects.all()
+    return render(request,'rct/public/recetas.html',{'recetas' : recetas,'ingredientes':ingredientes,'productos':productos})
 
 def mis_recetas(request):
     listado_recetas = [
@@ -105,7 +87,7 @@ def editar_receta(request):
 def buscar_receta(request):
     return render(request,'rct/public/buscar_receta.html',)
 
-#ADMINITRACION
+#ADMINISTRACION
 def index_administracion(request):
     variable = 'test variable'
     return render(request,'rct/administration/index_administracion.html',{'variable':variable})

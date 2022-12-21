@@ -29,8 +29,10 @@
                     </div>
                     <div class="member-info">
                         <a href="{% url 'receta' %}"><h4>{{receta.nombre_receta}}</h4></a>
-                        <span>{{receta.tipo_receta}}</span>
-                        <p>{{receta.productos_necesarios}}</p>
+                        <span>{{receta.tiempo}}</span>
+                        {% for producto in productos %}
+                            <p>{{producto.nombre_producto}}</p>
+                        {% endfor %}
                     </div>
                     </div>
                 </div><!-- End Chefs Member -->

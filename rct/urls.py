@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     #PUBLIC
@@ -18,4 +20,4 @@ urlpatterns = [
     path('administracion/login',views.login_administracion,name='login_admin'),
     path('administracion/register',views.register_adminitracion,name='register_admin'),
     path('administracion/forgotpassword',views.forgotpass_administracion,name='forgotpass_admin'),
-]
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
