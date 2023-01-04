@@ -1,0 +1,16 @@
+<div class="row mb-2">
+    {% for field in formulario %}
+        <div class="form-group mb-2">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        <div class="error">
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+</div>
+{% for message in messages %}
+    <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
+{% endfor %}
+<input type="submit" value="Guardar" class="btn btn-success">
+<div class="btn btn-light"><a href="{% url 'mis_recetas' %}">Cancelar</a></div>

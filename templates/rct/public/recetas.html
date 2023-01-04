@@ -4,7 +4,7 @@
 
 {% block contenido %}
 <br>
-<!-- ======= Chefs Section ======= -->
+<!-- ======= Recipes Section ======= -->
 <section id="chefs" class="chefs section-bg">
     <div class="container" data-aos="fade-up">
 
@@ -17,22 +17,58 @@
             {% for receta in recetas %}
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="chef-member">
+                        <div class="member-img">
+
+                            <img src="https://picsum.photos/id/{{ forloop.counter|add:50 }}/400/250" class="img-fluid" alt="{{receta.nombre_receta}}">
+                            <div class="social">
+                                <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
+                                <a href=""><i class="bi bi-eraser"></i></a>
+                                <a href=""><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <a href="{% url 'receta' %}"><h4>{{receta.nombre_receta}}</h4></a>
+                            <p>Tiempo de preparación: {{receta.tiempo}}</p>
+                            <div class="container">
+                                <h6>Ingredientes:</h6>
+                                <div class="d-flex align-content-stretch flex-wrap">
+                                    {% for producto in productos %}
+                                        <span class="p-1">{{producto.nombre_produto}}.</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% comment %} para probar si funciona/borrar cuando haya cargado recetas{% endcomment %}
+        {% if productos|length > 0 %}
+        <div class="row gy-4">
+            {% for producto in productos %}
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="chef-member">
                     <div class="member-img">
 
-                        <img src="https://picsum.photos/id/{{ forloop.counter|add:400 }}/400/250" class="img-fluid" alt="{{receta.nombre_receta}}">
+                        <img src="https://picsum.photos/id/{{ forloop.counter|add:50 }}/400/250" class="img-fluid" alt="{{producto.nombre_producto}}">
                         <div class="social">
-                            <a href=""><i class="bi bi-twitter"></i></a>
-                            <a href=""><i class="bi bi-facebook"></i></a>
-                            <a href=""><i class="bi bi-instagram"></i></a>
-                            <a href=""><i class="bi bi-linkedin"></i></a>
+                            <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
+                            <a href=""><i class="bi bi-eraser"></i></a>
+                            <a href=""><i class="bi bi-trash"></i></a>
                         </div>
                     </div>
                     <div class="member-info">
-                        <a href="{% url 'receta' %}"><h4>{{receta.nombre_receta}}</h4></a>
-                        <span>{{receta.tiempo}}</span>
-                        {% for producto in productos %}
-                            <p>{{producto.nombre_producto}}</p>
-                        {% endfor %}
+                        <a href="{% url 'receta' %}"><h4>{{producto.nombre_produto}}</h4></a>
+                        <p>Tiempo de preparación: {{producto.id}}</p>
+                        <div class="container">
+                            <h6>Ingredientes:</h6>
+                            <div class="d-flex align-content-stretch flex-wrap">
+                            {% for producto in productos %}
+                                <span class="p-1">{{producto.nombre_produto}}.</span>
+                            {% endfor %}
+                            </div>
+                        </div>
                     </div>
                     </div>
                 </div><!-- End Chefs Member -->
@@ -40,5 +76,5 @@
         </div>
         {% endif %}
     </div>
-</section><!-- End Chefs Section -->
+</section><!-- End Recipes Section -->
 {% endblock contenido %}

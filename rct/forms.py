@@ -46,6 +46,14 @@ class ContactoForm(forms.Form):
             raise ValidationError('Explayate un poco mas por favor.')
         return data
 
+class RecetasForm(forms.Form):
+
+    nombre = forms.CharField(
+            label='Nombre Receta', 
+            max_length=50,
+            validators=(solo_caracteres,),
+            widget=forms.TextInput(attrs={'class':'form-control'}))  
+
 #ADMINISTRACION
 class AdminLoginForm(forms.Form):
     email = forms.EmailField(label='',max_length=50,widget= forms.TextInput(attrs={'class':"form-control form-control-user",'placeholder':"Email"}))

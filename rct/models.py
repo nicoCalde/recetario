@@ -10,6 +10,9 @@ class Recetas(models.Model):
     porciones_receta = models.IntegerField(verbose_name='porciones')
     pasos_receta = models.TextField(verbose_name='pasos_receta')
     fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
+
+    def delete(self, ):
+        return super().delete()
     
 class Productos(models.Model):
     nombre_produto = models.CharField(max_length=150,verbose_name='nombre_producto')

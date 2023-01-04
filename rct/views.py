@@ -1,6 +1,6 @@
 # from django.http import HttpResponse
-from django.shortcuts import render
-from rct.forms import ContactoForm,RegisterForm,LoginForm,AdminLoginForm,AdminRegisterForm,AdminResetForm
+from django.shortcuts import render,redirect
+from rct.forms import *
 from django.contrib import messages
 from rct.models import *
 
@@ -11,10 +11,10 @@ def index(request):
     return render(request,'rct/public/index.html',)
 
 def recetas(request):
-    recetas = Recetas.objects.all()
+    recetas = Recetas.objects.all().order_by('nombre_receta')
     ingredientes = Ingredientes.objects.all()
     productos = Productos.objects.all()
-    return render(request,'rct/public/recetas.html',{'recetas' : recetas,'ingredientes':ingredientes,'productos':productos})
+    return render(request,'rct/public/recetas.html',{'recetas':recetas,'ingredientes':ingredientes,'productos':productos})
 
 def mis_recetas(request):
     listado_recetas = [
@@ -79,13 +79,28 @@ def receta(request):
     return render(request,'rct/public/receta.html',)
 
 def crear_receta(request):
-    return render(request,'rct/public/crear_receta.html',)
+    if(request.method=='POST'):
+        formulario = RecetasForm(request.POST)
+        if formulario.is_valid():
+            nombre = formulario.cleaned_data['nombre']
+            nueva_receta = Recetas(nombre=nombre)
+            nueva_receta.save()
+            return redirect('mis_recetas')
+    else:
+        formulario = RecetasForm()
+    return render(request,'rct/public/crear_receta.html',{'formulario':formulario})
+
+def eliminar_receta(request,id_receta):
+    try:
+        receta = Recetas.objects.get(pk=id_receta)
+    except Recetas.DoesNotExist:
+        return render(request,'rct/public/404.html')
+    receta.delete() 
+    return redirect('mis_recetas')
 
 def editar_receta(request):
+    #lista de las recetas creadas por el usuario
     return render(request,'rct/public/editar_receta.html',)
-
-def buscar_receta(request):
-    return render(request,'rct/public/buscar_receta.html',)
 
 #ADMINISTRACION
 def index_administracion(request):
