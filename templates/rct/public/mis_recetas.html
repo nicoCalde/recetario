@@ -8,35 +8,32 @@
     <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-        <h2>Recetario</h2>
-        <p>Tus <span>Recetas</span> Guardadas</p>
-        </div>
-        <div class="d-flex flex-row-reverse">
-            <a class="btn btn-outline-danger p-2 m-4" href="{% url 'crear_receta' %}">Crear Receta</a>
+            <h2>Recetario</h2>
+            <p>Tus <span>Recetas</span> Guardadas</p>
         </div>
         {% if misrecetas|length > 0 %}
-        <div class="row gy-4">
-            {% for mireceta in misrecetas %}
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                    <div class="chef-member">
-                    <div class="member-img">
-
-                        <img src="https://picsum.photos/id/{{ forloop.counter|add:520 }}/400/250" class="img-fluid" alt="{{mireceta.nombre_receta}}">
-                        <div class="social">
-                            <a href="{% url 'editar_receta' receta.id %}"><i class="bi bi-pen"></i></a>
-                            <a href=""><i class="bi bi-eraser"></i></a>
-                            <a href="{% url 'eliminar_receta' receta.id %}"><i class="bi bi-trash"></i></a>
+            <div class="row gy-4">
+                {% for mireceta in misrecetas %}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                        <div class="chef-member">
+                        <div class="member-img">
+                            <img src="https://picsum.photos/id/{{ forloop.counter|add:520 }}/400/250" class="img-fluid" alt="{{mireceta.nombre_receta}}">
+                            <div class="social">
+                                <a href="{% url 'crear_receta' %}"><i class="bi bi-plus"></i></a>
+                                <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
+                                <a href=""><i class="bi bi-eraser"></i></a>
+                                <a href="{% url 'eliminar_receta' %}"><i class="bi bi-trash"></i></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="member-info">
-                        <a href="{% url 'receta' %}"><h4>{{mireceta.nombre_receta}}</h4></a>
-                        <span>{{mireceta.tipo_receta}}</span>
-                        <p>{% for productos in mireceta.productos_necesarios %}{{productos}} {% endfor %}</p>
-                    </div>
-                    </div>
-                </div><!-- End Chefs Member -->
-            {% endfor %}
-        </div>
+                        <div class="member-info">
+                            <a href="{% url 'receta' %}"><h4>{{mireceta.nombre_receta}}</h4></a>
+                            <span>{{mireceta.tipo_receta}}</span>
+                            <p>{% for productos in mireceta.productos_necesarios %}{{productos}} {% endfor %}</p>
+                        </div>
+                        </div>
+                    </div><!-- End Chefs Member -->
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
 </section><!-- End Chefs Section -->

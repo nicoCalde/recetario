@@ -39,6 +39,7 @@ def mis_recetas(request):
         'productos_necesarios' : ['Brotola','Zanahoria','Lechuga','Tomate'],
     },
 ]
+    # recetas = Recetas.objects.filter()
     return render(request,'rct/public/mis_recetas.html',{'misrecetas':listado_recetas})
 
 def contact(request):
@@ -82,9 +83,7 @@ def crear_receta(request):
     if(request.method=='POST'):
         formulario = RecetasForm(request.POST)
         if formulario.is_valid():
-            nombre = formulario.cleaned_data['nombre']
-            nueva_receta = Recetas(nombre=nombre)
-            nueva_receta.save()
+            formulario.save()
             return redirect('mis_recetas')
     else:
         formulario = RecetasForm()
@@ -100,7 +99,7 @@ def eliminar_receta(request,id_receta):
 
 def editar_receta(request):
     #lista de las recetas creadas por el usuario
-    return render(request,'rct/public/editar_receta.html',)
+    return render(request,'rct/public/editar_receta.html')
 
 #ADMINISTRACION
 def index_administracion(request):

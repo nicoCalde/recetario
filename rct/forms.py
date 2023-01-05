@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ValidationError
+from rct.models import *
 
 def solo_caracteres(value):
     if any(char.isdigit() for char in value):
@@ -46,13 +47,20 @@ class ContactoForm(forms.Form):
             raise ValidationError('Explayate un poco mas por favor.')
         return data
 
-class RecetasForm(forms.Form):
+class RecetasForm(forms.ModelForm):
 
-    nombre = forms.CharField(
-            label='Nombre Receta', 
-            max_length=50,
-            validators=(solo_caracteres,),
-            widget=forms.TextInput(attrs={'class':'form-control'}))  
+    class Meta:
+        model=Recetas
+        fields= ['nombre_receta', 'imagen_receta', 'tiempo_prep_receta', 'porciones_receta', 'pasos_receta']
+        widgets={
+            'nombre_receta': forms.TextInput(attrs={'class':'form-control'}),
+            # 'imagen_receta': forms.ImageField(attrs={'class':'form-control'}),
+            'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control'}),
+            'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),
+            'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
+      
 
 #ADMINISTRACION
 class AdminLoginForm(forms.Form):

@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Recetas(models.Model):
-    nombre_receta = models.CharField(max_length=150,verbose_name='nombre_receta')
-    imagen_receta = models.ImageField(upload_to='imagenes/', verbose_name='imagen_receta')
+    nombre_receta = models.CharField(max_length=150,verbose_name='nombre receta')
+    imagen_receta = models.ImageField(upload_to='imagenes/', verbose_name='imagen')
     tiempo_prep_receta = models.DurationField(verbose_name='tiempo')
     porciones_receta = models.IntegerField(verbose_name='porciones')
-    pasos_receta = models.TextField(verbose_name='pasos_receta')
+    pasos_receta = models.TextField(verbose_name='instrucciones')
     fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
 
     def delete(self, ):

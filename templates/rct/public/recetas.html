@@ -21,9 +21,10 @@
 
                             <img src="https://picsum.photos/id/{{ forloop.counter|add:50 }}/400/250" class="img-fluid" alt="{{receta.nombre_receta}}">
                             <div class="social">
+                                <a href=""><i class="bi bi-plus"></i></a>
                                 <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
                                 <a href=""><i class="bi bi-eraser"></i></a>
-                                <a href=""><i class="bi bi-trash"></i></a>
+                                <a href="{% url 'eliminar_receta' %}"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                         <div class="member-info">
@@ -53,9 +54,10 @@
 
                         <img src="https://picsum.photos/id/{{ forloop.counter|add:50 }}/400/250" class="img-fluid" alt="{{producto.nombre_producto}}">
                         <div class="social">
+                            <a href=""><i class="bi bi-plus"></i></a>
                             <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
                             <a href=""><i class="bi bi-eraser"></i></a>
-                            <a href=""><i class="bi bi-trash"></i></a>
+                            <a href="{% url 'eliminar_receta' %}"><i class="bi bi-trash"></i></a>
                         </div>
                     </div>
                     <div class="member-info">

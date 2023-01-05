@@ -1,7 +1,9 @@
 <div class="row mb-2">
     {% for field in formulario %}
-        <div class="form-group mb-2">
+        <div class="form-group mb-1">
             {{ field.label }}
+        </div>
+        <div class="form-group mb-2">
             {{ field }}
         </div>
         <div class="error">
@@ -13,4 +15,4 @@
     <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
 {% endfor %}
 <input type="submit" value="Guardar" class="btn btn-success">
-<div class="btn btn-light"><a href="{% url 'mis_recetas' %}">Cancelar</a></div>
+<a href="{% url 'mis_recetas' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>

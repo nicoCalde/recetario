@@ -4,11 +4,11 @@
 
 {% block contenido %}
 <br>
-<section id="chefs" class="chefs section-bg">
+<section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
         <div class="section-header">
             <h2>Receta</h2>
-            <p>Crea <span>tu</span> Receta</p>
+            <p>Creá <span>tu</span> Receta</p>
         </div>
         <form action="{% url 'mis_recetas' %}" method="POST" role="form" class="php-email-form p-3 p-md-4">
             {% csrf_token %}
