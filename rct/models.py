@@ -25,12 +25,12 @@ class Productos(models.Model):
     nombre_producto = models.CharField(max_length=150,verbose_name='nombre producto')
 
 class UnidadesDeMedida(models.Model):
-    nombre_medida = models.CharField(max_length=150,verbose_name='nombre_medida')
+    nombre_medida = models.CharField(max_length=150,verbose_name='unidad de medida')
 
 class Ingredientes(models.Model):
     fkrecetas = models.ForeignKey(Recetas, verbose_name="receta_ingrediente", on_delete=models.CASCADE)
     fkproductos = models.ForeignKey(Productos, verbose_name="producto_ingrediente", on_delete=models.CASCADE)
-    cantidad = models.IntegerField(verbose_name='cantidad_ingrediente')
+    cantidad = models.IntegerField(verbose_name='cantidad ingrediente')
     fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida_ingresite", on_delete=models.CASCADE)
 
 class RecetasGuardadas(models.Model):
