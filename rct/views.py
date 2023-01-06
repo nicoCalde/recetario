@@ -97,9 +97,29 @@ def eliminar_receta(request,id_receta):
     receta.delete() 
     return redirect('mis_recetas')
 
-def editar_receta(request):
-    #lista de las recetas creadas por el usuario
-    return render(request,'rct/public/editar_receta.html')
+def editar_receta(request,id_receta):
+    try:
+        receta = Recetas.objects.get(pk=id_receta)
+    except Recetas.DoesNotExist:
+        return render(request,'rct/public/404.html')
+    if(request.method == 'POST'):
+        formulario = Recetas(request.POST,instance=receta)
+        if formulario.is_Valid():
+            formulario.save()
+            return redirect('mis_recetas')
+    else:
+        formulario = Recetas(instance=receta)
+    return render(request,'rct/public/editar_receta.html',{'formulario':formulario})
+
+def crear_producto(request):
+    if(request.method=='POST'):
+        producto = ProductosForm(request.POST)
+        if producto.is_valid():
+            producto.save()
+            return redirect('crear_receta')
+    else:
+        producto = ProductosForm()
+    return render(request,'rct/public/crear_producto.html',{'producto':producto})
 
 #ADMINISTRACION
 def index_administracion(request):

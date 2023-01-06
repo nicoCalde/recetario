@@ -11,11 +11,18 @@ class Recetas(models.Model):
     pasos_receta = models.TextField(verbose_name='instrucciones')
     fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
 
-    def delete(self, ):
-        return super().delete()
+    def delete(self,using=None,keep_parents=False):
+        self.imagen_receta.delete(self.imagen_receta.name) #borrado fisico
+        super().delete()
+    
+    #chequear metodo para salvar automaticamente el fk user del user que este logueado creando la receta. Clase 25 min 64.
+    # def save(self,*args, **kwargs):
+    #     self.fkuser = User(id)
+    #     super().save(*args, **kwargs)
+
     
 class Productos(models.Model):
-    nombre_produto = models.CharField(max_length=150,verbose_name='nombre_producto')
+    nombre_producto = models.CharField(max_length=150,verbose_name='nombre producto')
 
 class UnidadesDeMedida(models.Model):
     nombre_medida = models.CharField(max_length=150,verbose_name='nombre_medida')

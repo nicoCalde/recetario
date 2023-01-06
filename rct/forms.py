@@ -54,13 +54,21 @@ class RecetasForm(forms.ModelForm):
         fields= ['nombre_receta', 'imagen_receta', 'tiempo_prep_receta', 'porciones_receta', 'pasos_receta']
         widgets={
             'nombre_receta': forms.TextInput(attrs={'class':'form-control'}),
-            # 'imagen_receta': forms.ImageField(attrs={'class':'form-control'}),
+            'imagen_receta': forms.FileInput(attrs={'class':'form'}),
             'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control'}),
             'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),
             'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
         }
 
-      
+class ProductosForm(forms.ModelForm):
+
+    class Meta:
+        model=Productos
+        fields=['nombre_producto']
+        widgets={
+            'nombre_producto': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
 
 #ADMINISTRACION
 class AdminLoginForm(forms.Form):
