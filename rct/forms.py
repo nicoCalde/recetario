@@ -47,6 +47,15 @@ class ContactoForm(forms.Form):
             raise ValidationError('Explayate un poco mas por favor.')
         return data
 
+class ProductosForm(forms.ModelForm):
+
+    class Meta:
+        model=Productos
+        fields=['nombre_producto']
+        widgets={
+            'nombre_producto': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
 class RecetasForm(forms.ModelForm):
 
     class Meta:
@@ -55,18 +64,18 @@ class RecetasForm(forms.ModelForm):
         widgets={
             'nombre_receta': forms.TextInput(attrs={'class':'form-control'}),
             'imagen_receta': forms.FileInput(attrs={'class':'form'}),
-            'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control'}),
+            'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control','placeholder':'HH:MM:SS'}),
             'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),
             'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
         }
 
-class ProductosForm(forms.ModelForm):
+class IngredientesForm(forms.ModelForm):
 
     class Meta:
-        model=Productos
-        fields=['nombre_producto']
+        model=Ingredientes
+        fields=['cantidad']
         widgets={
-            'nombre_producto': forms.TextInput(attrs={'class':'form-control'}),
+            'cantidad': forms.IntegerField
         }
 
 

@@ -113,13 +113,13 @@ def editar_receta(request,id_receta):
 
 def crear_producto(request):
     if(request.method=='POST'):
-        producto = ProductosForm(request.POST)
-        if producto.is_valid():
-            producto.save()
+        formulario = ProductosForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
             return redirect('crear_receta')
     else:
-        producto = ProductosForm()
-    return render(request,'rct/public/crear_producto.html',{'producto':producto})
+        formulario = ProductosForm()
+    return render(request,'rct/public/crear_producto.html',{'formulario':formulario})
 
 #ADMINISTRACION
 def index_administracion(request):

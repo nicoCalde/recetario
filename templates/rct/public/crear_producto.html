@@ -1,16 +1,16 @@
 {% extends './base.html' %}
 
-{% block titulo %}recetArio - Creación{% endblock titulo %}
+{% block titulo %}recetArio - Crear Producto{% endblock titulo %}
 
 {% block contenido %}
 <br>
 <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
         <div class="section-header">
-            <h2>Receta</h2>
-            <p>Creá <span>tu</span> Receta</p>
+            <h2>Producto</h2>
+            <p>Agregá <span>un</span> Prodcuto</p>
         </div>
-        <form action="{% url 'crear_receta' %}" method="POST" role="form" class="php-email-form p-3 p-md-4">
+        <form action="{% url 'crear_producto' %}" method="POST" role="form" class="php-email-form p-3 p-md-4">
             {% csrf_token %}
             {% include 'rct/public/form.html' %}
         </form>

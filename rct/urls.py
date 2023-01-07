@@ -15,6 +15,7 @@ urlpatterns = [
     path('mis_recetas/crear_receta',views.crear_receta,name='crear_receta'),
     path('mis_recetas/editar_receta',views.editar_receta,name='editar_receta'),
     path('mis_recetas/eliminar_receta',views.eliminar_receta,name='eliminar_receta'),
+    path('mis_recetas/crear_receta/crear_producto',views.crear_producto,name='crear_producto'),
     # path('mis_recetas/editar_receta/<int:id_receta>',views.editar_receta,name='editar_receta'),
     # path('mis_recetas/eliminar_receta/<int:id_receta>',views.eliminar_receta,name='eliminar_receta'),
     path('contact',views.contact,name='contact'),
