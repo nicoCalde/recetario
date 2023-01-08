@@ -3,6 +3,8 @@ from django.shortcuts import render,redirect
 from rct.forms import *
 from django.contrib import messages
 from rct.models import *
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -65,16 +67,19 @@ def registro(request):
         register_form = RegisterForm()
     return render(request,'rct/public/registro.html',{'register_form':register_form})
 
-def login(request):
-    if(request.method == 'POST'):
-        login_form = LoginForm(request.POST)
-        if(login_form.is_valid()):
-            pass
+def recetas_login(request):
+    if request.method == 'POST':
+        username= request.POST['username']
+        password= request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            form = login(request, user)
+            messages.success(request, f'Hola {username}!')
+            return redirect('index')
         else:
-            messages.error(request,'El email y/o la contraseña no son validos')
-    else:
-        login_form = LoginForm()
-    return render(request,'rct/public/login.html',{'login_form':login_form})
+            messages.error(request,'El usuario o la contraseña no son validos')
+    form = AuthenticationForm()
+    return render(request,'rct/public/login.html',{'form':form})
 
 def receta(request):
     return render(request,'rct/public/receta.html',)
