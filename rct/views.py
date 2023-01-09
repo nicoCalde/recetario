@@ -57,12 +57,12 @@ def contact(request):
     return render(request,'rct/public/contact.html',{'contacto_form':contacto_form})
 
 def registro(request):
-    if(request.method == 'POST'):
+    if request.method == 'POST':
         register_form = RegisterForm(request.POST)
-        if(register_form.is_valid()):
-            #enviar email al administrador con los datos que recibio y guardar los datos en la base de datos
-            #enviarle al usuario alguna respuesta
-            pass
+        if register_form.is_valid():
+            register_form.save()
+            messages.success(request, f'Tu cuenta fue creada con exito!')
+            return redirect('login')
     else:
         register_form = RegisterForm()
     return render(request,'rct/public/registro.html',{'register_form':register_form})
