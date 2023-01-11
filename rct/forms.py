@@ -52,20 +52,30 @@ class RecetasForm(forms.ModelForm):
         fields= ['nombre_receta', 'imagen_receta', 'tiempo_prep_receta', 'porciones_receta', 'pasos_receta']
         widgets={
             'nombre_receta': forms.TextInput(attrs={'class':'form-control'}),
-            'imagen_receta': forms.FileInput(attrs={'class':'form'}),
+            'imagen_receta': forms.FileInput(attrs={'class':'form-control-file'}),
             'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control','placeholder':'HH:MM:SS'}),
             'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),
             'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
+        }
+    
+class MedidasForm(forms.ModelForm):
+
+    class Meta:
+        model=UnidadesDeMedida
+        fields=['nombre_medida']
+        widgets={
+            'nombre_medida': forms.TextInput(attrs={'class':'form-control'}),
         }
 
 class IngredientesForm(forms.ModelForm):
 
     class Meta:
         model=Ingredientes
-        fields=['cantidad']
-        widgets={
-            'cantidad': forms.IntegerField
-        }
+        fields=['fkproductos','cantidad','fkunidad_medida']
+        
+    fkproductos = forms.ModelChoiceField(queryset=Productos.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    cantidad = forms.TextInput(attrs={'class':'form-control'})
+    fkunidad_medida = forms.ModelChoiceField(queryset=UnidadesDeMedida.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
 
 
 #ADMINISTRACION

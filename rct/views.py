@@ -5,6 +5,7 @@ from django.contrib import messages
 from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -86,13 +87,17 @@ def receta(request):
 
 def crear_receta(request):
     if(request.method=='POST'):
-        formulario = RecetasForm(request.POST)
-        if formulario.is_valid():
-            formulario.save()
+        formulario1 = RecetasForm(request.POST)
+        formulario2 = IngredientesForm(request.POST)
+        if formulario1.is_valid() and formulario2.is_valid():
+            form=formulario1.save(commit=False)
+            form.pkreceta = formulario2.save()
+            form.save()
             return redirect('mis_recetas')
     else:
-        formulario = RecetasForm()
-    return render(request,'rct/public/crear_receta.html',{'formulario':formulario})
+        formulario1 = RecetasForm()
+        formulario2 = IngredientesForm()
+    return render(request,'rct/public/crear_receta.html',{'formulario':formulario1,'form':formulario2})
 
 def eliminar_receta(request,id_receta):
     try:
@@ -125,6 +130,16 @@ def crear_producto(request):
     else:
         formulario = ProductosForm()
     return render(request,'rct/public/crear_producto.html',{'formulario':formulario})
+
+def crear_medida(request):
+    if(request.method=='POST'):
+        formulario = MedidasForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('crear_receta')
+    else:
+        formulario = MedidasForm()
+    return render(request,'rct/public/crear_medida.html',{'formulario':formulario})
 
 #ADMINISTRACION
 def index_administracion(request):

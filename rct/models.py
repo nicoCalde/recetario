@@ -24,8 +24,15 @@ class Recetas(models.Model):
 class Productos(models.Model):
     nombre_producto = models.CharField(max_length=150,verbose_name='nombre producto')
 
+    def __str__(self):
+        return self.nombre_producto
+    
+
 class UnidadesDeMedida(models.Model):
     nombre_medida = models.CharField(max_length=150,verbose_name='unidad de medida')
+
+    def __str__(self):
+        return self.nombre_medida
 
 class Ingredientes(models.Model):
     fkrecetas = models.ForeignKey(Recetas, verbose_name="receta_ingrediente", on_delete=models.CASCADE)
