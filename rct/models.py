@@ -11,6 +11,10 @@ class Recetas(models.Model):
     pasos_receta = models.TextField(verbose_name='instrucciones')
     fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre_receta
+    
+
     def delete(self,using=None,keep_parents=False):
         self.imagen_receta.delete(self.imagen_receta.name) #borrado fisico
         super().delete()
@@ -36,9 +40,9 @@ class UnidadesDeMedida(models.Model):
 
 class Ingredientes(models.Model):
     fkrecetas = models.ForeignKey(Recetas, verbose_name="receta_ingrediente", on_delete=models.CASCADE)
-    fkproductos = models.ForeignKey(Productos, verbose_name="producto_ingrediente", on_delete=models.CASCADE)
-    cantidad = models.IntegerField(verbose_name='cantidad ingrediente')
-    fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida_ingresite", on_delete=models.CASCADE)
+    fkproductos = models.ForeignKey(Productos, verbose_name="prodcuto", on_delete=models.CASCADE)
+    cantidad = models.IntegerField(verbose_name='cantidad')
+    fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida", on_delete=models.CASCADE)
 
 class RecetasGuardadas(models.Model):
     receta_guardada = models.ForeignKey(Recetas, verbose_name="receta_guardada", on_delete=models.CASCADE)

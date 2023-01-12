@@ -97,7 +97,7 @@ def crear_receta(request):
     else:
         formulario1 = RecetasForm()
         formulario2 = IngredientesForm()
-    return render(request,'rct/public/crear_receta.html',{'formulario':formulario1,'form':formulario2})
+    return render(request,'rct/public/crear_receta.html',{'form1':formulario1,'form2':formulario2})
 
 def eliminar_receta(request,id_receta):
     try:
