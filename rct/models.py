@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -14,7 +15,9 @@ class Recetas(models.Model):
     def __str__(self):
         return self.nombre_receta
     
-
+    # def get_absolute_url(self):
+    #     return reverse("mis_recetas:listado", kwargs={"id": self.id})
+    
     def delete(self,using=None,keep_parents=False):
         self.imagen_receta.delete(self.imagen_receta.name) #borrado fisico
         super().delete()

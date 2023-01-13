@@ -19,7 +19,7 @@
                         <div class="chef-member">
                             <div class="member-img">
 
-                                <img src="https://picsum.photos/id/{{ forloop.counter|add:50 }}/400/250" class="img-fluid" alt="{{receta.nombre_receta}}">
+                                <img src="" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
                                     <a href="{% url 'crear_receta' %}"><i class="bi bi-plus"></i></a>
                                     <a href="{% url 'editar_receta' %}"><i class="bi bi-pen"></i></a>
@@ -28,16 +28,7 @@
                                 </div>
                             </div>
                             <div class="member-info">
-                                <a href="{% url 'receta' %}"><h4>{{receta.nombre_receta}}</h4></a>
-                                <p>Tiempo de preparación: {{receta.tiempo}}</p>
-                                <div class="container">
-                                    <h6>Ingredientes:</h6>
-                                    <div class="d-flex align-content-stretch flex-wrap">
-                                        {% for producto in productos %}
-                                            <span class="p-1">{{producto.nombre_produto}}.</span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
+                                <a href="{{ receta.get_absolute_url }}"><h4>{{receta.nombre_receta}}</h4></a>
                             </div>
                         </div>
                     </div>

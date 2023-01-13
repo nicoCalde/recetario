@@ -8,14 +8,14 @@
 <section id="hero" class="hero d-flex align-items-center section-bg">
     <div class="container">
         <div class="row justify-content-between gy-5">
-        <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
-            <h2 data-aos="fade-up">Bienvenidos!<br>Las mejores recetas en un solo lugar</h2>
-            <p data-aos="fade-up" data-aos-delay="100">Encontra, crea y almacena tus recetas con un solo click. Crea un usuario o logueate para acceder:</p>
-            <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-                <a href="{% url 'registro' %}" class="btn">Registrarse</a>
-                <a href="{% url 'login' %}" class="btn-book-a-table">Log In</a>
+            <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
+                <h2 data-aos="fade-up">Bienvenidos!<br>Las mejores recetas en un solo lugar</h2>
+                <p data-aos="fade-up" data-aos-delay="100">Encontra, crea y almacena tus recetas con un solo click. Crea un usuario o logueate para acceder:</p>
+                <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{% url 'registro' %}" class="btn">Registrarse</a>
+                    <a href="{% url 'login' %}" class="btn-book-a-table">Log In</a>
+                </div>
             </div>
-        </div>
             <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
                 <img src="{% static '/rct/public/img/portada.png' %}?v={% now 'U' %}" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300">
             </div>

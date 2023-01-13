@@ -1,5 +1,5 @@
 # from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from rct.forms import *
 from django.contrib import messages
 from rct.models import *
@@ -13,37 +13,19 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request,'rct/public/index.html',)
 
+# content views
 def recetas(request):
     recetas = Recetas.objects.all().order_by('nombre_receta')
-    ingredientes = Ingredientes.objects.all()
-    productos = Productos.objects.all()
-    return render(request,'rct/public/recetas.html',{'recetas':recetas,'ingredientes':ingredientes,'productos':productos})
+    return render(request,'rct/public/recetas.html',{'recetas':recetas})
 
+@login_required(login_url='login')
 def mis_recetas(request):
-    listado_recetas = [
-    {
-        'nombre_receta' : 'Fideos a la carbonara',
-        'tipo_receta' : 'pasta',
-        'productos_necesarios' : ['Fideos','Huevos','Aceite'],
-    },
-    {
-        'nombre_receta' : 'Carre de cerdo al horno',
-        'tipo_receta' : 'carnes',
-        'productos_necesarios' : ['Cerdo','Ciruelas','Sal'],
-    },
-    {
-        'nombre_receta' : 'Torrejas de verdura',
-        'tipo_receta' : 'Acompañamientos',
-        'productos_necesarios' : ['Espinaca','Huevos','Aceite'],
-    },
-    {
-        'nombre_receta' : 'Brotola con ensalada',
-        'tipo_receta' : 'Pescados',
-        'productos_necesarios' : ['Brotola','Zanahoria','Lechuga','Tomate'],
-    },
-]
-    # recetas = Recetas.objects.filter()
-    return render(request,'rct/public/mis_recetas.html',{'misrecetas':listado_recetas})
+    recetas = Recetas.objects.filter(pk=request.user.pk)
+    return render(request,'rct/public/mis_recetas.html',{'recetas':recetas})
+
+def receta(request,id=None):
+    receta = get_object_or_404(Recetas, id=id)
+    return render(request,'rct/public/receta.html',{'receta':receta})
 
 def contact(request):
     if(request.method == 'POST'):
@@ -57,6 +39,7 @@ def contact(request):
 
     return render(request,'rct/public/contact.html',{'contacto_form':contacto_form})
 
+# login
 def registro(request):
     if request.method == 'POST':
         register_form = RegisterForm(request.POST)
@@ -75,23 +58,27 @@ def recetas_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             form = login(request, user)
-            messages.success(request, f'Hola {username}!')
+            messages.success(request,f'')
             return redirect('index')
         else:
             messages.error(request,'El usuario o la contraseña no son validos')
     form = AuthenticationForm()
     return render(request,'rct/public/login.html',{'form':form})
 
-def receta(request):
-    return render(request,'rct/public/receta.html',)
-
-def crear_receta(request):
-    if(request.method=='POST'):
+# crud
+@login_required(login_url='login')
+def crear_receta(request, id=None):
+    try:
+        id = User.objects.get(id=request.user.pk)
+    except User.DoesNotExist:
+        return render(request,'rct/public/404.html')
+    if request.method=='POST':
         formulario1 = RecetasForm(request.POST)
         formulario2 = IngredientesForm(request.POST)
         if formulario1.is_valid() and formulario2.is_valid():
             form=formulario1.save(commit=False)
-            form.pkreceta = formulario2.save()
+            form.user = request.user
+            # form.pkreceta = formulario2.save()
             form.save()
             return redirect('mis_recetas')
     else:
@@ -99,6 +86,22 @@ def crear_receta(request):
         formulario2 = IngredientesForm()
     return render(request,'rct/public/crear_receta.html',{'form1':formulario1,'form2':formulario2})
 
+@login_required(login_url='login')
+def editar_receta(request,id=None):
+    try:
+        receta = Recetas.objects.get(pk=id)
+    except Recetas.DoesNotExist:
+        return render(request,'rct/public/404.html')
+    if request.method == 'POST':
+        formulario = RecetasForm(request.POST,instance=receta)
+        if formulario.is_Valid():
+            formulario.save()
+            return redirect('mis_recetas')
+    else:
+        formulario = RecetasForm(instance=receta)
+    return render(request,'rct/public/editar_receta.html',{'formulario':formulario})
+
+@login_required(login_url='login')
 def eliminar_receta(request,id_receta):
     try:
         receta = Recetas.objects.get(pk=id_receta)
@@ -107,20 +110,7 @@ def eliminar_receta(request,id_receta):
     receta.delete() 
     return redirect('mis_recetas')
 
-def editar_receta(request,id_receta):
-    try:
-        receta = Recetas.objects.get(pk=id_receta)
-    except Recetas.DoesNotExist:
-        return render(request,'rct/public/404.html')
-    if(request.method == 'POST'):
-        formulario = Recetas(request.POST,instance=receta)
-        if formulario.is_Valid():
-            formulario.save()
-            return redirect('mis_recetas')
-    else:
-        formulario = Recetas(instance=receta)
-    return render(request,'rct/public/editar_receta.html',{'formulario':formulario})
-
+@login_required(login_url='login')
 def crear_producto(request):
     if(request.method=='POST'):
         formulario = ProductosForm(request.POST)
@@ -131,6 +121,7 @@ def crear_producto(request):
         formulario = ProductosForm()
     return render(request,'rct/public/crear_producto.html',{'formulario':formulario})
 
+@login_required(login_url='login')
 def crear_medida(request):
     if(request.method=='POST'):
         formulario = MedidasForm(request.POST)
@@ -140,6 +131,8 @@ def crear_medida(request):
     else:
         formulario = MedidasForm()
     return render(request,'rct/public/crear_medida.html',{'formulario':formulario})
+
+#----------------------------------------------------------------------------------------------------------------------------------------
 
 #ADMINISTRACION
 def index_administracion(request):
