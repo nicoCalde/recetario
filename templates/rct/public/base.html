@@ -33,7 +33,7 @@
         <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
 
-            <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="{% url 'rct:index' %}" class="logo d-flex align-items-center me-auto me-lg-0">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="assets/img/logo.png" alt=""> -->
             <h1>recetARIO<span>.</span></h1>
@@ -41,25 +41,25 @@
 
             <nav id="navbar" class="navbar">
             <ul>
-                <li><a href="{% url 'index' %}">Inicio</a></li>
-                <li><a href="{% url 'recetas' %}">Recetas</a></li>
-                <li class="dropdown"><a href="{% url 'mis_recetas' %}"><span>Mis Recetas</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <li><a href="{% url 'rct:index' %}">Inicio</a></li>
+                <li><a href="{% url 'rct:recetas' %}">Recetas</a></li>
+                <li class="dropdown"><a href="{% url 'rct:mis_recetas' %}"><span>Mis Recetas</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                 <ul>
-                    <li><a href="{% url 'mis_recetas' %}">Recetas Guardadas</a></li>
-                    <li><a href="{% url 'crear_receta' %}">Crear Receta</a></li>
+                    <li><a href="{% url 'rct:mis_recetas' %}">Recetas Guardadas</a></li>
+                    <li><a href="{% url 'rct:crear_receta' %}">Crear Receta</a></li>
                 </ul>
                 </li>
-                <li><a href="{% url 'contact' %}">Contacto</a></li>
+                <li><a href="{% url 'rct:contact' %}">Contacto</a></li>
                 {% if perms.rct %}
-                    <li><a href="{% url 'index_administracion' %}">Administracion</a></li>
+                    <li><a href="{% url 'rct:index_administracion' %}">Administracion</a></li>
                 {% endif %}
             </ul>
             </nav><!-- .navbar -->
             {% if user.is_authenticated %}
                 <span>Hola {{ user.username }}!</span>
-                <a class="btn-book-a-table" href="{% url 'logout' %}">Out</a>
+                <a class="btn-book-a-table" href="{% url 'rct:logout' %}">Out</a>
             {% else %}
-                <a class="btn-book-a-table" href="{% url 'login' %}">Log In</a>
+                <a class="btn-book-a-table" href="{% url 'rct:login' %}">Log In</a>
             {% endif %}
             <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>

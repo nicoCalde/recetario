@@ -43,8 +43,8 @@
                     </div>
                 </div>
             </div>
+            <hr>
         </div>
-        <hr>
         <div class="form-group ">
             {{ form1.pasos_receta.label }}
             {{ form1.pasos_receta }}           
@@ -58,4 +58,4 @@
     <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
 {% endfor %}
 <input type="submit" value="Guardar" class="btn btn-success">
-<a href="{% url 'mis_recetas' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>
+<a href="{% url 'rct:mis_recetas' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>
