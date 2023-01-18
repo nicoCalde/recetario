@@ -7,18 +7,18 @@
 <br>
 <section id="menu" class="menu">
     <div class="container" data-aos="fade-up">
-
+        <!-- podria poner un boton editar receta para las que pueden ser editables video 59 min 7:32 -->
         <div class="section-header">
             <h2>Receta</h2>
-            <p>{% comment %}{{ receta.nombre_receta }}{% endcomment %}<span>...</span></p> 
+            <p>{{ receta.nombre_receta }}<span>...</span></p> 
         </div>
         <div class="col-lg-4 menu-item">
             <a href="" class="glightbox"><img src="" class="menu-img img-fluid" alt=""></a>
-            <!-- iterar ingredientes y cantidades -->
-            <p class="ingredients">Nombre Ingrediente XX grs</p>
-            
+            {% for ingrediente in object.get_ingredients  %}
+                <p class="ingredients">{{ Ingrediente.nombre_producto }} {{ ingrediente.cantidad }} {{ ingrediente.nombre_medida }} </p>
+            {% endfor %}
             <p class="ingredients"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit eos esse natus cumque animi modi rem veritatis accusamus aliquid itaque reprehenderit non doloribus id, aperiam fugit, soluta voluptates corrupti adipisci?</p> 
-        </div><!-- Menu Item -->
+        </div><!-- recipe end -->
     </div>
 </section>  
 {% endblock contenido %}

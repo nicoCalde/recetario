@@ -17,6 +17,12 @@ class Recetas(models.Model):
     
     def get_absolute_url(self):
         return reverse("rct:listado", kwargs={"id": self.id})
+
+    def get_edit_url(self):
+        return reverse("rct:editar", kwargs={"id": self.id})
+
+    def get_ingredients(self):
+        return self.ingredientes_set.all()
     
     def delete(self,using=None,keep_parents=False):
         self.imagen_receta.delete(self.imagen_receta.name) #borrado fisico
@@ -46,6 +52,7 @@ class Ingredientes(models.Model):
     fkproductos = models.ForeignKey(Productos, verbose_name="prodcuto", on_delete=models.CASCADE)
     cantidad = models.IntegerField(verbose_name='cantidad')
     fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida", on_delete=models.CASCADE)
+
 
 class RecetasGuardadas(models.Model):
     receta_guardada = models.ForeignKey(Recetas, verbose_name="receta_guardada", on_delete=models.CASCADE)

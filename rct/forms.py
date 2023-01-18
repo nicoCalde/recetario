@@ -2,8 +2,7 @@ from django import forms
 from django.forms import ValidationError
 from rct.models import *
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 
 def solo_caracteres(value):
     if any(char.isdigit() for char in value):
@@ -11,7 +10,8 @@ def solo_caracteres(value):
 
 #PUBLIC
 class RegisterForm(UserCreationForm):
-    
+    password1 = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}))
+    password2 = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repetir Contraseña'}))
     class Meta:
         model = User
         fields = ['username','first_name','last_name','email','password1','password2']
@@ -20,9 +20,11 @@ class RegisterForm(UserCreationForm):
             'first_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Nombre'}),
             'last_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Apellido'}),
             'email': forms.TextInput(attrs={'class':'form-control','placeholder':'Email'}),
-            'password1': forms.PasswordInput(attrs={'class':'form-control','placeholder':'Contraseña'}),
-            'password2': forms.PasswordInput(attrs={'class':'form-control','placeholder':'Repetir Contraseña'}),
-        }        
+        }
+
+class Logueo(AuthenticationForm):
+    username= forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Usuario", "class": "form-control"}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña','class': 'form-control'}))
 
 class ContactoForm(forms.Form):
     nombre = forms.CharField(label='',max_length=50,validators=(solo_caracteres,),widget= forms.TextInput(attrs={'class':"form-control",'placeholder':"Nombre"}))
@@ -77,10 +79,6 @@ class IngredientesForm(forms.ModelForm):
             'cantidad': forms.TextInput(attrs={'class':'form-control'}),
             'fkunidad_medida': forms.Select(attrs={'class':'form-control'}),
         }
-        
-    # fkproductos = forms.ModelChoiceField(queryset=Productos.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
-    # cantidad = forms.TextInput(attrs={'class':'form-control'})
-    # fkunidad_medida = forms.ModelChoiceField(queryset=UnidadesDeMedida.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
 
 
 #ADMINISTRACION

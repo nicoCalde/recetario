@@ -1,3 +1,9 @@
+<style>
+    .hidden-form{
+        display: None;
+    }
+</style>
+
 <div class="row mb-2">
 
         <div class="form-group">
@@ -19,27 +25,44 @@
         <div class="form-group ">
             <label>Ingredientes:</label>
             <hr>
-            <div class="row">
-                <div class="col-sm">
-                    <label>Producto</label>
-                    {{ form2.fkproductos }}           
+            <div id="ingredient-form-list">
+                {{ formset.management_form }}
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Producto</label>
+                        {{ formset.fkproductos }}           
+                    </div>
+                    <div class="col-sm-2">
+                        {{ formset.cantidad.label }}
+                        {{ formset.cantidad }}           
+                    </div>
+                    <div class="col-sm">
+                        <label>Medida</label>
+                        {{ formset.fkunidad_medida }}           
+                    </div>    
                 </div>
-                <div class="col-sm-2">
-                    {{ form2.cantidad.label }}
-                    {{ form2.cantidad }}           
+                <div class="hidden-form ingredient-form" id='empty-form'>
+                    <div class="col-sm">
+                        <label>Producto</label>
+                        {{ formset.fkproductos }}           
+                    </div>
+                    <div class="col-sm-2">
+                        {{ formset.cantidad.label }}
+                        {{ formset.cantidad }}           
+                    </div>
+                    <div class="col-sm">
+                        <label>Medida</label>
+                        {{ formset.fkunidad_medida }}           
+                    </div>
                 </div>
-                <div class="col-sm">
-                    <label>Medida</label>
-                    {{ form2.fkunidad_medida }}           
-                </div>
-                <div class="col mt-2">
-                    <div class="d-flex flex-row-reverse">
-                        <div class='col-xs-6'>
-                            <button type="button" class="btn btn-light"><i class="bi bi-trash3" style="font-size:1rem"></i></button>                            
-                        </div>
-                        <div class='col-xs-6'>
-                            <button type="button" class="btn btn-light"><i class="bi bi-plus-circle" style="font-size:1rem"></i></button>                            
-                        </div>
+            </div>
+            <div class="col mt-2">
+                <div class="d-flex flex-row-reverse">
+                    <div class='col-xs-6'>
+                        <button type="button" class="btn btn-light" id='delete-last'><i class="bi bi-trash3" style="font-size:1rem"></i></button>                            
+                    </div>
+                    <div class='col-xs-6'>
+                        <button type="button" class="btn btn-light" id='add-more'><i class="bi bi-plus-circle" style="font-size:1rem"></i></button>                            
                     </div>
                 </div>
             </div>
@@ -59,3 +82,23 @@
 {% endfor %}
 <input type="submit" value="Guardar" class="btn btn-success">
 <a href="{% url 'rct:mis_recetas' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>
+
+<script>
+    document.addEventListener('click', (event)=>{
+        if (event.target.id == 'add-more') {
+            add_new_form(event)
+        }
+    })
+    function add_new_form(event){
+        if (event){
+            event.preventDefault()
+        }
+        const currentIngredientForms = document.getElementsByClassName('ingredient-form')
+        const currentFormCount = currentIngredientForms.length
+        const formCopyTarget = document.getElementById('ingredient-form-list')
+        const emptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        emptyFormEl.setAttribute('class','row ingredient-form')
+        emptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+        formCopyTarget.append(emptyFormEl)
+    }
+</script>
