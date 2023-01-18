@@ -27,32 +27,10 @@
             <hr>
             <div id="ingredient-form-list">
                 {{ formset.management_form }}
-                <div class="row">
-                    <div class="col-sm">
-                        <label>Producto</label>
-                        {{ formset.fkproductos }}           
-                    </div>
-                    <div class="col-sm-2">
-                        {{ formset.cantidad.label }}
-                        {{ formset.cantidad }}           
-                    </div>
-                    <div class="col-sm">
-                        <label>Medida</label>
-                        {{ formset.fkunidad_medida }}           
-                    </div>    
-                </div>
                 <div class="hidden-form ingredient-form" id='empty-form'>
                     <div class="col-sm">
-                        <label>Producto</label>
-                        {{ formset.fkproductos }}           
-                    </div>
-                    <div class="col-sm-2">
-                        {{ formset.cantidad.label }}
-                        {{ formset.cantidad }}           
-                    </div>
-                    <div class="col-sm">
-                        <label>Medida</label>
-                        {{ formset.fkunidad_medida }}           
+                        {{ formset }}
+                        <hr>
                     </div>
                 </div>
             </div>

@@ -68,7 +68,7 @@ def recetas_login(request):
 # crud
 @login_required(login_url='rct:login')
 def crear_receta(request):
-    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,extra=0)
+    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'])
     formset = IngredientesFormset(queryset=Ingredientes.objects.none())
     if request.method == 'POST':
         formulario1 = RecetasForm(request.POST or None)
@@ -84,7 +84,7 @@ def crear_receta(request):
             return redirect('rct:mis_recetas')
     else:
         formulario1 = RecetasForm()
-        formset = IngredientesFormset()
+        formset = IngredientesFormset(queryset=Ingredientes.objects.none())
     return render(request,'rct/public/crear_receta.html',{'form1':formulario1,'formset':formset})
 
 @login_required(login_url='rct:login')
@@ -95,7 +95,7 @@ def editar_receta(request,id=None):
         return render(request,'rct/public/404.html')
     if request.method == 'POST':
         formulario1 = RecetasForm(request.POST,instance=receta)
-        IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,extra=0)
+        IngredientesFormset = modelformset_factory(Ingredientes,fields='__all__',extra=0)
         qs = receta.ingredientes_set.all()
         formset = IngredientesFormset(request.POST,queryset=qs)
         if formulario1.is_valid() and formset.is_valid():

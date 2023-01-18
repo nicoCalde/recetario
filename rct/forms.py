@@ -70,15 +70,9 @@ class MedidasForm(forms.ModelForm):
         }
 
 class IngredientesForm(forms.ModelForm):
-
-    class Meta:
-        model=Ingredientes
-        fields=['fkproductos','cantidad','fkunidad_medida']
-        widgets={
-            'fkproductos':forms.Select(attrs={'class':'form-control'}),
-            'cantidad': forms.TextInput(attrs={'class':'form-control'}),
-            'fkunidad_medida': forms.Select(attrs={'class':'form-control'}),
-        }
+    fkproductos = forms.ChoiceField(label='Productos',widget= forms.Select(attrs={'class':"form-control"}))
+    cantidad = forms.CharField(label='Cantidad',widget= forms.TextInput(attrs={'class':"form-control"}))
+    fkunidad_medida = forms.ChoiceField(label='Medida', widget= forms.Select(attrs={'class':"form-control"}))
 
 
 #ADMINISTRACION
