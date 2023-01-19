@@ -79,7 +79,7 @@ def crear_receta(request):
             form1.save()
             for form in formset:
                 form2 = form.save(commit=False)                
-                form2.fkreceta = form1
+                form2.fkreceta = form1.id
                 form2.save()
             return redirect('rct:mis_recetas')
     else:

@@ -7,7 +7,7 @@ from django.urls import reverse
 class Recetas(models.Model):
     nombre_receta = models.CharField(max_length=150,verbose_name='nombre receta')
     imagen_receta = models.ImageField(upload_to='imagenes/', verbose_name='imagen')
-    tiempo_prep_receta = models.DurationField(verbose_name='tiempo')
+    tiempo_prep_receta = models.CharField(max_length=50,verbose_name='tiempo')
     porciones_receta = models.IntegerField(verbose_name='porciones')
     pasos_receta = models.TextField(verbose_name='instrucciones')
     fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
@@ -50,7 +50,7 @@ class UnidadesDeMedida(models.Model):
 class Ingredientes(models.Model):
     fkrecetas = models.ForeignKey(Recetas, verbose_name="receta_ingrediente", on_delete=models.CASCADE)
     fkproductos = models.ForeignKey(Productos, verbose_name="prodcuto", on_delete=models.CASCADE)
-    cantidad = models.IntegerField(verbose_name='cantidad')
+    cantidad = models.FloatField(verbose_name='cantidad')
     fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida", on_delete=models.CASCADE)
 
 
