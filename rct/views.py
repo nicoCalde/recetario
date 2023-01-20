@@ -75,11 +75,19 @@ def crear_receta(request):
         formset = IngredientesFormset(request.POST or None)
         if formulario1.is_valid() and formset.is_valid():
             form1=formulario1.save(commit=False)
-            form1.fkuser = request.user
+            # form1.fkuser = request.user
             form1.save()
+            # for form in formset:
+            #     form2 = form.save(commit=False)                
+            #     form2.fkreceta = form1
+            #     form2.save()
             for form in formset:
-                form2 = form.save(commit=False)                
-                form2.fkreceta = form1.id
+                cleaned_data = form.cleaned_data
+                fkreceta = form1.id
+                fkproductos = cleaned_data.get('fkproductos')
+                cantidad = cleaned_data.get('cantidad')
+                fkunidad_medida = cleaned_data.get('fkunidad_medida')
+                form2 = Ingredientes(fkreceta=fkreceta, fkproductos=fkproductos, cantidad=cantidad, fkunidad_medida=fkunidad_medida)
                 form2.save()
             return redirect('rct:mis_recetas')
     else:

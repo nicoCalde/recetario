@@ -19,7 +19,7 @@
                         <div class="chef-member">
                             <div class="member-img">
 
-                                <img src="" class="img-fluid" alt="{{receta.nombre_receta}}">
+                                <img src="{{ recetas.imagen_receta.url }}" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
                                     <a href="{% url 'rct:crear_receta' %}"><i class="bi bi-plus"></i></a>
                                     <a href="{% url 'rct:editar_receta' %}"><i class="bi bi-pen"></i></a>

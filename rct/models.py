@@ -53,7 +53,13 @@ class Ingredientes(models.Model):
     cantidad = models.FloatField(verbose_name='cantidad')
     fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.fkrecetas}: {self.fkproductos}, {round(self.cantidad)} {self.fkunidad_medida}'
+
 
 class RecetasGuardadas(models.Model):
     receta_guardada = models.ForeignKey(Recetas, verbose_name="receta_guardada", on_delete=models.CASCADE)
     fkuser = models.ForeignKey(User,verbose_name="usuario_guardada", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.fkuser}: {self.receta_guardada}'
