@@ -10,7 +10,7 @@ class Recetas(models.Model):
     tiempo_prep_receta = models.CharField(max_length=50,verbose_name='tiempo')
     porciones_receta = models.IntegerField(verbose_name='porciones')
     pasos_receta = models.TextField(verbose_name='instrucciones')
-    fkuser = models.ForeignKey(User,verbose_name="usuario_receta", on_delete=models.CASCADE)
+    fkuser = models.ForeignKey(User,verbose_name="Usuario", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre_receta

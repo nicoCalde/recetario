@@ -11,6 +11,7 @@ class IngredientesAdminInline(admin.TabularInline):
 # models
 class RecetasAdmin(admin.ModelAdmin):
     inlines = [IngredientesAdminInline]
+    list_display = ['id', 'nombre_receta', 'porciones_receta', 'tiempo_prep_receta', 'fkuser']
     raw_id_fields = ['fkuser']
 
 admin.site.register(Recetas, RecetasAdmin)

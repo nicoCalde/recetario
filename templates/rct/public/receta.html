@@ -13,11 +13,11 @@
             <p>{{ receta.nombre_receta }}<span>...</span></p> 
         </div>
         <div class="col-lg-4 menu-item">
-            <a href="" class="glightbox"><img src="" class="menu-img img-fluid" alt=""></a>
-            {% for ingrediente in object.get_ingredients  %}
-                <p class="ingredients">{{ Ingrediente.nombre_producto }} {{ ingrediente.cantidad }} {{ ingrediente.nombre_medida }} </p>
+            <a href="" class="glightbox"><img src="{{ receta.imagen_receta.url }}" class="menu-img img-fluid" alt="{{ receta.nombre_receta }}"></a>
+            {% for ingrediente in ingredientes  %}
+                <p class="ingredients">{{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} </p>
             {% endfor %}
-            <p class="ingredients"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit eos esse natus cumque animi modi rem veritatis accusamus aliquid itaque reprehenderit non doloribus id, aperiam fugit, soluta voluptates corrupti adipisci?</p> 
+            <p class="ingredients">{{ receta.pasos_receta }}</p> 
         </div><!-- recipe end -->
     </div>
 </section>  

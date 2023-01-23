@@ -15,17 +15,18 @@ def index(request):
 
 # content views
 def recetas(request):
-    recetas = Recetas.objects.all().order_by('nombre_receta')
+    recetas = Recetas.objects.all()
     return render(request,'rct/public/recetas.html',{'recetas':recetas})
 
 @login_required(login_url='rct:login')
 def mis_recetas(request):
-    recetas = Recetas.objects.filter(pk=request.user.pk)
+    recetas = Recetas.objects.filter(fkuser=request.user)
     return render(request,'rct/public/mis_recetas.html',{'recetas':recetas})
 
 def receta(request,id=None):
     receta = get_object_or_404(Recetas, id=id)
-    return render(request,'rct/public/receta.html',{'receta':receta})
+    ingredientes = Ingredientes.objects.filter(fkrecetas=id)
+    return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes})
 
 def contact(request):
     if(request.method == 'POST'):
