@@ -59,6 +59,14 @@ class RecetasForm(forms.ModelForm):
             'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),
             'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
         }
+
+    def clean(self):
+        data = self.cleaned_data
+        nombre_receta = data.get('nombre_receta')
+        qs = Recetas.objects.filter(nombre_receta=nombre_receta)
+        if qs.exists():
+            self.add_error('nombre_receta', f'\"{nombre_receta}\" ya existe. Por favor elegí otro nombre.')
+        return data
     
 class MedidasForm(forms.ModelForm):
 
@@ -72,7 +80,13 @@ class MedidasForm(forms.ModelForm):
 class IngredientesForm(forms.ModelForm):
     fkproductos = forms.ModelChoiceField(label='Productos',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
     cantidad = forms.CharField(label='Cantidad',widget= forms.TextInput(attrs={'class':"form-control"}))
-    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
+    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-controln(s"}))
+
+    def clean(self):
+        data = self.cleaned_data
+        
+        return data
+    
 
 
 #ADMINISTRACION

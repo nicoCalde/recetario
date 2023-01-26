@@ -25,16 +25,16 @@
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                         <div class="chef-member">
                             <div class="member-img">
-                                <img src="https://picsum.photos/id/{{ forloop.counter|add:520 }}/400/250" class="img-fluid" alt="{{mireceta.nombre_receta}}">
+                                <img src="{{ receta.imagen_receta.url }}" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
                                     <a href="{% url 'rct:crear_receta' %}"><i class="bi bi-plus"></i></a>
-                                    <a href="{% url 'rct:editar_receta/{{receta.id}}' %}"><i class="bi bi-pen"></i></a>
+                                    <a href="./editar_receta/{{receta.id}}/"><i class="bi bi-pen"></i></a>
                                     <a href=""><i class="bi bi-eraser"></i></a>
-                                    <a href="{% url 'rct:eliminar_receta/{{receta.id}}' %}"><i class="bi bi-trash"></i></a>
+                                    {% comment %} <a href="{% url 'rct:eliminar_receta/{{receta.id}}' %}"><i class="bi bi-trash"></i></a> {% endcomment %}
                                 </div>
                             </div>
                             <div class="member-info">
-                                <a href=""><h4>{{ receta.nombre_receta }}</h4></a>
+                                <a href="./receta/{{receta.id}}/"><h4>{{ receta.nombre_receta }}</h4></a>
                             </div>
                         </div>
                     </div><!-- End Chefs Member -->
