@@ -6,11 +6,12 @@
 <br>
 <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
-        
+        {% if not user.is_authenticated %}
         <div class="section-header">
             <h2>Registro</h2>
             <p>Crea tu cuenta para poder <span>comenzar</span></p>
         </div>
+        
         <form method="POST" class="php-email-form p-3 p-md-4">
             {% csrf_token %}
             <div class="row">
@@ -27,6 +28,16 @@
             <div class="text-center"><button type="submit">Registrarse</button></div>
             <div class="text-center">¿Tenes cuenta? <a href="{% url 'rct:login' %}">Log In</a></div>
         </form><!--End Register Form -->
+        {% else %}
+        <div class="section-header">
+            <h2>Registro</h2>
+            <p>Ya estas disfrutando de las mejores recetas <span>{{ user.username }}</span></p>
+        </div>
+        <div class="hero text-center" data-aos="fade-up" data-aos-delay="200">
+            <a href="{% url 'rct:recetas' %}" class="btn-book-a-table"><i class="bi bi-search"></i> Busca una receta</a>
+            <a href="{% url 'rct:crear_receta' %}" class="btn-book-a-table"><i class="bi bi-pencil-square"></i> Crea tu receta</a>          
+        </div>
+        {% endif %}
     </div>
 </section><!-- End Register Section -->
 {% endblock contenido %}
