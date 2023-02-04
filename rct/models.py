@@ -16,23 +16,21 @@ class Recetas(models.Model):
         return self.nombre_receta
     
     def get_absolute_url(self):
-        return reverse("rct:listado", kwargs={"id": self.id})
+        return reverse("rct:receta", kwargs={"id": self.id})
 
     def get_edit_url(self):
         return reverse("rct:editar", kwargs={"id": self.id})
 
-    def get_ingredients(self):
+    def get_delete_url(self):
+        return reverse("rct:eliminar", kwargs={"id": self.id})
+
+    def get_ingredientes(self):
         return self.ingredientes_set.all()
     
     def delete(self,using=None,keep_parents=False):
-        self.imagen_receta.delete(self.imagen_receta.name) #borrado fisico
+        self.imagen_receta.delete(self.imagen_receta.name) # borrado fisico
         super().delete()
-    
-    #chequear metodo para salvar automaticamente el fk user del user que este logueado creando la receta. Clase 25 min 64.
-    # def save(self,*args, **kwargs):
-    #     self.fkuser = User(id)
-    #     super().save(*args, **kwargs)
-
+        
     
 class Productos(models.Model):
     nombre_producto = models.CharField(max_length=150,verbose_name='nombre producto')
@@ -48,13 +46,17 @@ class UnidadesDeMedida(models.Model):
         return self.nombre_medida
 
 class Ingredientes(models.Model):
-    fkrecetas = models.ForeignKey(Recetas, verbose_name="receta_ingrediente", on_delete=models.CASCADE)
+    fkrecetas = models.ForeignKey(Recetas, verbose_name="Receta", on_delete=models.CASCADE)
     fkproductos = models.ForeignKey(Productos, verbose_name="prodcuto", on_delete=models.CASCADE)
     cantidad = models.FloatField(verbose_name='cantidad')
     fkunidad_medida = models.ForeignKey(UnidadesDeMedida, verbose_name="medida", on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.fkrecetas}: {self.fkproductos}, {round(self.cantidad)} {self.fkunidad_medida}'
+
+    def get_absolute_url(self):
+        return self.fkrecetas.get_absolute_url()
+    
 
 
 class RecetasGuardadas(models.Model):

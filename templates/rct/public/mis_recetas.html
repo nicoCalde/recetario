@@ -19,6 +19,7 @@
         {% endif %}
         {% if recetas|length > 0 %}
             <p>Tus <span>Recetas</span> Guardadas</p>
+            <h2>| <a href="{% url 'rct:crear_receta' %}"><i class="bi bi-file-earmark-plus" style="font-size: 1.5rem"></i></a> |</h2>
         </div>
             <div class="row gy-4">
                 {% for receta in recetas %}
@@ -27,14 +28,14 @@
                             <div class="member-img">
                                 <img src="{{ receta.imagen_receta.url }}" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
-                                    <a href="{% url 'rct:crear_receta' %}"><i class="bi bi-plus"></i></a>
-                                    <a href="./editar_receta/{{receta.id}}/"><i class="bi bi-pen"></i></a>
-                                    <a href=""><i class="bi bi-eraser"></i></a>
-                                    {% comment %} <a href="{% url 'rct:eliminar_receta/{{receta.id}}' %}"><i class="bi bi-trash"></i></a> {% endcomment %}
+                                    {% if request.user != receta.fkuser %}<a href="#guardar receta"><i class="bi bi-plus"></i></a>{% endif %}
+                                    {% if request.user == receta.fkuser %}<a href="{{ receta.get_edit_url }}"><i class="bi bi-pen"></i></a>{% endif %}
+                                    {% if request.user != receta.fkuser %}<a href="#quitar receta de la lista"><i class="bi bi-eraser"></i></a>{% endif %}
+                                    {% if request.user == receta.fkuser %}<a href="{{ receta.get_delete_url }}"><i class="bi bi-trash"></i></a>{% endif %}
                                 </div>
                             </div>
                             <div class="member-info">
-                                <a href="./receta/{{receta.id}}/"><h4>{{ receta.nombre_receta }}</h4></a>
+                                <a href="{{ receta.get_absolute_url }}"><h4>{{ receta.nombre_receta }}</h4></a>
                             </div>
                         </div>
                     </div><!-- End Chefs Member -->

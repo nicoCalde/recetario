@@ -5,7 +5,7 @@ from django.contrib import messages
 from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
-from django.forms.models import modelformset_factory # model form for querydets
+from django.forms.models import modelformset_factory # model form for querysets
 
 # Create your views here.
 
@@ -69,54 +69,42 @@ def recetas_login(request):
 # crud
 @login_required(login_url='rct:login')
 def crear_receta(request):
-    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
-    qs = Ingredientes.objects.filter(fkrecetas=None)
-    if request.method == 'POST':
-        formulario1 = RecetasForm(request.POST or None)
-        formset = IngredientesFormset(request.POST or None,qs)
-        if formulario1.is_valid() and formset.is_valid():
-            form1=formulario1.save(commit=False)
-            form1.save()
-            for form in formset:
-                form2 = form.save(commit=False)                
-                form2.fkrecetas = form1.id
-                form2.save()
+    if request.method=='POST':
+        formulario = RecetasForm(request.POST or None,request.FILES or None)
+        if formulario.is_valid():
+            form=formulario.save(commit=False)
+            form.fkuser=request.user
+            form.save()
             return redirect('rct:mis_recetas')
     else:
-        formulario1 = RecetasForm()
-        formset = IngredientesFormset(qs)
-    return render(request,'rct/public/crear_receta.html',{'form1':formulario1,'formset':formset})
+        formulario = RecetasForm()
+    return render(request,'rct/public/crear_receta.html',{'formulario':formulario})
 
 @login_required(login_url='rct:login')
 def editar_receta(request,id=None):
-    try:
-        receta = Recetas.objects.get(id=id, fkuser=request.user)
-    except Recetas.DoesNotExist:
-        return render(request,'rct/public/404.html')
-    formulario1 = RecetasForm(instance=receta)
-    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
-    qs = Ingredientes.objects.filter(fkrecetas=receta.id)
-    formset= IngredientesFormset(queryset=qs)
-    if request.method == 'POST':
-        formulario1 = RecetasForm(request.POST,instance=receta)
-        formset = IngredientesFormset(request.POST,queryset=qs)
-        if formulario1.is_valid() and formset.is_valid():
-            form1=formulario1.save(commit=False)
-            form1.save()
-            for form in formset:
-                form2 = form.save(commit=False)                
-                form2.fkreceta = form1.id
-                form2.save()
+    obj = get_object_or_404(Recetas, id=id)
+    IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
+    qs = obj.ingredientes_set.all()
+    if request.method=='POST':
+        formulario = RecetasForm(request.POST or None,request.FILES or None, instance=obj)
+        formset = IngredientesFormset(request.POST or None, queryset=qs)
+        if all([formulario.is_valid(), formset.is_valid()]):
+            form = formulario.save(commit=False)
+            form.save()
+            for field in formset:
+                forms = field.save(commit=False)
+                forms.fkrecetas = form
+                forms.save()
             return redirect('rct:mis_recetas')
-        else:
-            formulario1 = RecetasForm(instance=receta)
-            formset = IngredientesFormset(queryset=qs)
-    return render(request,'rct/public/editar_receta.html',{'form1':formulario1,'formset':formset})
+    else:
+        formulario = RecetasForm(instance=obj)
+        formset = IngredientesFormset(queryset=qs)
+    return render(request,'rct/public/editar_receta.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
 @login_required(login_url='rct:login')
-def eliminar_receta(request,id_receta):
+def eliminar_receta(request,id=None):
     try:
-        receta = Recetas.objects.get(pk=id_receta)
+        receta = Recetas.objects.get(id=id)
     except Recetas.DoesNotExist:
         return render(request,'rct/public/404.html')
     receta.delete() 
@@ -147,9 +135,9 @@ def crear_medida(request):
 #----------------------------------------------------------------------------------------------------------------------------------------
 
 #ADMINISTRACION
+@login_required(login_url='rct:login')
 def index_administracion(request):
-    variable = 'test variable'
-    return render(request,'rct/administration/index_administracion.html',{'variable':variable})
+    return render(request,'rct/administration/index_administracion.html')
 
 def register_adminitracion(request):
     if(request.method == 'POST'):

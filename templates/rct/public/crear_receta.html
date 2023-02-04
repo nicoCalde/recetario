@@ -10,10 +10,7 @@
             <h2>Receta</h2>
             <p>Creá <span>tu</span> Receta</p>
         </div>
-        <form action="{% url 'rct:crear_receta' %}" method="POST" role="form" class="php-email-form p-3 p-md-4">
-            {% csrf_token %}
-            {% include 'rct/public/form_complex.html' %}
-        </form>
+        {% include 'rct/public/form_complex.html' %}
     </div>
 </section>
 {% endblock contenido %}

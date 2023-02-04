@@ -10,14 +10,41 @@
         <!-- podria poner un boton editar receta para las que pueden ser editables video 59 min 7:32 -->
         <div class="section-header">
             <h2>Receta</h2>
-            <p>{{ receta.nombre_receta }}<span>...</span></p> 
+            <p>{{ receta.nombre_receta }}<span>...</span></p>
+            {% if receta.fkuser == request.user %}
+            <h2><a href="{{ receta.get_edit_url }}"><i class="bi bi-pen" style="font-size: 1.5rem"></i></a> | <a href="{{ receta.get_delete_url }}"><i class="bi bi-trash" style="font-size: 1.5rem"></i></a></h2>
+            {% endif %}
+            {% if receta.fkuser != request.user %}
+            <h2>| <a href="#agregar a la lista"><i class="bi bi-plus" style="font-size: 1.5rem"></i></a> |</h2>
+            {% endif %}
+            {% if receta.fkuser != request.user %}
+            <h2>| <a href="#quitar de la lista"><i class="bi bi-eraser" style="font-size: 1.5rem"></i></a> |</h2>
+            {% endif %}
         </div>
-        <div class="col-lg-4 menu-item">
-            <a href="" class="glightbox"><img src="{{ receta.imagen_receta.url }}" class="menu-img img-fluid" alt="{{ receta.nombre_receta }}"></a>
-            {% for ingrediente in ingredientes  %}
-                <p class="ingredients">{{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} </p>
+        <div class="col-lg menu-item">
+            <div class="row mb-3 text-center">
+                <a href="{{ receta.imagen_receta.url }}" class="glightbox"><img src="{{ receta.imagen_receta.url }}" class="menu-img img-fluid" alt="{{ receta.nombre_receta }}"></a>
+            </div>
+            <div class="row">
+                <h5>Creador: {{ receta.fkuser }}</h5>
+                <hr>
+                <h5>Tiempo Preparación: {{ receta.tiempo_prep_receta }}</h5>
+                <hr>
+                <h5>Porciones: {{ receta.porciones_receta }}</h5>
+                <hr>
+            </div>
+            <div class="row">
+                <h5>Ingredientes:</h5>
+            {% for ingrediente in ingredientes %}
+                <p class="ingredients">- {{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} </p>
             {% endfor %}
-            <p class="ingredients">{{ receta.pasos_receta }}</p> 
+            <hr>
+            </div>
+            <div class="row">
+                <h5>Instrucciones:</h5>
+                <p class="ingredients">{{ receta.pasos_receta }}</p>
+                <hr>
+            </div>
         </div><!-- recipe end -->
     </div>
 </section>  

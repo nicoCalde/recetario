@@ -78,9 +78,9 @@ class MedidasForm(forms.ModelForm):
         }
 
 class IngredientesForm(forms.ModelForm):
-    fkproductos = forms.ModelChoiceField(label='Productos',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
+    fkproductos = forms.ModelChoiceField(label='Producto',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
     cantidad = forms.CharField(label='Cantidad',widget= forms.TextInput(attrs={'class':"form-control"}))
-    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-controln(s"}))
+    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
 
     def clean(self):
         data = self.cleaned_data
