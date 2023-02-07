@@ -36,7 +36,7 @@
             <div class="row">
                 <h5>Ingredientes:</h5>
             {% for ingrediente in ingredientes %}
-                <p class="ingredients">- {{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} </p>
+                <p class="ingredients">- {{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} {%if receta.fkuser == request.user %}| <a href="{{ ingrediente.get_edit_url }}"><i class="bi bi-pen"></i></a> <a href="{{ ingrediente.get_delete_url }}"><i class="bi bi-backspace"></i></a>{% endif %}</p>
             {% endfor %}
             <hr>
             </div>

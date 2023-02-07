@@ -110,6 +110,19 @@ def editar_receta(request,id=None):
     return render(request,'rct/public/editar_receta.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
 @login_required(login_url='rct:login')
+def editar_ingrediente(request,parent_id=None,id=None):
+    ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
+    if request.method == 'POST':
+        formulario = IngredientesForm(request.POST or None, instance=ingrediente)
+        if formulario.is_valid():
+            formulario.save()
+            success_url = reverse('rct:receta', kwargs={'id':parent_id})
+            return redirect(success_url)
+    else:
+        formulario = IngredientesForm(instance=ingrediente)
+    return render(request,'rct/public/editar_ingrediente.html',{'formulario':formulario})
+
+@login_required(login_url='rct:login')
 def eliminar_receta(request,id=None):
     try:
         receta = Recetas.objects.get(id=id)
@@ -117,6 +130,13 @@ def eliminar_receta(request,id=None):
         return render(request,'rct/public/404.html')
     receta.delete() 
     return redirect('rct:mis_recetas')
+
+@login_required(login_url='rct:login')
+def eliminar_ingrediente(request,parent_id=None,id=None):
+    ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
+    ingrediente.delete()
+    success_url = reverse('rct:receta', kwargs={'id':parent_id})
+    return redirect(success_url)
 
 @login_required(login_url='rct:login')
 def crear_producto(request):

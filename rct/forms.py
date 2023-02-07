@@ -82,6 +82,10 @@ class IngredientesForm(forms.ModelForm):
     cantidad = forms.CharField(label='Cantidad',widget= forms.TextInput(attrs={'class':"form-control"}))
     fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
 
+    class Meta:
+        model=Ingredientes
+        fields=['fkproductos','cantidad','fkunidad_medida']
+
     def clean(self):
         data = self.cleaned_data
         

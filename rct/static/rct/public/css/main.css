@@ -1696,3 +1696,8 @@ section {
 .footer .credits a {
   color: #fff;
 }
+
+/* Form_complex formset style */
+.hidden-form{
+  display: None;
+}

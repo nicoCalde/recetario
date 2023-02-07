@@ -16,6 +16,8 @@ urlpatterns = [
     path('mis_recetas/crear_receta/crear_producto',views.crear_producto,name='crear_producto'),
     path('mis_recetas/crear_receta/crear_medida',views.crear_medida,name='crear_medida'),
     path('receta/<int:id>/',views.receta,name='receta'),
+    path('receta/<int:parent_id>/editar_ingrediente/<int:id>/',views.editar_ingrediente,name='editar_ingrediente'),
+    path('receta/<int:parent_id>/eliminar_ingrediente/<int:id>/',views.eliminar_ingrediente,name='eliminar_ingrediente'),
     path('registro',views.registro,name='registro'),
     path('login',views.recetas_login,name='login'),
     path('logout',auth_views.LogoutView.as_view(template_name='rct/public/index.html'),name='logout'),

@@ -57,6 +57,20 @@ class Ingredientes(models.Model):
     def get_absolute_url(self):
         return self.fkrecetas.get_absolute_url()
     
+    def get_edit_url(self):
+        kwargs={
+            "parent_id": self.fkrecetas.id,
+            "id": self.id
+        }
+        return reverse("rct:editar_ingrediente", kwargs=kwargs)
+
+    def get_delete_url(self):
+        kwargs={
+            "parent_id": self.fkrecetas.id,
+            "id": self.id
+        }
+        return reverse("rct:eliminar_ingrediente", kwargs=kwargs)
+    
 
 
 class RecetasGuardadas(models.Model):
