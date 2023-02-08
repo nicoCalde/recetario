@@ -16,17 +16,20 @@ def index(request):
 # content views
 def recetas(request):
     recetas = Recetas.objects.all()
-    return render(request,'rct/public/recetas.html',{'recetas':recetas})
+    archivo = RecetasGuardadas.objects.all()
+    return render(request,'rct/public/recetas.html',{'recetas':recetas,'archivo':archivo})
 
 @login_required(login_url='rct:login')
 def mis_recetas(request):
     recetas = Recetas.objects.filter(fkuser=request.user)
-    return render(request,'rct/public/mis_recetas.html',{'recetas':recetas})
+    archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
+    return render(request,'rct/public/mis_recetas.html',{'recetas':recetas,'archivo':archivo})
 
 def receta(request,id=None):
     receta = get_object_or_404(Recetas, id=id)
     ingredientes = Ingredientes.objects.filter(fkrecetas=id)
-    return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes})
+    archivo = RecetasGuardadas.objects.all()
+    return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes,'archivo':archivo})
 
 def contact(request):
     if(request.method == 'POST'):
@@ -159,6 +162,22 @@ def crear_medida(request):
     else:
         formulario = MedidasForm()
     return render(request,'rct/public/crear_medida.html',{'formulario':formulario})
+
+@login_required(login_url='rct:login')
+def guardar_receta(request,id=None):
+    receta = get_object_or_404(Recetas,id=id)
+    archivar = get_object_or_404(RecetasGuardadas)
+    guardar = archivar.save(commit=False)
+    guardar.fkuser = request.user
+    guardar.receta_guardada = receta.id
+    guardar.save()
+    return redirect('rct:mis_recetas')
+
+@login_required(login_url='rct:login')
+def borrar_receta(request,parent_id=None,id=None):
+    receta = get_object_or_404(RecetasGuardadas,receta_guardada=parent_id,id=id,fkuser=request.user)
+    receta.delete()
+    return redirect('rct:mis_recetas')
 
 #----------------------------------------------------------------------------------------------------------------------------------------
 

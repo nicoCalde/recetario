@@ -88,9 +88,13 @@ class IngredientesForm(forms.ModelForm):
 
     def clean(self):
         data = self.cleaned_data
-        
         return data
-    
+
+class RecetasGuardadasForm(forms.ModelForm):
+
+    class Meta:
+        model=RecetasGuardadas
+        fields='__all__'
 
 
 #ADMINISTRACION

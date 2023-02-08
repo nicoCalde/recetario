@@ -19,13 +19,14 @@
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                         <div class="chef-member">
                             <div class="member-img">
-
                                 <img src="{{ receta.imagen_receta.url }}" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
-                                    {% if request.user != receta.fkuser %}<a href="#guardar receta"><i class="bi bi-plus"></i></a>{% endif %}
-                                    {% if request.user == receta.fkuser %}<a href="{{ receta.get_edit_url }}"><i class="bi bi-pen"></i></a>{% endif %}
-                                    {% if request.user != receta.fkuser %}<a href="#quitar receta de la lista"><i class="bi bi-eraser"></i></a>{% endif %}
-                                    {% if request.user == receta.fkuser %}<a href="{{ receta.get_delete_url }}"><i class="bi bi-trash"></i></a>{% endif %}
+                                    {% if request.user == receta.fkuser %}
+                                    <a href="{{ receta.get_edit_url }}"><i class="bi bi-pen"></i></a>
+                                    <a href="{{ receta.get_delete_url }}"><i class="bi bi-trash"></i></a>
+                                    {% endif %}
+                                    {% if request.user != receta.fkuser and archivo.fkuser != request.user %}<a href="{{ archivo.get_save_url }}"><i class="bi bi-plus"></i></a>{% endif %}
+                                    {% if request.user != receta.fkuser and archivo.fkuser == request.user %}<a href=""><i class="bi bi-eraser"></i></a>{% endif %}
                                 </div>
                             </div>
                             <div class="member-info">
