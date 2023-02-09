@@ -94,8 +94,7 @@ class RecetasGuardadasForm(forms.ModelForm):
 
     class Meta:
         model=RecetasGuardadas
-        fields='__all__'
-
+        exclude=('id','receta_guardada','fkuser')
 
 #ADMINISTRACION
 class AdminLoginForm(forms.Form):

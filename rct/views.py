@@ -6,6 +6,7 @@ from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory # model form for querysets
+from django.db.models import Q
 
 # Create your views here.
 
@@ -26,7 +27,7 @@ def mis_recetas(request):
     return render(request,'rct/public/mis_recetas.html',{'recetas':recetas,'archivo':archivo})
 
 def receta(request,id=None):
-    receta = get_object_or_404(Recetas, id=id)
+    receta = get_object_or_404(Recetas,id=id)
     ingredientes = Ingredientes.objects.filter(fkrecetas=id)
     archivo = RecetasGuardadas.objects.all()
     return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes,'archivo':archivo})
@@ -94,11 +95,11 @@ def crear_receta(request):
 @login_required(login_url='rct:login')
 def editar_receta(request,id=None):
     obj = get_object_or_404(Recetas, id=id)
-    IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
+    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
     qs = obj.ingredientes_set.all()
     if request.method=='POST':
-        formulario = RecetasForm(request.POST or None,request.FILES or None, instance=obj)
-        formset = IngredientesFormset(request.POST or None, queryset=qs)
+        formulario = RecetasForm(request.POST or None,request.FILES or None,instance=obj)
+        formset = IngredientesFormset(request.POST or None,queryset=qs)
         if all([formulario.is_valid(), formset.is_valid()]):
             form = formulario.save(commit=False)
             form.save()
@@ -155,7 +156,7 @@ def crear_producto(request):
 @login_required(login_url='rct:login')
 def crear_medida(request):
     if(request.method=='POST'):
-        formulario = MedidasForm(request.POST)
+        formulario = MedidasForm(request.POST or None)
         if formulario.is_valid():
             formulario.save()
             return redirect('rct:crear_receta')
@@ -164,14 +165,21 @@ def crear_medida(request):
     return render(request,'rct/public/crear_medida.html',{'formulario':formulario})
 
 @login_required(login_url='rct:login')
-def guardar_receta(request,id=None):
-    receta = get_object_or_404(Recetas,id=id)
-    archivar = get_object_or_404(RecetasGuardadas)
-    guardar = archivar.save(commit=False)
-    guardar.fkuser = request.user
-    guardar.receta_guardada = receta.id
-    guardar.save()
-    return redirect('rct:mis_recetas')
+def guardar_receta(request,parent_id=None):
+    recetas = Recetas.objects.all()
+    archivo = RecetasGuardadas.objects.all()
+    receta = get_object_or_404(Recetas,id=parent_id)
+    if request.method=='POST':
+        formulario = RecetasGuardadasForm(request.POST or None)
+        if formulario.is_valid():
+            form = formulario.save(commit=False)
+            form.fkuser = request.user
+            form.receta_guardada = receta
+            form.save()
+            return redirect('rct:mis_recetas')
+    else:
+        formulario = RecetasGuardadasForm()
+    return render(request,'rct/public/guardar_receta.html',{'receta':receta,'formulario':formulario,'recetas':recetas,'archivo':archivo})
 
 @login_required(login_url='rct:login')
 def borrar_receta(request,parent_id=None,id=None):

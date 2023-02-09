@@ -80,8 +80,8 @@ class RecetasGuardadas(models.Model):
     def __str__(self):
         return f'{self.fkuser}: {self.receta_guardada}'
 
-    def get_save_url(self):
-        return reverse("rct:guardar_receta", kwargs={"id": self.id})
+    def get_absolute_url(self):
+        return self.receta_guardada.get_absolute_url()
 
     def get_delete_url(self):
         kwargs={

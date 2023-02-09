@@ -15,7 +15,7 @@
             <h2><a href="{{ receta.get_edit_url }}"><i class="bi bi-pen" style="font-size: 1.5rem"></i></a> | <a href="{{ receta.get_delete_url }}"><i class="bi bi-trash" style="font-size: 1.5rem"></i></a></h2>
             {% endif %}
             {% if receta.fkuser != request.user and archivo.fkuser != request.user %}
-            <h2>| <a href="{{ archivo.get_save_url }}"><i class="bi bi-plus" style="font-size: 1.5rem"></i></a> |</h2>
+            <h2>| <a href="{% url 'rct:guardar_receta' receta.id %}"><i class="bi bi-plus" style="font-size: 1.5rem"></i></a> |</h2>
             {% endif %}
             {% if receta.fkuser != request.user and archivo.fkuser == request.user %}
             <h2>| <a href="{{ archivo.get_delete_url }}"><i class="bi bi-eraser" style="font-size: 1.5rem"></i></a> |</h2>
