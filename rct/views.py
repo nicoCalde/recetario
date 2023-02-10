@@ -6,7 +6,6 @@ from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory # model form for querysets
-from django.db.models import Q
 
 # Create your views here.
 
@@ -17,7 +16,7 @@ def index(request):
 # content views
 def recetas(request):
     recetas = Recetas.objects.all()
-    archivo = RecetasGuardadas.objects.all()
+    archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
     return render(request,'rct/public/recetas.html',{'recetas':recetas,'archivo':archivo})
 
 @login_required(login_url='rct:login')
@@ -29,7 +28,10 @@ def mis_recetas(request):
 def receta(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
     ingredientes = Ingredientes.objects.filter(fkrecetas=id)
-    archivo = RecetasGuardadas.objects.all()
+    try:
+        archivo = RecetasGuardadas.objects.get(receta_guardada=id,fkuser=request.user)
+    except RecetasGuardadas.DoesNotExist:
+        archivo = None
     return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes,'archivo':archivo})
 
 def contact(request):

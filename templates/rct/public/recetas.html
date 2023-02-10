@@ -22,23 +22,22 @@
                                 <img src="{{ receta.imagen_receta.url }}" class="img-fluid" alt="{{receta.nombre_receta}}">
                                 <div class="social">
                                     {% if request.user == receta.fkuser %}
-                                    <a href="{{ receta.get_edit_url }}"><i class="bi bi-pen"></i></a>
-                                    <a href="{{ receta.get_delete_url }}"><i class="bi bi-trash"></i></a>
+                                    <a href="{% url 'rct:mis_recetas' %}">Creada por vos</a>
                                     {% endif %}
-                                    {% if request.user != receta.fkuser %}
-                                        
-                                            {% if request.user != arc.fkuser %}
-                                            <a href="{% url 'rct:guardar_receta' receta.id %}"><i class="bi bi-plus"></i></a>
-                                            {% endif %}
-                                            {% if request.user == arc.fkuser %}
-                                            <a href="{{ archivo.get_delete_url }}"><i class="bi bi-eraser"></i></a>
-                                            {% endif %}
-                                        
+                                    {% if receta.fkuser != request.user %}
+                                        {% if archivo %}
+                                            {% for x in archivo %}
+                                                {% if x.receta_guardada.id == receta.id %}
+                                                    <a href="{% url 'rct:mis_recetas' %}">Guardada</a>
+                                                {% endif %}
+                                            {% endfor %} 
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
                             <div class="member-info">
                                 <a href="{{ receta.get_absolute_url }}"><h4>{{receta.nombre_receta}}</h4></a>
+                                <h6>Creador: {{ receta.fkuser }}</h6>
                             </div>
                         </div>
                     </div>
