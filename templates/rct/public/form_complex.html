@@ -29,6 +29,9 @@
                 {{ formset.empty_form }}
                 <hr>
             </div>
+            {% for message in messages %}
+            <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
+            {% endfor %}
             <div class="d-flex flex-row-reverse">
                 <button type="button" class="btn btn-light" id="add-more"><i class="bi bi-plus-circle"></i></button>
                 <button type="button" class="btn btn-light" id="remove-one"><i class="bi bi-trash"></i></button>

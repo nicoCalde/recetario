@@ -6,6 +6,8 @@ from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory # model form for querysets
+from django.core.mail import send_mail
+from django.db import IntegrityError
 
 # Create your views here.
 
@@ -35,12 +37,30 @@ def receta(request,id=None):
     return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes,'archivo':archivo})
 
 def contact(request):
-    if(request.method == 'POST'):
-        contacto_form = ContactoForm(request.POST)
-        if(contacto_form.is_valid()):
+    if request.method == 'POST':
+        contacto_form = ContactoForm(request.POST or None)
+        if contacto_form.is_valid():
+            email=contacto_form.cleaned_data['email']
+            asunto=contacto_form.cleaned_data['asunto']
+            nombre=contacto_form.cleaned_data['nombre']
+            mensaje=contacto_form.cleaned_data['mensaje']
+            data={
+                'email': email,
+                'asunto': asunto,
+                'nombre': nombre,
+                'mensaje': mensaje,
+            }
+            message='''
+            De: {}
+
+            Nombre: {}
+
+            Mensaje: {}
+            '''.format(data['email'],data['nombre'],data['mensaje'])
+            send_mail(data['asunto'],message,'calde_kpo@hotmail.com',['calde_kpo@hotmail.com'])
             messages.success(request,'¡Gracias por comunicarte con nostros, te estaremos respondiedo a la brevedad!')
             contacto_form = ContactoForm()
-            #enviar un mail al administrador
+            return redirect('rct:contact')
     else:
         contacto_form = ContactoForm()
 
@@ -84,11 +104,15 @@ def crear_receta(request):
             form=formulario.save(commit=False)
             form.fkuser=request.user
             form.save()
-            for field in formset:
-                forms = field.save(commit=False)
-                forms.fkrecetas = form
-                forms.save()
-            return redirect('rct:mis_recetas')
+            try:
+                for field in formset:
+                    forms = field.save(commit=False)
+                    forms.fkrecetas = form
+                    forms.save()
+                    return redirect('rct:mis_recetas')
+            except IntegrityError:
+                messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
+                return render(request,'rct/public/editar_receta.html',{'formulario':formulario,'formset':formset}) 
     else:
         formulario = RecetasForm()
         formset = IngredientesFormset(queryset=qs)
@@ -105,11 +129,15 @@ def editar_receta(request,id=None):
         if all([formulario.is_valid(), formset.is_valid()]):
             form = formulario.save(commit=False)
             form.save()
-            for field in formset:
-                forms = field.save(commit=False)
-                forms.fkrecetas = form
-                forms.save()
-            return redirect('rct:mis_recetas')
+            try:
+                for field in formset:
+                    forms = field.save(commit=False)
+                    forms.fkrecetas = form
+                    forms.save()
+                return redirect('rct:mis_recetas')
+            except IntegrityError:
+                messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
+                return render(request,'rct/public/editar_receta.html',{'receta':obj,'formulario':formulario,'formset':formset})
     else:
         formulario = RecetasForm(instance=obj)
         formset = IngredientesFormset(queryset=qs)

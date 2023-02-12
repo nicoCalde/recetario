@@ -35,6 +35,14 @@ ALLOWED_HOSTS = []
 # if not DEBUG:
 #     ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST_USER = 'calde_kpo@hotmail.com'
+EMAIL_HOST_PASSWORD = 'Nicolas207'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
 # Application definition
 
 INSTALLED_APPS = [

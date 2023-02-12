@@ -1701,3 +1701,8 @@ section {
 .hidden-form{
   display: None;
 }
+
+/* select from ingredients */
+#select-square {
+  border-radius: 0px
+}

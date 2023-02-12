@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ValidationError
+from django.forms import ValidationError 
 from rct.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
@@ -78,13 +78,31 @@ class MedidasForm(forms.ModelForm):
         }
 
 class IngredientesForm(forms.ModelForm):
-    fkproductos = forms.ModelChoiceField(label='Producto',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
+    fkproductos = forms.ModelChoiceField(label='Producto',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control","id":"select-square"}))
     cantidad = forms.CharField(label='Cantidad',widget= forms.TextInput(attrs={'class':"form-control"}))
-    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-control"}))
+    fkunidad_medida = forms.ModelChoiceField(label='Medida',queryset=UnidadesDeMedida.objects.all(),widget= forms.Select(attrs={'class':"form-control","id":"select-square"}))
 
     class Meta:
         model=Ingredientes
         fields=['fkproductos','cantidad','fkunidad_medida']
+
+    def clean_fkproductos(self):
+        data = self.cleaned_data['fkproductos']
+        if data is None:
+            raise ValidationError('El ingrediente no puede ser ninguno.')
+        return data
+    
+    def clean_cantidad(self):
+        data = self.cleaned_data['cantidad']
+        if len(data) < 1:
+            raise ValidationError('Elige una cantidad.')
+        return data
+    
+    def clean_fkunidad_medida(self):
+        data = self.cleaned_data['fkunidad_medida']
+        if data is None:
+            raise ValidationError('Elige una unidad de medida.')
+        return data
 
     def clean(self):
         data = self.cleaned_data
