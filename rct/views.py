@@ -18,7 +18,9 @@ def index(request):
 # content views
 def recetas(request):
     recetas = Recetas.objects.all()
-    archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
+    archivo = None
+    if  request.user.is_authenticated:
+        archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
     return render(request,'rct/public/recetas.html',{'recetas':recetas,'archivo':archivo})
 
 @login_required(login_url='rct:login')
@@ -30,10 +32,12 @@ def mis_recetas(request):
 def receta(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
     ingredientes = Ingredientes.objects.filter(fkrecetas=id)
-    try:
-        archivo = RecetasGuardadas.objects.get(receta_guardada=id,fkuser=request.user)
-    except RecetasGuardadas.DoesNotExist:
-        archivo = None
+    archivo = None
+    if  request.user.is_authenticated:
+        try:
+            archivo = RecetasGuardadas.objects.get(receta_guardada=id,fkuser=request.user)
+        except RecetasGuardadas.DoesNotExist:
+            archivo = None
     return render(request,'rct/public/receta.html',{'receta':receta,'ingredientes':ingredientes,'archivo':archivo})
 
 def contact(request):
@@ -73,7 +77,7 @@ def registro(request):
         if register_form.is_valid():
             register_form.save()
             messages.success(request, f'Tu cuenta fue creada con exito!')
-            return redirect('login')
+            return redirect('rct:login')
     else:
         register_form = RegisterForm()
     return render(request,'rct/public/registro.html',{'register_form':register_form})

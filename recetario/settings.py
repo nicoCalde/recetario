@@ -21,27 +21,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zuud_#$mck311=t%^!e=8dgo(tvcxjqh*y=fzxezb-erqy*gp2'
-# for production: SECRET_KEY = os.environ.get('SECRET_KEY','django-insecure-zuud_#$mck311=t%^!e=8dgo(tvcxjqh*y=fzxezb-erqy*gp2')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # generate secret key command (terminal): python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# for production: DEBUG = str(os.environ.get('DEBUG')) == '1'
+DEBUG = str(os.environ.get('DEBUG')) == '1'
 # for production: reventalo, que ni este.
 
 ALLOWED_HOSTS = []
 #  for production:
-# if not DEBUG:
-#     ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]
+if not DEBUG:
+    ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com'
-EMAIL_HOST_USER = 'calde_kpo@hotmail.com'
-EMAIL_HOST_PASSWORD = 'Nicolas207'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = str(os.environ.get('EMAIL_USE_TLS')) == '1'
+EMAIL_USE_SSL = str(os.environ.get('EMAIL_USE_SSL')) == '1'
 
 # Application definition
 
