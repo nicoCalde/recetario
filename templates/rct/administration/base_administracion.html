@@ -32,7 +32,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'rct:administracion' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fa-solid fa-pepper-hot"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">recetARIO<sup>admin</sup></div>
             </a>
@@ -52,21 +52,21 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Recetario
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <i class="fa-solid fa-user"></i>
+                    <span>Usuarios</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="">Buttons</a>
-                        <a class="collapse-item" href="">Cards</a>
+                        <h6 class="collapse-header">Usuarios:</h6>
+                        <a class="collapse-item" href="{% url 'rct:usuarios' %}">Usuarios Registrados</a>
+                        <a class="collapse-item" href="{% url 'rct:staff' %}">Staff</a>
                     </div>
                 </div>
             </li>
@@ -75,63 +75,29 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <i class="fa-solid fa-utensils"></i>
+                    <span>Recetas</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="">Colors</a>
-                        <a class="collapse-item" href="">Borders</a>
-                        <a class="collapse-item" href="">Animations</a>
-                        <a class="collapse-item" href="">Other</a>
+                        <h6 class="collapse-header">Recetas:</h6>
+                        <a class="collapse-item" href="{% url 'rct:recetas_admin' %}">Recetas</a>
+                        <a class="collapse-item" href="{% url 'rct:ingredientes_admin' %}">Ingredientes</a>
+                        <a class="collapse-item" href="{% url 'rct:productos_admin' %}">Productos</a>
+                        <a class="collapse-item" href="{% url 'rct:medidas_admin' %}">Unidades de Medida</a>
                     </div>
                 </div>
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider my-0">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-                    aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="{% url 'rct:login_admin' %}">Login</a>
-                        <a class="collapse-item" href="{% url 'rct:register_admin' %}">Register</a>
-                        <a class="collapse-item" href="{% url 'rct:forgotpass_admin' %}">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="">404 Page</a>
-                        <a class="collapse-item active" href="">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Website -->
             <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                <a class="nav-link" href="{% url 'rct:index' %}">
+                    <i class="fa-solid fa-window-maximize"></i>
+                    <span>Website</span></a>
             </li>
 
             <!-- Divider -->
@@ -404,13 +370,12 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'rct:logout' %}">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
-    
     <script src="{% static '/rct/administration/js/jquery.min.js' %}?v={% now 'U' %}"></script>
     <script src="{% static '/rct/administration/js/bootstrap.bundle.min.js' %}?v={% now 'U' %}"></script>
     <script src=" {% static '/rct/administration/js/jquery.easing.min.js' %}?v={% now 'U' %}"></script>

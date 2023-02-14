@@ -26,7 +26,10 @@ urlpatterns = [
     path('contact',views.contact,name='contact'),
     #ADMINISTRACION
     path('administracion',views.index_administracion,name='administracion'),
-    path('administracion/login',views.login_administracion,name='login_admin'),
-    path('administracion/register',views.register_adminitracion,name='register_admin'),
-    path('administracion/forgotpassword',views.forgotpass_administracion,name='forgotpass_admin'),
+    path('administracion/usuarios',views.usuarios,name='usuarios'),
+    path('administracion/staff',views.staff,name='staff'),
+    path('administracion/recetas',views.recetas_admin,name='recetas_admin'),
+    path('administracion/ingredientes',views.ingredientes_admin,name='ingredientes_admin'),
+    path('administracion/productos',views.productos_admin,name='productos_admin'),
+    path('administracion/unidades-medida',views.medidas_admin,name='medidas_admin'),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

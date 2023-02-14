@@ -228,35 +228,27 @@ def borrar_receta(request,parent_id=None,id=None):
 def index_administracion(request):
     return render(request,'rct/administration/index_administracion.html')
 
-def register_adminitracion(request):
-    if(request.method == 'POST'):
-        register_form = AdminRegisterForm(request.POST)
-        if(register_form.is_valid()):
-            #enviar email al administrador con los datos que recibio y guardar los datos en la base de datos
-            #enviarle al usuario alguna respuesta
-            pass
-    else:
-        register_form = AdminRegisterForm()
-    return render(request,'rct/administration/register_administracion.html',{'register_form':register_form})
+@login_required(login_url='rct:login')
+def usuarios(request):
+    return render(request,'rct/administration/users.html')
 
-def login_administracion(request):
-    if(request.method == 'POST'):
-        login_form = AdminLoginForm(request.POST)
-        if(login_form.is_valid()):
-            pass
-        else:
-            messages.error(request,'El email y/o la contraseña no son validos')
-    else:
-        login_form = AdminLoginForm()
-    return render(request,'rct/administration/login_administracion.html',{'login_form':login_form})
+@login_required(login_url='rct:login')
+def staff(request):
+    return render(request,'rct/administration/staff.html')
 
-def forgotpass_administracion(request):
-    if(request.method == 'POST'):
-        reset_form = AdminResetForm(request.POST)
-        if(reset_form.is_valid()):
-            pass
-        else:
-            messages.error(request,'El email ingresado no es valido.')
-    else:
-        reset_form = AdminResetForm()
-    return render(request,'rct/administration/forgotpass_administracion.html',{'reset_form':reset_form})
+@login_required(login_url='rct:login')
+def recetas_admin(request):
+    recetas = Recetas.objects.all()
+    return render(request,'rct/administration/recetas_admin.html',{'recetas':recetas})
+
+@login_required(login_url='rct:login')
+def ingredientes_admin(request):
+    return render(request,'rct/administration/ingredientes_admin.html')
+
+@login_required(login_url='rct:login')
+def productos_admin(request):
+    return render(request,'rct/administration/productos_admin.html')
+
+@login_required(login_url='rct:login')
+def medidas_admin(request):
+    return render(request,'rct/administration/medidas_admin.html')
