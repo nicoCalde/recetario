@@ -116,7 +116,7 @@ def crear_receta(request):
                     return redirect('rct:mis_recetas')
             except IntegrityError:
                 messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
-                return render(request,'rct/public/editar_receta.html',{'formulario':formulario,'formset':formset}) 
+                return render(request,'rct/public/crear_receta.html',{'formulario':formulario,'formset':formset}) 
     else:
         formulario = RecetasForm()
         formset = IngredientesFormset(queryset=qs)
@@ -179,7 +179,7 @@ def eliminar_ingrediente(request,parent_id=None,id=None):
 @login_required(login_url='rct:login')
 def crear_producto(request):
     if request.method=='POST':
-        formulario = ProductosForm(request.POST)
+        formulario = ProductosForm(request.POST or None)
         if formulario.is_valid():
             formulario.save()
             return redirect('rct:crear_receta')
@@ -189,7 +189,7 @@ def crear_producto(request):
 
 @login_required(login_url='rct:login')
 def crear_medida(request):
-    if(request.method=='POST'):
+    if request.method=='POST':
         formulario = MedidasForm(request.POST or None)
         if formulario.is_valid():
             formulario.save()
@@ -230,11 +230,13 @@ def index_administracion(request):
 
 @login_required(login_url='rct:login')
 def usuarios(request):
-    return render(request,'rct/administration/users.html')
+    usuarios = User.objects.all()
+    return render(request,'rct/administration/users.html',{'usuarios':usuarios})
 
 @login_required(login_url='rct:login')
 def staff(request):
-    return render(request,'rct/administration/staff.html')
+    usuarios = User.objects.all()
+    return render(request,'rct/administration/staff.html',{'usuarios':usuarios})
 
 @login_required(login_url='rct:login')
 def recetas_admin(request):
@@ -243,12 +245,63 @@ def recetas_admin(request):
 
 @login_required(login_url='rct:login')
 def ingredientes_admin(request):
-    return render(request,'rct/administration/ingredientes_admin.html')
+    ingredientes = Ingredientes.objects.all()
+    return render(request,'rct/administration/ingredientes_admin.html',{'ingredientes':ingredientes})
 
 @login_required(login_url='rct:login')
 def productos_admin(request):
-    return render(request,'rct/administration/productos_admin.html')
+    productos = Productos.objects.all()
+    return render(request,'rct/administration/productos_admin.html',{'productos':productos})
 
 @login_required(login_url='rct:login')
 def medidas_admin(request):
-    return render(request,'rct/administration/medidas_admin.html')
+    medidas = UnidadesDeMedida.objects.all()
+    return render(request,'rct/administration/medidas_admin.html',{'medidas':medidas})
+
+#Create
+@login_required(login_url='rct:login')
+def crear_recetas_admin(request):
+    IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
+    qs = Ingredientes.objects.filter(fkrecetas=None)
+    if request.method=='POST':
+        formulario = RecetasForm(request.POST or None,request.FILES or None)
+        formset = IngredientesFormset(request.POST or None)
+        if all([formulario.is_valid(), formset.is_valid()]):
+            form=formulario.save(commit=False)
+            form.fkuser=request.user
+            form.save()
+            try:
+                for field in formset:
+                    forms = field.save(commit=False)
+                    forms.fkrecetas = form
+                    forms.save()
+                    return redirect('rct:recetas_admin')
+            except IntegrityError:
+                messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
+                return render(request,'rct/public/crear_receta_admin.html',{'formulario':formulario,'formset':formset}) 
+    else:
+        formulario = RecetasForm()
+        formset = IngredientesFormset(queryset=qs)
+    return render(request,'rct/administration/crear_receta_admin.html',{'formulario':formulario,'formset':formset})
+
+@login_required(login_url='rct:login')
+def crear_productos_admin(request):
+    if request.method=='POST':
+        formulario = ProductosForm(request.POST or None)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('rct:productos_admin')
+    else:
+        formulario = ProductosForm()
+    return render(request,'rct/administration/crear_producto_admin.html',{'formulario':formulario})
+
+@login_required(login_url='rct:login')
+def crear_medidas_admin(request):
+    if request.method=='POST':
+        formulario = MedidasForm(request.POST or None)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('rct:medidas_admin')
+    else:
+        formulario = MedidasForm()
+    return render(request,'rct/administration/crear_medida_admin.html',{'formulario':formulario})

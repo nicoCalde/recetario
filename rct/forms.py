@@ -46,6 +46,14 @@ class ProductosForm(forms.ModelForm):
         widgets={
             'nombre_producto': forms.TextInput(attrs={'class':'form-control'}),
         }
+    
+    def clean(self):
+        data = self.cleaned_data
+        nombre_producto = data.get('nombre_producto')
+        qs = Productos.objects.filter(nombre_producto=nombre_producto)
+        if qs.exists():
+            self.add_error('nombre_producto', f'\"{nombre_producto}\" ya existe. Por favor elegí otro nombre.')
+        return data
 
 class RecetasForm(forms.ModelForm):
 
@@ -76,6 +84,14 @@ class MedidasForm(forms.ModelForm):
         widgets={
             'nombre_medida': forms.TextInput(attrs={'class':'form-control'}),
         }
+    
+    def clean(self):
+        data = self.cleaned_data
+        nombre_medida = data.get('nombre_medida')
+        qs = UnidadesDeMedida.objects.filter(nombre_medida=nombre_medida)
+        if qs.exists():
+            self.add_error('nombre_medida', f'\"{nombre_medida}\" ya existe. Por favor elegí otro nombre.')
+        return data
 
 class IngredientesForm(forms.ModelForm):
     fkproductos = forms.ModelChoiceField(label='Producto',queryset=Productos.objects.all(),widget= forms.Select(attrs={'class':"form-control","id":"select-square"}))

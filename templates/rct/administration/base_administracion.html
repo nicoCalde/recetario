@@ -18,7 +18,8 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/59a434ca7d.js" crossorigin="anonymous"></script>
     <link href="{% static '/rct/administration/css/sb-admin-2.min.css' %}?v={% now 'U' %}" rel="stylesheet">
-
+    <link href="{% static '/rct/administration/css/dataTables.bootstrap4.min.css' %}?v={% now 'U' %}" rel="stylesheet">
+    <link href="{% static '/rct/administration/css/form2.css' %}?v={% now 'U' %}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -325,7 +326,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">{% block page_title %}{% endblock page_title %}</h1>
+        
                     {% block content %}
                     {% endblock content %}
 
@@ -380,7 +381,10 @@
     <script src="{% static '/rct/administration/js/bootstrap.bundle.min.js' %}?v={% now 'U' %}"></script>
     <script src=" {% static '/rct/administration/js/jquery.easing.min.js' %}?v={% now 'U' %}"></script>
     <script src=" {% static '/rct/administration/js/sb-admin-2.min.js' %}?v={% now 'U' %}"></script>
-
+    <script src="{% static '/rct/administration/js/jquery.dataTables.min.js' %}?v={% now 'U' %}"></script>
+    <script src="{% static '/rct/administration/js/dataTables.bootstrap4.min.js' %}?v={% now 'U' %}"></script>
+    <script src=" {% static '/rct/administration/js/datatables-demo.js' %}?v={% now 'U' %}"></script>
+    <script src=" {% static '/rct/administration/js/form2.js' %}?v={% now 'U' %}"></script>
 </body>
 
 </html>

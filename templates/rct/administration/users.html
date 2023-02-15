@@ -1,7 +1,65 @@
 {% extends './base_administracion.html' %}
-
-{% block page_title %}Usuarios{% endblock page_title %}
-
 {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
+    <p class="mb-4">Listado de usuarios registrados.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <th>Start date</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <th>Start date</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for user in usuarios  %}
+                            {% if user.is_staff == False %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.date_joined }}</td>  
+                                <td>
+                                    <a href="" title="Editar" class="btn-circle btn-warning"><i class="fas fa-pencil"></i></a>
+                                    <a href="" title="Eliminar" class="btn-circle btn-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
 {% endblock content %}

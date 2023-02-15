@@ -1,7 +1,71 @@
 {% extends './base_administracion.html' %}
-
-{% block page_title %}Recetas{% endblock page_title %}
-
 {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-2 text-gray-800">Recetas</h1>
+        <a href="{% url 'rct:crear_receta_admin' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-plus"></i> Crear Receta</a>
+    </div>
+    
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Imagen</th>
+                            <th>Tiempo</th>
+                            <th>Porciones</th>
+                            <th>Pasos</th>
+                            <th>Ingredientes</th>
+                            <th>Creador</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Imagen</th>
+                            <th>Tiempo</th>
+                            <th>Porciones</th>
+                            <th>Pasos</th>
+                            <th>Ingredientes</th>
+                            <th>Creador</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for receta in recetas %}
+                            <tr>
+                                <td>{{ receta.id }}</td>
+                                <td>{{ receta.nombre_receta }}</td>
+                                <td><img src="{{ receta.imagen_receta.url }}" alt="{{ receta.nombre_receta }}" width="100 px"></td>
+                                <td>{{ receta.tiempo_prep_receta }}</td>
+                                <td>{{ receta.porciones_receta }}</td>
+                                <td><a href="">Ver pasos</a></td>
+                                <td><a href="">Ver ingredientes</a></td>
+                                <td>{{ receta.fkuser }}</td>
+                                <td>
+                                    <a href="" title="Editar" class="btn-circle btn-warning"><i class="fas fa-pencil"></i></a>
+                                    <a href="" title="Eliminar" class="btn-circle btn-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
 {% endblock content %}

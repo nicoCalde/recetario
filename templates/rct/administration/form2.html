@@ -1,0 +1,42 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in formulario %}
+        <div class="form-group">
+            {{ field.label }}:
+            {{ field }}            
+        </div>
+        <div class="error">
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <div class="form-group">
+        Ingredientes:
+        <hr>
+    </div>
+    {% if formset %}
+        {{ formset.management_form }}
+        <div id="ingredient-form-list">
+            {% for form in formset %}
+                <div class="ingredient-form">
+                    {{ form }}
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="hidden-form" id="empty-form"> 
+            {{ formset.empty_form }}
+            <hr>
+        </div>
+        {% for message in messages %}
+        <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
+        {% endfor %}
+        <div class="d-flex flex-row-reverse">
+            <button type="button" class="btn btn-light btn-circle" id="add-more"><i class="fa fa-plus-circle"></i></button>
+            <button type="button" class="btn btn-light btn-circle" id="remove-one"><i class="fa fa-trash"></i></button>
+            <button type="button" class="btn">Quitar/Agregar: </button>
+        </div>
+    {% endif %}
+    <hr>
+    <input type="submit" value="Guardar" class="btn btn-success">
+    <a href="{% url 'rct:recetas_admin' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>
+</form>

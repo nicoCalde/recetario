@@ -1,7 +1,60 @@
 {% extends './base_administracion.html' %}
-
-{% block page_title %}Ingredientes{% endblock page_title %}
-
 {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Ingredientes</h1>
+    <p class="mb-4">Listado de productos asignados a su receta correspondiente.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Receta</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Unidad de Medida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Receta</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Unidad de Medida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for ingrediente in ingredientes %}
+                            <tr>
+                                <td>{{ ingrediente.id }}</td>
+                                <td>{{ ingrediente.fkrecetas }}</td>
+                                <td>{{ ingrediente.fkproductos }}</td>
+                                <td>{{ ingrediente.cantidad }}</td>
+                                <td>{{ ingrediente.fkunidad_medida }}</td>
+                                <td>
+                                    <a href="" title="Editar" class="btn-circle btn-warning"><i class="fas fa-pencil"></i></a>
+                                    <a href="" title="Eliminar" class="btn-circle btn-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
 {% endblock content %}
