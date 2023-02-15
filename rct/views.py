@@ -224,6 +224,7 @@ def borrar_receta(request,parent_id=None,id=None):
 #----------------------------------------------------------------------------------------------------------------------------------------
 
 #ADMINISTRACION
+#Retrieve
 @login_required(login_url='rct:login')
 def index_administracion(request):
     return render(request,'rct/administration/index_administracion.html')
@@ -242,6 +243,17 @@ def staff(request):
 def recetas_admin(request):
     recetas = Recetas.objects.all()
     return render(request,'rct/administration/recetas_admin.html',{'recetas':recetas})
+
+@login_required(login_url='rct:login')
+def pasos_receta_admin(request,id=None):
+    receta = get_object_or_404(Recetas,id=id)
+    return render(request,'rct/administration/instrucciones.html',{'receta':receta})
+
+@login_required(login_url='rct:login')
+def ingredientes_receta_admin(request,parent_id=None):
+    ingredientes = Ingredientes.objects.filter(fkrecetas=parent_id)
+    receta = get_object_or_404(Recetas,id=parent_id)
+    return render(request,'rct/administration/ingredientes_receta.html',{'ingredientes':ingredientes,'receta':receta})
 
 @login_required(login_url='rct:login')
 def ingredientes_admin(request):
@@ -285,6 +297,21 @@ def crear_recetas_admin(request):
     return render(request,'rct/administration/crear_receta_admin.html',{'formulario':formulario,'formset':formset})
 
 @login_required(login_url='rct:login')
+def crear_ingredientes_receta_admin(request,parent_id=None):
+    receta = get_object_or_404(Recetas,id=parent_id)
+    if request.method == 'POST':
+        formulario = IngredientesForm(request.POST or None)
+        if formulario.is_valid():
+            form = formulario.save(commit=False)
+            form.fkrecetas = receta
+            form.save()
+            success_url = reverse('rct:ingredientes_receta_admin', kwargs={'parent_id':parent_id})
+            return redirect(success_url)
+    else:
+        formulario = IngredientesForm()
+    return render(request,'rct/administration/crear_ing_rec.html',{'formulario':formulario,'receta':receta})
+
+@login_required(login_url='rct:login')
 def crear_productos_admin(request):
     if request.method=='POST':
         formulario = ProductosForm(request.POST or None)
@@ -305,3 +332,95 @@ def crear_medidas_admin(request):
     else:
         formulario = MedidasForm()
     return render(request,'rct/administration/crear_medida_admin.html',{'formulario':formulario})
+
+#Update
+@login_required(login_url='rct:login')
+def editar_recetas_admin(request,id=None):
+    obj = get_object_or_404(Recetas, id=id)
+    IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
+    qs = obj.ingredientes_set.all()
+    if request.method=='POST':
+        formulario = RecetasForm(request.POST or None,request.FILES or None,instance=obj)
+        formset = IngredientesFormset(request.POST or None,queryset=qs)
+        if all([formulario.is_valid(), formset.is_valid()]):
+            form = formulario.save(commit=False)
+            form.save()
+            try:
+                for field in formset:
+                    forms = field.save(commit=False)
+                    forms.fkrecetas = form
+                    forms.save()
+                return redirect('rct:recetas_admin')
+            except IntegrityError:
+                messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
+                return render(request,'rct/administration/editar_receta_admin.html',{'receta':obj,'formulario':formulario,'formset':formset})
+    else:
+        formulario = RecetasForm(instance=obj)
+        formset = IngredientesFormset(queryset=qs)
+    return render(request,'rct/administration/editar_receta_admin.html',{'receta':obj,'formulario':formulario,'formset':formset})
+
+@login_required(login_url='rct:login')
+def editar_ingredientes_receta_admin(request,parent_id=None,id=None):
+    receta = get_object_or_404(Recetas,id=parent_id)
+    ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
+    if request.method == 'POST':
+        formulario = IngredientesForm(request.POST or None,instance=ingrediente)
+        if formulario.is_valid():
+            form = formulario.save(commit=False)
+            form.fkrecetas = receta
+            form.save()
+            success_url = reverse('rct:ingredientes_receta_admin', kwargs={'parent_id':parent_id})
+            return redirect(success_url)
+    else:
+        formulario = IngredientesForm(instance=ingrediente)
+    return render(request,'rct/administration/editar_ing_rec.html',{'formulario':formulario,'receta':receta})
+
+@login_required(login_url='rct:login')
+def editar_productos_admin(request,id=None):
+    obj = get_object_or_404(Productos, id=id)
+    if request.method=='POST':
+        formulario = ProductosForm(request.POST or None,instance=obj)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('rct:productos_admin')
+    else:
+        formulario = ProductosForm(instance=obj)
+    return render(request,'rct/administration/editar_producto_admin.html',{'producto':obj,'formulario':formulario})
+
+@login_required(login_url='rct:login')
+def editar_medidas_admin(request,id=None):
+    obj = get_object_or_404(UnidadesDeMedida, id=id)
+    if request.method=='POST':
+        formulario = MedidasForm(request.POST or None,instance=obj)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('rct:medidas_admin')
+    else:
+        formulario = MedidasForm(instance=obj)
+    return render(request,'rct/administration/editar_medida_admin.html',{'medida':obj,'formulario':formulario})
+
+#Delete
+@login_required(login_url='rct:login')
+def eliminar_recetas_admin(request,id=None):
+    receta = get_object_or_404(Recetas, id=id)
+    receta.delete() 
+    return redirect('rct:recetas_admin')
+
+@login_required(login_url='rct:login')
+def eliminar_ingredientes_receta_admin(request,parent_id=None,id=None):
+    ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
+    ingrediente.delete()
+    success_url = reverse('rct:ingredientes_receta_admin', kwargs={'parent_id':parent_id})
+    return redirect(success_url)
+
+@login_required(login_url='rct:login')
+def eliminar_productos_admin(request,id=None):
+    receta = get_object_or_404(Productos, id=id)
+    receta.delete() 
+    return redirect('rct:productos_admin')
+
+@login_required(login_url='rct:login')
+def eliminar_medidas_admin(request,id=None):
+    receta = get_object_or_404(UnidadesDeMedida, id=id)
+    receta.delete() 
+    return redirect('rct:medidas_admin')

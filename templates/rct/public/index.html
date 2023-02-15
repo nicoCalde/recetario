@@ -11,7 +11,7 @@
             <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
                 <h2 data-aos="fade-up">Bienvenidos!<br>Las mejores recetas en un solo lugar</h2>
                 {% if not user.is_authenticated %}
-                <p data-aos="fade-up" data-aos-delay="100">Encontra, crea y almacena tus recetas con un solo click. Crea un usuario o logueate para acceder:</p>
+                <p data-aos="fade-up" data-aos-delay="100">Encontrá, creá y almacená tus recetas con un solo click. Crea un usuario o logueate para acceder:</p>
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
                     <a href="{% url 'rct:registro' %}" class="btn">Registrarse</a>
                     <a href="{% url 'rct:login' %}" class="btn-book-a-table">Log In</a>

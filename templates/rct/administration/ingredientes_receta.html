@@ -5,14 +5,13 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-2 text-gray-800">Unidades de Medida</h1>
-        <a href="{% url 'rct:crear_med_admin' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-plus"></i> Crear Medida</a>
+        <h1 class="h3 mb-2 text-gray-800">Ingredientes</h1>
+        <a href="{% url 'rct:agregar_ingrediente_receta' receta.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-plus"></i> Agregar Ingrediente</a>
     </div>
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Receta: {{ receta.nombre_receta }}</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -20,24 +19,31 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
                             <th>Unidad de Medida</th>
                             <th>Acciones</th>
+                        </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Id</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
                             <th>Unidad de Medida</th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for medida in medidas %}
+                        {% for ingrediente in ingredientes %}
                             <tr>
-                                <td>{{ medida.id }}</td>
-                                <td>{{ medida.nombre_medida }}</td>
+                                <td>{{ ingrediente.id }}</td>
+                                <td>{{ ingrediente.fkproductos }}</td>
+                                <td>{{ ingrediente.cantidad }}</td>
+                                <td>{{ ingrediente.fkunidad_medida }}</td>
                                 <td>
-                                    <a href="{% url 'rct:editar_med_admin' medida.id %}" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>
-                                    <a href="{% url 'rct:eliminar_med_admin' medida.id %}" title="Eliminar" class="btn-circle btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                    <a href="{% url 'rct:editar_ingrediente_receta' receta.id ingrediente.id%}" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>
+                                    <a href="{% url 'rct:eliminar_ingrediente_receta' receta.id ingrediente.id%}" title="Eliminar" class="btn-circle btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

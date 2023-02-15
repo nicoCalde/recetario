@@ -38,12 +38,17 @@ class Productos(models.Model):
     def __str__(self):
         return self.nombre_producto
     
+    def get_absolute_url(self):
+        return reverse("rct:productos_admin", kwargs={"id": self.id})
 
 class UnidadesDeMedida(models.Model):
     nombre_medida = models.CharField(max_length=150,verbose_name='unidad de medida')
 
     def __str__(self):
         return self.nombre_medida
+
+    def get_absolute_url(self):
+        return reverse("rct:medidas_admin", kwargs={"id": self.id})
 
 class Ingredientes(models.Model):
     fkrecetas = models.ForeignKey(Recetas, verbose_name="Receta", on_delete=models.CASCADE)
@@ -70,6 +75,20 @@ class Ingredientes(models.Model):
             "id": self.id
         }
         return reverse("rct:eliminar_ingrediente", kwargs=kwargs)
+
+    def get_editadmin_url(self):
+        kwargs={
+            "parent_id": self.fkrecetas.id,
+            "id": self.id
+        }
+        return reverse("rct:editar_ingrediente_admin", kwargs=kwargs)
+
+    def get_deleteadmin_url(self):
+        kwargs={
+            "parent_id": self.fkrecetas.id,
+            "id": self.id
+        }
+        return reverse("rct:eliminar_ingrediente_admin", kwargs=kwargs)
     
 
 

@@ -12,5 +12,5 @@
         <div class="alert alert-danger text-center" role="alert">{{ message }}</div>
     {% endfor %}
     <input type="submit" value="Guardar" class="btn btn-success">
-    <a href="{% url 'rct:medidas_admin' %}"><input class="btn btn-warning" type="button" value="Cancelar"></a>
+    <a href="{{ model.get_absolute_url }}"><input class="btn btn-warning" type="button" value="Cancel"></a>
 </form>

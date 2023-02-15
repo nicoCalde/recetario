@@ -22,7 +22,6 @@
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Unidad de Medida</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -32,7 +31,6 @@
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Unidad de Medida</th>
-                            <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -43,10 +41,6 @@
                                 <td>{{ ingrediente.fkproductos }}</td>
                                 <td>{{ ingrediente.cantidad }}</td>
                                 <td>{{ ingrediente.fkunidad_medida }}</td>
-                                <td>
-                                    <a href="" title="Editar" class="btn-circle btn-warning"><i class="fas fa-pencil"></i></a>
-                                    <a href="" title="Eliminar" class="btn-circle btn-danger"><i class="fas fa-trash"></i></a>
-                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
