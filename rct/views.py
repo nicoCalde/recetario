@@ -15,7 +15,7 @@ from django.db import IntegrityError
 def index(request):
     return render(request,'rct/public/index.html',)
 
-# content views
+# Content views (Retrieve)
 def recetas(request):
     recetas = Recetas.objects.all()
     archivo = None
@@ -96,7 +96,7 @@ def recetas_login(request):
     form = Logueo()
     return render(request,'rct/public/login.html',{'form':form})
 
-# crud
+# CUD
 @login_required(login_url='rct:login')
 def crear_receta(request):
     IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
