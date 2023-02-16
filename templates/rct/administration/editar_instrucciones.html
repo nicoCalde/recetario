@@ -16,6 +16,8 @@
                 </div>
                 <div class="card-body">
                     {% include './form1.html' %}
+                        <a href="{% url 'rct:instrucciones_admin' receta.id %}"><input class="btn btn-warning" type="button" value="Cancel"></a>
+                    </form>
                 </div>
             </div>
 

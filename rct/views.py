@@ -360,6 +360,19 @@ def editar_recetas_admin(request,id=None):
     return render(request,'rct/administration/editar_receta_admin.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
 @login_required(login_url='rct:login')
+def editar_pasos_receta_admin(request,id=None):
+    receta = get_object_or_404(Recetas,id=id)
+    if request.method == 'POST':
+        formulario=InstruccionesForm(request.POST or None,instance=receta)
+        if formulario.is_valid():
+            formulario.save()
+            success_url = reverse('rct:instrucciones_admin', kwargs={'id':id})
+            return redirect(success_url)
+    else:
+        formulario=InstruccionesForm(instance=receta)
+    return render(request,'rct/administration/editar_instrucciones.html',{'formulario':formulario,'receta':receta})
+
+@login_required(login_url='rct:login')
 def editar_ingredientes_receta_admin(request,parent_id=None,id=None):
     receta = get_object_or_404(Recetas,id=parent_id)
     ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)

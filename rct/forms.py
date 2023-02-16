@@ -76,6 +76,15 @@ class RecetasForm(forms.ModelForm):
             self.add_error('nombre_receta', f'\"{nombre_receta}\" ya existe. Por favor elegí otro nombre.')
         return data
     
+class InstruccionesForm(forms.ModelForm):
+
+    class Meta:
+        model=Recetas
+        fields=['pasos_receta']
+        widgets={
+            'pasos_receta': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
 class MedidasForm(forms.ModelForm):
 
     class Meta:

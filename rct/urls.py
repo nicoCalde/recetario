@@ -30,6 +30,7 @@ urlpatterns = [
     path('administracion/staff',views.staff,name='staff'),
     path('administracion/recetas',views.recetas_admin,name='recetas_admin'),
     path('administracion/recetas/<int:id>/instrucciones',views.pasos_receta_admin,name='instrucciones_admin'),
+    path('administracion/recetas/<int:id>/instrucciones/editar/',views.editar_pasos_receta_admin,name='editar_instrucciones_admin'),
     path('administracion/recetas/crear-receta',views.crear_recetas_admin,name='crear_receta_admin'),
     path('administracion/recetas/editar-receta/<int:id>/',views.editar_recetas_admin,name='editar_receta_admin'),
     path('administracion/recetas/eliminar-receta/<int:id>/',views.eliminar_recetas_admin,name='eliminar_receta_admin'),
