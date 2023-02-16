@@ -1,3 +1,3 @@
+.env
 db.sqlite3
 recetario/__pycache__/
-.env
