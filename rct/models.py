@@ -76,22 +76,6 @@ class Ingredientes(models.Model):
         }
         return reverse("rct:eliminar_ingrediente", kwargs=kwargs)
 
-    def get_editadmin_url(self):
-        kwargs={
-            "parent_id": self.fkrecetas.id,
-            "id": self.id
-        }
-        return reverse("rct:editar_ingrediente_admin", kwargs=kwargs)
-
-    def get_deleteadmin_url(self):
-        kwargs={
-            "parent_id": self.fkrecetas.id,
-            "id": self.id
-        }
-        return reverse("rct:eliminar_ingrediente_admin", kwargs=kwargs)
-    
-
-
 class RecetasGuardadas(models.Model):
     receta_guardada = models.ForeignKey(Recetas, verbose_name="receta_guardada", on_delete=models.CASCADE)
     fkuser = models.ForeignKey(User,verbose_name="usuario_guardada", on_delete=models.CASCADE)
@@ -108,3 +92,13 @@ class RecetasGuardadas(models.Model):
             "id": self.id
         }
         return reverse("rct:borrar_receta", kwargs=kwargs)
+
+class Messages(models.Model):
+    sender = models.ForeignKey(User,verbose_name="sender",related_name="sender", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User,verbose_name="receiver",related_name="receiver", on_delete=models.CASCADE)
+    msg_content = models.TextField(verbose_name='message')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    #query for views.py: 
+    # Inbox: Message.objects.filter(receiver=request.user)
+    # Enviados: Message.objects.filter(sender=request.user)

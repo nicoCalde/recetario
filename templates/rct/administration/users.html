@@ -38,7 +38,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for user in usuarios  %}
+                        {% for user in usuarios %}
                             {% if user.is_staff == False %}
                             <tr>
                                 <td>{{ user.id }}</td>
@@ -48,8 +48,8 @@
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.date_joined }}</td>  
                                 <td>
-                                    <a href="" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>
-                                    <a href="" title="Eliminar" class="btn-circle btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                    <a href="{% url 'rct:editar_usuario' user.id %}" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>
+                                    <a href="{% url 'rct:eliminar_usuario' user.id %}" title="Eliminar" class="btn-circle btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                             {% endif %}

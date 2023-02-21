@@ -1,0 +1,39 @@
+{% extends './base_administracion.html' %}
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-2 text-gray-800">Perfil</h1>
+        <a href="{% url 'rct:editar_perfil_admin' user.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-pen"></i> Editar Perfil</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ user.username }}</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Username:</strong></p>
+                    <p>{{ user.username }}</p>
+                    <hr>
+                    <p><strong>Nombre:</strong></p>
+                    <p>{{ user.first_name }}</p>
+                    <hr>
+                    <p><strong>Apellido:</strong></p>
+                    <p>{{ user.last_name }}</p>
+                    <hr>
+                    <p><strong>Email:</strong></p>
+                    <p>{{ user.email }}</p>
+                    <hr>
+                    <p><strong>Fecha de Inicio:</strong></p>
+                    <p>{{ user.date_joined }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

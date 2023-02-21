@@ -50,7 +50,7 @@
                 </ul>
                 </li>
                 <li><a href="{% url 'rct:contact' %}">Contacto</a></li>
-                {% if perms.rct %}
+                {% if user.is_staff == True %}
                     <li><a href="{% url 'rct:administracion' %}">Administracion</a></li>
                 {% endif %}
             </ul>

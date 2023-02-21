@@ -26,7 +26,11 @@ urlpatterns = [
     path('contact',views.contact,name='contact'),
     #ADMINISTRACION
     path('administracion',views.index_administracion,name='administracion'),
+    path('administracion/perfil/<int:id>/',views.profile_administracion,name='perfil_admin'),
+    path('administracion/perfil/<int:id>/editar-perfil',views.edit_profile_administracion,name='editar_perfil_admin'),
     path('administracion/usuarios',views.usuarios,name='usuarios'),
+    path('administracion/usuarios/<int:id>/editar-usuario/',views.editar_usuarios_admin,name='editar_usuario'),
+    path('administracion/usuarios/<int:id>/eliminar-usuario/',views.eliminar_usuarios_admin,name='eliminar_usuario'),
     path('administracion/staff',views.staff,name='staff'),
     path('administracion/recetas',views.recetas_admin,name='recetas_admin'),
     path('administracion/recetas/<int:id>/instrucciones',views.pasos_receta_admin,name='instrucciones_admin'),

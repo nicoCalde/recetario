@@ -1,0 +1,27 @@
+{% extends './base_administracion.html' %}
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-2 text-gray-800">Editar Perfil</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ user.username }}</h6>
+                </div>
+                <div class="card-body">
+                    {% include './form1.html' %}
+                        <a href="{% url 'rct:perfil_admin' user.id %}"><input class="btn btn-warning" type="button" value="Cancel"></a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

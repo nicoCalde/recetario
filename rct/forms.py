@@ -2,13 +2,12 @@ from django import forms
 from django.forms import ValidationError 
 from rct.models import *
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm
 
 def solo_caracteres(value):
     if any(char.isdigit() for char in value):
         raise ValidationError('No puede contener numeros: %(valor)s', code='Invalid',params={'valor':value})
 
-#PUBLIC
 class RegisterForm(UserCreationForm):
     password1 = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}))
     password2 = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repetir Contraseña'}))
@@ -139,4 +138,14 @@ class RecetasGuardadasForm(forms.ModelForm):
         model=RecetasGuardadas
         exclude=('id','receta_guardada','fkuser')
 
-#ADMINISTRACION
+class EditUserForm(UserChangeForm):
+
+    class Meta:
+        model = User
+        fields = ['username','first_name','last_name','email']
+        widgets={
+            'username': forms.TextInput(attrs={'class':'form-control','placeholder':'Usuario'}),
+            'first_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Nombre'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Apellido'}),
+            'email': forms.TextInput(attrs={'class':'form-control','placeholder':'Email'}),
+        }

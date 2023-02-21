@@ -226,8 +226,17 @@ def borrar_receta(request,parent_id=None,id=None):
 #ADMINISTRACION
 #Retrieve
 @login_required(login_url='rct:login')
-def index_administracion(request):
-    return render(request,'rct/administration/index_administracion.html')
+def index_administracion(request,id=None):
+    recetas = Recetas.objects.all()
+    users = User.objects.filter(is_staff=False)
+    productos = Productos.objects.all()
+    user = User.objects.get(id=request.user.id)
+    return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user})
+
+@login_required(login_url='rct:login')
+def profile_administracion(request,id=None):
+    user = User.objects.get(id=request.user.id)
+    return render(request,'rct/administration/profile.html',{'user':user})
 
 @login_required(login_url='rct:login')
 def usuarios(request):
@@ -360,6 +369,19 @@ def editar_recetas_admin(request,id=None):
     return render(request,'rct/administration/editar_receta_admin.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
 @login_required(login_url='rct:login')
+def edit_profile_administracion(request,id=None):
+    user = User.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        formulario = RegisterForm(request.POST or None, instance=user)
+        if formulario.is_valid():
+            formulario.save()
+            success_url = reverse('rct:perfil_admin', kwargs={'id':id})
+            return redirect(success_url)
+    else:
+        formulario = RegisterForm(instance=user)
+    return render(request,'rct/administration/editar_profile.html',{'user':user,'formulario':formulario})
+
+@login_required(login_url='rct:login')
 def editar_pasos_receta_admin(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
     if request.method == 'POST':
@@ -412,6 +434,19 @@ def editar_medidas_admin(request,id=None):
         formulario = MedidasForm(instance=obj)
     return render(request,'rct/administration/editar_medida_admin.html',{'medida':obj,'formulario':formulario})
 
+@login_required(login_url='rct:login')
+def editar_usuarios_admin(request,id=None):
+    obj = get_object_or_404(User, id=id)
+    if request.method =='POST':
+        formulario = EditUserForm(request.POST or None,instance=obj)
+        if formulario.is_valid():
+            formulario.save()
+            success_url = reverse('rct:usuarios')
+            return redirect(success_url)
+    else:
+        formulario = EditUserForm(instance=obj)
+    return render(request,'rct/administration/editar_usuario.html',{'usuario':obj,'formulario':formulario})
+
 #Delete
 @login_required(login_url='rct:login')
 def eliminar_recetas_admin(request,id=None):
@@ -437,3 +472,9 @@ def eliminar_medidas_admin(request,id=None):
     receta = get_object_or_404(UnidadesDeMedida, id=id)
     receta.delete() 
     return redirect('rct:medidas_admin')
+
+@login_required(login_url='rct:login')
+def eliminar_usuarios_admin(request,id=None):
+    receta = get_object_or_404(User, id=id)
+    receta.delete() 
+    return redirect('rct:usuarios')
