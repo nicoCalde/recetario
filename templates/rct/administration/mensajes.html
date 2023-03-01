@@ -40,8 +40,8 @@
                                 <td>{{ mensaje.subject }}</td>
                                 <td>{{ mensaje.sender }}</td>
                                 <td>
-                                    {% if mensaje.read == False %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="unread" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope"></i></a>{% endif %}
-                                    {% if mensaje.read == True %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="ver" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope-open"></i></a>{% endif %}
+                                    {% if mensaje.read == False %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="No Leido" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope"></i></a>{% endif %}
+                                    {% if mensaje.read == True %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="Leido" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope-open"></i></a>{% endif %}
                                     <a href="{% url 'rct:eliminar_mensaje' mensaje.id %}" title="Eliminar" class="btn-circle btn-secondary btn-sm"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>

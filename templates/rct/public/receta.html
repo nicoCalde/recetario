@@ -12,13 +12,13 @@
             <h2>Receta</h2>
             <p>{{ receta.nombre_receta }}<span>...</span></p>
             {% if receta.fkuser == request.user %}
-                <h2><a href="{{ receta.get_edit_url }}"><i class="bi bi-pen" style="font-size: 1.5rem"></i></a> | <a href="{{ receta.get_delete_url }}"><i class="bi bi-trash" style="font-size: 1.5rem"></i></a></h2>
+                <h2><a href="{{ receta.get_edit_url }}" title='Editar Receta'><i class="bi bi-pen" style="font-size: 1.5rem"></i></a> | <a href="{{ receta.get_delete_url }}" title='Eliminar Receta'><i class="bi bi-trash" style="font-size: 1.5rem"></i></a></h2>
             {% endif %}
             {% if receta.fkuser != request.user %}
                 {% if archivo %}    
-                    <h2>| <a href="{{ archivo.get_delete_url }}"><i class="bi bi-eraser" style="font-size: 1.5rem"></i></a> |</h2>   
+                    <h2>| <a href="{{ archivo.get_delete_url }}" title='Borrar Receta'><i class="bi bi-eraser" style="font-size: 1.5rem"></i></a> |</h2>   
                 {% else %}
-                    <h2>| <a href="{% url 'rct:guardar_receta' receta.id %}"><i class="bi bi-plus" style="font-size: 1.5rem"></i></a> |</h2>
+                    <h2>| <a href="{% url 'rct:guardar_receta' receta.id %}" title='Guardar Receta'><i class="bi bi-plus" style="font-size: 1.5rem"></i></a> |</h2>
                 {% endif %}
             {% endif %}
         </div>
@@ -40,8 +40,8 @@
                 <p class="ingredients">
                     - {{ ingrediente.fkproductos }} {{ ingrediente.cantidad }} {{ ingrediente.fkunidad_medida }} 
                     {%if receta.fkuser == request.user %}
-                    | <a href="{{ ingrediente.get_edit_url }}"><i class="bi bi-pen"></i></a> 
-                    <a href="{{ ingrediente.get_delete_url }}"><i class="bi bi-backspace"></i></a>
+                    | <a href="{{ ingrediente.get_edit_url }}" title='Editar Ingrediente'><i class="bi bi-pen"></i></a> 
+                    <a href="{{ ingrediente.get_delete_url }}" title='Eliminar Ingrediente'><i class="bi bi-backspace"></i></a>
                     {% endif %}
                 </p>
             {% endfor %}
