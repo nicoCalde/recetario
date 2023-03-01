@@ -113,7 +113,7 @@ def crear_receta(request):
                     forms = field.save(commit=False)
                     forms.fkrecetas = form
                     forms.save()
-                    return redirect('rct:mis_recetas')
+                return redirect('rct:mis_recetas')
             except IntegrityError:
                 messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
                 return render(request,'rct/public/crear_receta.html',{'formulario':formulario,'formset':formset}) 
@@ -310,7 +310,7 @@ def crear_recetas_admin(request):
                     forms = field.save(commit=False)
                     forms.fkrecetas = form
                     forms.save()
-                    return redirect('rct:recetas_admin')
+                return redirect('rct:recetas_admin')
             except IntegrityError:
                 messages.error(request,'El ingrediente no puede estar vacio, completalo o eliminalo para guardar.')
                 return render(request,'rct/public/crear_receta_admin.html',{'formulario':formulario,'formset':formset}) 
