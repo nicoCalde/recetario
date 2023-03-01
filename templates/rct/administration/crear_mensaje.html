@@ -1,0 +1,62 @@
+{% extends './base_administracion.html' %}
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Crear Mensaje</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Mensaje</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                            <div class="form-group">
+                                De: {{ request.user }}
+                            </div>
+                            <div class="error">
+                                {{ formulario.sender.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ formulario.receiver.label_tag }}
+                                {{ formulario.receiver }}
+                            </div>
+                            <div class="error">
+                                {{ formulario.receiver.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ formulario.subject.label_tag }}
+                                {{ formulario.subject }}
+                            </div>
+                            <div class="error">
+                                {{ formulario.subject.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ formulario.msg_content.label_tag }}
+                                {{ formulario.msg_content }}
+                            </div>
+                            <div class="error">
+                                {{ formulario.msg_content.errors }}
+                            </div>
+                        
+                        {% for message in messages %}
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <input type="submit" value="Enviar" class="btn btn-success">
+                        <a href="{% url 'rct:mensajes' %}"><input class="btn btn-warning" type="button" value="Descartar"></a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends './base_administracion.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-2 text-gray-800">Central de Mensajes</h1>
+        <a href="{% url 'rct:crear_mensaje' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-plus"></i> Crear Mensaje</a>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Inbox</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Asunto</th>
+                            <th>Sender</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Asunto</th>
+                            <th>Sender</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for mensaje in listado %}
+                            <tr>
+                                <td>{{ mensaje.created_at|date:"d-m-y | h:i:s" }}</td>
+                                <td>{{ mensaje.subject }}</td>
+                                <td>{{ mensaje.sender }}</td>
+                                <td>
+                                    {% if mensaje.read == False %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="unread" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope"></i></a>{% endif %}
+                                    {% if mensaje.read == True %}<a href="{% url 'rct:mensaje' mensaje.id %}" title="ver" class="btn-circle btn-primary btn-sm"><i class="fas fa-envelope-open"></i></a>{% endif %}
+                                    <a href="{% url 'rct:eliminar_mensaje' mensaje.id %}" title="Eliminar" class="btn-circle btn-secondary btn-sm"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock content %}

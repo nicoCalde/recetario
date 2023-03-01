@@ -95,9 +95,19 @@ class RecetasGuardadas(models.Model):
 
 class Messages(models.Model):
     sender = models.ForeignKey(User,verbose_name="sender",related_name="sender", on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User,verbose_name="receiver",related_name="receiver", on_delete=models.CASCADE)
-    msg_content = models.TextField(verbose_name='message')
+    receiver = models.ForeignKey(User,verbose_name="Para",related_name="receiver", on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50,verbose_name='Asunto')
+    msg_content = models.TextField(verbose_name='mensaje')
     created_at = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
+    def soft_delete(self):
+        self.read=True
+        super().save()
+    
+    def restore(self):
+        self.read=False
+        super().save()
 
     #query for views.py: 
     # Inbox: Message.objects.filter(receiver=request.user)

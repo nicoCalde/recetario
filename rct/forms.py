@@ -149,3 +149,14 @@ class EditUserForm(UserChangeForm):
             'last_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Apellido'}),
             'email': forms.TextInput(attrs={'class':'form-control','placeholder':'Email'}),
         }
+
+class MessagesForm(forms.ModelForm):
+
+    class Meta:
+        model=Messages
+        fields=['receiver','subject','msg_content']
+        widgets={
+            'receiver': forms.Select(attrs={'class':'form-control'}),
+            'subject': forms.TextInput(attrs={'class':'form-control'}),
+            'msg_content': forms.Textarea(attrs={'class':'form-control'}),
+        }

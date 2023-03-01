@@ -231,7 +231,8 @@ def index_administracion(request,id=None):
     users = User.objects.filter(is_staff=False)
     productos = Productos.objects.all()
     user = User.objects.get(id=request.user.id)
-    return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user})
+    mensajes = Messages.objects.filter(receiver=request.user,read=False)
+    return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user,'mensajes':mensajes})
 
 @login_required(login_url='rct:login')
 def profile_administracion(request,id=None):
@@ -278,6 +279,19 @@ def productos_admin(request):
 def medidas_admin(request):
     medidas = UnidadesDeMedida.objects.all()
     return render(request,'rct/administration/medidas_admin.html',{'medidas':medidas})
+
+@login_required(login_url='rct:login')
+def mensajes_admin(request):
+    mensajes = Messages.objects.filter(receiver=request.user,read=False)
+    listado = Messages.objects.filter(receiver=request.user)
+    return render(request,'rct/administration/mensajes.html',{'mensajes':mensajes,'listado':listado})
+
+@login_required(login_url='rct:login')
+def mensaje_admin(request,id=None):
+    mensajes = Messages.objects.filter(receiver=request.user,read=False)
+    mensaje = get_object_or_404(Messages,id=id)
+    mensaje.soft_delete()
+    return render(request,'rct/administration/mensaje.html',{'mensajes':mensajes,'mensaje':mensaje})
 
 #Create
 @login_required(login_url='rct:login')
@@ -341,6 +355,19 @@ def crear_medidas_admin(request):
     else:
         formulario = MedidasForm()
     return render(request,'rct/administration/crear_medida_admin.html',{'formulario':formulario})
+
+@login_required(login_url='rct:login')
+def crear_mensaje_admin(request):
+    if request.method=='POST':
+        formulario = MessagesForm(request.POST or None)
+        if formulario.is_valid():
+            form=formulario.save(commit=False)
+            form.sender = request.user
+            form.save()
+            return redirect('rct:mensajes')
+    else:
+        formulario = MessagesForm()
+    return render(request,'rct/administration/crear_mensaje.html',{'formulario':formulario})
 
 #Update
 @login_required(login_url='rct:login')
@@ -478,3 +505,15 @@ def eliminar_usuarios_admin(request,id=None):
     receta = get_object_or_404(User, id=id)
     receta.delete() 
     return redirect('rct:usuarios')
+
+@login_required(login_url='rct:login')
+def eliminar_mensaje(request,id=None):
+    mensaje = get_object_or_404(Messages, id=id)
+    mensaje.delete() 
+    return redirect('rct:mensajes')
+
+@login_required(login_url='rct:login')
+def mensaje_no_leido(request,id=None):
+    mensaje = get_object_or_404(Messages, id=id)
+    mensaje.restore()
+    return redirect('rct:mensajes')
