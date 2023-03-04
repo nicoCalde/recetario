@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory # model form for querysets
 from django.core.mail import send_mail
+from django.conf import settings
 from django.db import IntegrityError
 
 # Create your views here.
@@ -23,7 +24,7 @@ def recetas(request):
         archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
     return render(request,'rct/public/recetas.html',{'recetas':recetas,'archivo':archivo})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def mis_recetas(request):
     recetas = Recetas.objects.filter(fkuser=request.user)
     archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
@@ -89,15 +90,19 @@ def recetas_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             form = login(request, user)
+            nxt = request.GET.get('next',None)
             messages.success(request,f' ')
-            return redirect('rct:index')
+            if nxt is None:
+                return redirect('rct:index')
+            else:
+                return redirect(nxt)
         else:
             messages.error(request,'El usuario o la contraseña no son validos')
     form = Logueo()
     return render(request,'rct/public/login.html',{'form':form})
 
 # CUD
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_receta(request):
     IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
     qs = Ingredientes.objects.filter(fkrecetas=None)
@@ -122,7 +127,7 @@ def crear_receta(request):
         formset = IngredientesFormset(queryset=qs)
     return render(request,'rct/public/crear_receta.html',{'formulario':formulario,'formset':formset})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_receta(request,id=None):
     obj = get_object_or_404(Recetas, id=id)
     IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
@@ -147,7 +152,7 @@ def editar_receta(request,id=None):
         formset = IngredientesFormset(queryset=qs)
     return render(request,'rct/public/editar_receta.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_ingrediente(request,parent_id=None,id=None):
     ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
     if request.method == 'POST':
@@ -160,7 +165,7 @@ def editar_ingrediente(request,parent_id=None,id=None):
         formulario = IngredientesForm(instance=ingrediente)
     return render(request,'rct/public/editar_ingrediente.html',{'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_receta(request,id=None):
     try:
         receta = Recetas.objects.get(id=id)
@@ -169,14 +174,14 @@ def eliminar_receta(request,id=None):
     receta.delete() 
     return redirect('rct:mis_recetas')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_ingrediente(request,parent_id=None,id=None):
     ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
     ingrediente.delete()
     success_url = reverse('rct:receta', kwargs={'id':parent_id})
     return redirect(success_url)
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_producto(request):
     if request.method=='POST':
         formulario = ProductosForm(request.POST or None)
@@ -187,7 +192,7 @@ def crear_producto(request):
         formulario = ProductosForm()
     return render(request,'rct/public/crear_producto.html',{'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_medida(request):
     if request.method=='POST':
         formulario = MedidasForm(request.POST or None)
@@ -198,7 +203,7 @@ def crear_medida(request):
         formulario = MedidasForm()
     return render(request,'rct/public/crear_medida.html',{'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def guardar_receta(request,parent_id=None):
     recetas = Recetas.objects.all()
     archivo = RecetasGuardadas.objects.all()
@@ -215,7 +220,7 @@ def guardar_receta(request,parent_id=None):
         formulario = RecetasGuardadasForm()
     return render(request,'rct/public/guardar_receta.html',{'receta':receta,'formulario':formulario,'recetas':recetas,'archivo':archivo})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def borrar_receta(request,parent_id=None,id=None):
     receta = get_object_or_404(RecetasGuardadas,receta_guardada=parent_id,id=id,fkuser=request.user)
     receta.delete()
@@ -225,7 +230,7 @@ def borrar_receta(request,parent_id=None,id=None):
 
 #ADMINISTRACION
 #Retrieve
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def index_administracion(request,id=None):
     recetas = Recetas.objects.all()
     users = User.objects.filter(is_staff=False)
@@ -234,59 +239,59 @@ def index_administracion(request,id=None):
     mensajes = Messages.objects.filter(receiver=request.user,read=False)
     return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user,'mensajes':mensajes})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def profile_administracion(request,id=None):
     user = User.objects.get(id=request.user.id)
     return render(request,'rct/administration/profile.html',{'user':user})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def usuarios(request):
     usuarios = User.objects.all()
     return render(request,'rct/administration/users.html',{'usuarios':usuarios})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def staff(request):
     usuarios = User.objects.all()
     return render(request,'rct/administration/staff.html',{'usuarios':usuarios})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def recetas_admin(request):
     recetas = Recetas.objects.all()
     return render(request,'rct/administration/recetas_admin.html',{'recetas':recetas})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def pasos_receta_admin(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
     return render(request,'rct/administration/instrucciones.html',{'receta':receta})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def ingredientes_receta_admin(request,parent_id=None):
     ingredientes = Ingredientes.objects.filter(fkrecetas=parent_id)
     receta = get_object_or_404(Recetas,id=parent_id)
     return render(request,'rct/administration/ingredientes_receta.html',{'ingredientes':ingredientes,'receta':receta})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def ingredientes_admin(request):
     ingredientes = Ingredientes.objects.all()
     return render(request,'rct/administration/ingredientes_admin.html',{'ingredientes':ingredientes})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def productos_admin(request):
     productos = Productos.objects.all()
     return render(request,'rct/administration/productos_admin.html',{'productos':productos})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def medidas_admin(request):
     medidas = UnidadesDeMedida.objects.all()
     return render(request,'rct/administration/medidas_admin.html',{'medidas':medidas})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def mensajes_admin(request):
     mensajes = Messages.objects.filter(receiver=request.user,read=False)
     listado = Messages.objects.filter(receiver=request.user)
     return render(request,'rct/administration/mensajes.html',{'mensajes':mensajes,'listado':listado})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def mensaje_admin(request,id=None):
     mensajes = Messages.objects.filter(receiver=request.user,read=False)
     mensaje = get_object_or_404(Messages,id=id)
@@ -294,7 +299,7 @@ def mensaje_admin(request,id=None):
     return render(request,'rct/administration/mensaje.html',{'mensajes':mensajes,'mensaje':mensaje})
 
 #Create
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_recetas_admin(request):
     IngredientesFormset = modelformset_factory(Ingredientes, form=IngredientesForm, fields=['fkproductos','cantidad','fkunidad_medida'], extra=0)
     qs = Ingredientes.objects.filter(fkrecetas=None)
@@ -319,7 +324,7 @@ def crear_recetas_admin(request):
         formset = IngredientesFormset(queryset=qs)
     return render(request,'rct/administration/crear_receta_admin.html',{'formulario':formulario,'formset':formset})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_ingredientes_receta_admin(request,parent_id=None):
     receta = get_object_or_404(Recetas,id=parent_id)
     if request.method == 'POST':
@@ -334,7 +339,7 @@ def crear_ingredientes_receta_admin(request,parent_id=None):
         formulario = IngredientesForm()
     return render(request,'rct/administration/crear_ing_rec.html',{'formulario':formulario,'receta':receta})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_productos_admin(request):
     if request.method=='POST':
         formulario = ProductosForm(request.POST or None)
@@ -345,7 +350,7 @@ def crear_productos_admin(request):
         formulario = ProductosForm()
     return render(request,'rct/administration/crear_producto_admin.html',{'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_medidas_admin(request):
     if request.method=='POST':
         formulario = MedidasForm(request.POST or None)
@@ -356,7 +361,7 @@ def crear_medidas_admin(request):
         formulario = MedidasForm()
     return render(request,'rct/administration/crear_medida_admin.html',{'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def crear_mensaje_admin(request):
     if request.method=='POST':
         formulario = MessagesForm(request.POST or None)
@@ -370,7 +375,7 @@ def crear_mensaje_admin(request):
     return render(request,'rct/administration/crear_mensaje.html',{'formulario':formulario})
 
 #Update
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_recetas_admin(request,id=None):
     obj = get_object_or_404(Recetas, id=id)
     IngredientesFormset = modelformset_factory(Ingredientes,form=IngredientesForm,fields=['fkproductos','cantidad','fkunidad_medida'],extra=0)
@@ -395,7 +400,7 @@ def editar_recetas_admin(request,id=None):
         formset = IngredientesFormset(queryset=qs)
     return render(request,'rct/administration/editar_receta_admin.html',{'receta':obj,'formulario':formulario,'formset':formset})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def edit_profile_administracion(request,id=None):
     user = User.objects.get(id=request.user.id)
     if request.method == 'POST':
@@ -408,7 +413,7 @@ def edit_profile_administracion(request,id=None):
         formulario = RegisterForm(instance=user)
     return render(request,'rct/administration/editar_profile.html',{'user':user,'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_pasos_receta_admin(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
     if request.method == 'POST':
@@ -421,7 +426,7 @@ def editar_pasos_receta_admin(request,id=None):
         formulario=InstruccionesForm(instance=receta)
     return render(request,'rct/administration/editar_instrucciones.html',{'formulario':formulario,'receta':receta})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_ingredientes_receta_admin(request,parent_id=None,id=None):
     receta = get_object_or_404(Recetas,id=parent_id)
     ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
@@ -437,7 +442,7 @@ def editar_ingredientes_receta_admin(request,parent_id=None,id=None):
         formulario = IngredientesForm(instance=ingrediente)
     return render(request,'rct/administration/editar_ing_rec.html',{'formulario':formulario,'receta':receta})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_productos_admin(request,id=None):
     obj = get_object_or_404(Productos, id=id)
     if request.method=='POST':
@@ -449,7 +454,7 @@ def editar_productos_admin(request,id=None):
         formulario = ProductosForm(instance=obj)
     return render(request,'rct/administration/editar_producto_admin.html',{'producto':obj,'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_medidas_admin(request,id=None):
     obj = get_object_or_404(UnidadesDeMedida, id=id)
     if request.method=='POST':
@@ -461,7 +466,7 @@ def editar_medidas_admin(request,id=None):
         formulario = MedidasForm(instance=obj)
     return render(request,'rct/administration/editar_medida_admin.html',{'medida':obj,'formulario':formulario})
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def editar_usuarios_admin(request,id=None):
     obj = get_object_or_404(User, id=id)
     if request.method =='POST':
@@ -475,44 +480,44 @@ def editar_usuarios_admin(request,id=None):
     return render(request,'rct/administration/editar_usuario.html',{'usuario':obj,'formulario':formulario})
 
 #Delete
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_recetas_admin(request,id=None):
     receta = get_object_or_404(Recetas, id=id)
     receta.delete() 
     return redirect('rct:recetas_admin')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_ingredientes_receta_admin(request,parent_id=None,id=None):
     ingrediente = get_object_or_404(Ingredientes,fkrecetas=parent_id,id=id)
     ingrediente.delete()
     success_url = reverse('rct:ingredientes_receta_admin', kwargs={'parent_id':parent_id})
     return redirect(success_url)
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_productos_admin(request,id=None):
     receta = get_object_or_404(Productos, id=id)
     receta.delete() 
     return redirect('rct:productos_admin')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_medidas_admin(request,id=None):
     receta = get_object_or_404(UnidadesDeMedida, id=id)
     receta.delete() 
     return redirect('rct:medidas_admin')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_usuarios_admin(request,id=None):
     receta = get_object_or_404(User, id=id)
     receta.delete() 
     return redirect('rct:usuarios')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def eliminar_mensaje(request,id=None):
     mensaje = get_object_or_404(Messages, id=id)
     mensaje.delete() 
     return redirect('rct:mensajes')
 
-@login_required(login_url='rct:login')
+@login_required(login_url=settings.LOGIN_URL)
 def mensaje_no_leido(request,id=None):
     mensaje = get_object_or_404(Messages, id=id)
     mensaje.restore()

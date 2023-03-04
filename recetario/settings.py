@@ -155,3 +155,5 @@ MEDIA_URL = '/media/' #for debug
 MEDIA_ROOT = os.path.join(BASE_DIR,'media') #for production
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+LOGIN_URL = 'rct:login'

@@ -94,12 +94,12 @@ class RecetasGuardadas(models.Model):
         return reverse("rct:borrar_receta", kwargs=kwargs)
 
 class Messages(models.Model):
-    sender = models.ForeignKey(User,verbose_name="sender",related_name="sender", on_delete=models.CASCADE)
+    sender = models.ForeignKey(User,verbose_name="sender",related_name="sender", on_delete=models.CASCADE,limit_choices_to={'is_staff':True})
     receiver = models.ForeignKey(User,verbose_name="Para",related_name="receiver", on_delete=models.CASCADE,limit_choices_to={'is_staff':True})
     subject = models.CharField(max_length=50,verbose_name='Asunto')
     msg_content = models.TextField(verbose_name='mensaje')
     created_at = models.DateTimeField(auto_now_add=True)
-    read = models.BooleanField(default=False)
+    read = models.BooleanField(verbose_name='Leido',default=False)
 
     def __str__(self):
         return f'De: {self.sender} | Para: {self.receiver} | Fecha: {self.created_at.strftime("%d-%m-%Y")} | Asunto: {self.subject}'
@@ -112,6 +112,6 @@ class Messages(models.Model):
         self.read=False
         super().save()
 
-    #query for views.py: 
+    #query for views.py to create inbox and sentbox: 
     # Inbox: Message.objects.filter(receiver=request.user)
     # Enviados: Message.objects.filter(sender=request.user)
