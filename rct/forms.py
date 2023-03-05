@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ValidationError 
 from rct.models import *
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm,PasswordChangeForm
 
 def solo_caracteres(value):
     if any(char.isdigit() for char in value):
@@ -24,6 +24,11 @@ class RegisterForm(UserCreationForm):
 class Logueo(AuthenticationForm):
     username= forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Usuario", "class": "form-control"}))
     password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña','class': 'form-control'}))
+
+class PassChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña Anterior'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña Nueva'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repetir Contraseña'}))
 
 class ContactoForm(forms.Form):
     nombre = forms.CharField(label='',max_length=50,validators=(solo_caracteres,),widget= forms.TextInput(attrs={'class':"form-control",'placeholder':"Nombre"}))

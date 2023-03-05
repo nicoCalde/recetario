@@ -22,7 +22,7 @@ urlpatterns = [
     path('receta/<int:parent_id>/borrar_receta/<int:id>/',views.borrar_receta,name='borrar_receta'),
     path('registro',views.registro,name='registro'),
     path('login',views.recetas_login,name='login'),
-    path('password_change',auth_views.PasswordChangeView.as_view(template_name='rct/public/password_change.html',success_url='/'),name='password_change'),
+    path('password_change',views.cambio_contraseña,name='password_change'),
     path('logout',auth_views.LogoutView.as_view(template_name='rct/public/index.html'),name='logout'),
     path('contact',views.contact,name='contact'),
     #ADMINISTRACION

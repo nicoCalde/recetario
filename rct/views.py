@@ -74,7 +74,7 @@ def contact(request):
 # login
 def registro(request):
     if request.method == 'POST':
-        register_form = RegisterForm(request.POST)
+        register_form = RegisterForm(request.POST or None)
         if register_form.is_valid():
             register_form.save()
             messages.success(request, f'Tu cuenta fue creada con exito!')
@@ -100,6 +100,20 @@ def recetas_login(request):
             messages.error(request,'El usuario o la contraseña no son validos')
     form = Logueo()
     return render(request,'rct/public/login.html',{'form':form})
+
+@login_required(login_url=settings.LOGIN_URL)
+def cambio_contraseña(request):
+    if request.method == 'POST':
+        form = PassChangeForm(user=request.user, data=request.POST or None)
+        if form.is_valid():
+            chng = form.save(commit=False)
+            chng.user = request.user
+            chng.save()
+            messages.success(request, f'Tu Contraseña fue cambiada con exito!')
+            return redirect('rct:login')
+    else:
+        form = PassChangeForm(user=request.user)
+    return render(request,'rct/public/password_change.html',{'form':form})
 
 # CUD
 @login_required(login_url=settings.LOGIN_URL)
