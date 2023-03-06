@@ -23,6 +23,10 @@ urlpatterns = [
     path('registro',views.registro,name='registro'),
     path('login',views.recetas_login,name='login'),
     path('password_change',views.cambio_contraseña,name='password_change'),
+    path('reset_password',views.resetear_contraseña,name='reset_password'),
+    path('reset_password_sent',auth_views.PasswordResetDoneView.as_view(template_name='rct/public/password_reset_sent.html'),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',views.reseteo_contraseña,name='password_reset_confirm'),
+    path('reset_password_complete',auth_views.PasswordResetDoneView.as_view(template_name='rct/public/password_reset_done.html'),name='password_reset_complete'),
     path('logout',auth_views.LogoutView.as_view(template_name='rct/public/index.html'),name='logout'),
     path('contact',views.contact,name='contact'),
     #ADMINISTRACION

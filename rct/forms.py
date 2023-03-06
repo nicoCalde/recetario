@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ValidationError 
 from rct.models import *
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm,PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm,PasswordChangeForm,PasswordResetForm,SetPasswordForm
 
 def solo_caracteres(value):
     if any(char.isdigit() for char in value):
@@ -27,6 +27,13 @@ class Logueo(AuthenticationForm):
 
 class PassChangeForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña Anterior'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña Nueva'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repetir Contraseña'}))
+
+class PassResetForm(PasswordResetForm):
+    email = forms.EmailField(label='',widget= forms.TextInput(attrs={'class':"form-control",'placeholder':"Ingresa tu Email"})) 
+
+class NewPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña Nueva'}))
     new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repetir Contraseña'}))
 
