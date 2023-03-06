@@ -115,20 +115,6 @@ def cambio_contraseña(request):
         form = PassChangeForm(user=request.user)
     return render(request,'rct/public/password_change.html',{'form':form})
 
-def resetear_contraseña(request):
-    if request.method == 'POST':
-        form = PassResetForm(request.POST or None)
-        return redirect ('rct:password_reset_done')
-    form = PassResetForm()
-    return render(request,'rct/public/password_reset.html',{'form':form})
-
-def reseteo_contraseña(request):
-    if request.method == 'POST':
-        form = NewPasswordForm(request.POST or None)
-        return redirect ('rct:password_reset_confirm')
-    form = NewPasswordForm()
-    return render(request,'rct/public/password_reset_form.html',{'form':form})
-
 # CUD
 @login_required(login_url=settings.LOGIN_URL)
 def crear_receta(request):
