@@ -1,4 +1,3 @@
-# from django.http import HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from rct.forms import *
 from django.contrib import messages
@@ -6,9 +5,15 @@ from rct.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory # model form for querysets
-from django.core.mail import send_mail
+from django.core.mail import send_mail,BadHeaderError
 from django.conf import settings
 from django.db import IntegrityError
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 # Create your views here.
 
@@ -62,13 +67,12 @@ def contact(request):
 
             Mensaje: {}
             '''.format(data['email'],data['nombre'],data['mensaje'])
-            send_mail(data['asunto'],message,'calde_kpo@hotmail.com',['calde_kpo@hotmail.com'])
+            send_mail(data['asunto'],message,'calde_kpo@hotmail.com',['calde_kpo@hotmail.com'],fail_silently=False)
             messages.success(request,'¡Gracias por comunicarte con nostros, te estaremos respondiedo a la brevedad!')
             contacto_form = ContactoForm()
             return redirect('rct:contact')
     else:
         contacto_form = ContactoForm()
-
     return render(request,'rct/public/contact.html',{'contacto_form':contacto_form})
 
 # login
@@ -114,6 +118,34 @@ def cambio_contraseña(request):
     else:
         form = PassChangeForm(user=request.user)
     return render(request,'rct/public/password_change.html',{'form':form})
+
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = PassResetForm(request.POST or None)
+        if form.is_valid():
+            data = form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = 'Reseteo de contraseña'
+                    email_template = 'rct/public/password_message.txt'
+                    parameters = {
+                        'email': user.email,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'recetArio',
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    email = render_to_string(email_template,parameters)
+                    try:
+                        send_mail(subject,email,'',[user.email],fail_silently=False)
+                    except:
+                        return HttpResponse('Invalid Header')
+                    return redirect('rct:password_reset_done')
+    else:
+        form = PassResetForm()
+    return render(request,'rct/public/password_reset.html',{'form':form})
 
 # CUD
 @login_required(login_url=settings.LOGIN_URL)
