@@ -10,7 +10,8 @@ urlpatterns = [
     #PUBLIC
     path('',views.index,name='index'),
     path('recetas',views.recetas,name='recetas'),
-    path('mis_recetas/',views.mis_recetas,name='mis_recetas'),
+    path('mis_recetas_creadas/',views.mis_recetas_creadas,name='mis_recetas'),
+    path('mis_recetas_guardadas/',views.mis_recetas_guardadas,name='favoritos'),
     path('mis_recetas/crear_receta',views.crear_receta,name='crear_receta'),
     path('mis_recetas/editar_receta/<int:id>/',views.editar_receta,name='editar'),
     path('mis_recetas/eliminar_receta/<int:id>/',views.eliminar_receta,name='eliminar'),

@@ -19,6 +19,8 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('rctadmin/', admin.site.urls),
+    # urls api
+    path('rct_api/',include('api_rct.urls')),
     # urls rct (app)
     path('',include('rct.urls')),
 ]

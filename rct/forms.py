@@ -70,9 +70,10 @@ class RecetasForm(forms.ModelForm):
 
     class Meta:
         model=Recetas
-        fields= ['nombre_receta', 'imagen_receta', 'tiempo_prep_receta', 'porciones_receta', 'pasos_receta']
+        fields= ['nombre_receta','public', 'imagen_receta', 'tiempo_prep_receta', 'porciones_receta', 'pasos_receta']
         widgets={
             'nombre_receta': forms.TextInput(attrs={'class':'form-control'}),
+            'public': forms.CheckboxInput(attrs={'class':'form-check-label'}),
             'imagen_receta': forms.FileInput(attrs={'class':'form-control-file'}),
             'tiempo_prep_receta': forms.TextInput(attrs={'class':'form-control'}),
             'porciones_receta': forms.TextInput(attrs={'class':'form-control'}),

@@ -27,6 +27,9 @@
                             <th>Instrucciones</th>
                             <th>Ingredientes</th>
                             <th>Creador</th>
+                            <th>Fecha de creación</th>
+                            <th>Ultima Modificación</th>
+                            <th>Publica</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -40,6 +43,9 @@
                             <th>Instrucciones</th>
                             <th>Ingredientes</th>
                             <th>Creador</th>
+                            <th>Fecha de creación</th>
+                            <th>Ultima Modificación</th>
+                            <th>Publica</th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
@@ -54,6 +60,9 @@
                                 <td><a href="{% url 'rct:instrucciones_admin' receta.id %}">Ver instrucciones</a></td>
                                 <td><a href="{% url 'rct:ingredientes_receta_admin' receta.id %}">Ver ingredientes</a></td>
                                 <td>{{ receta.fkuser }}</td>
+                                <td>{{ receta.created_at }}</td>
+                                <td>{{ receta.updated_at }}</td>
+                                <td>{{ receta.public }}</td>
                                 <td>
                                     <a href="{% url 'rct:editar_receta_admin' receta.id  %}" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>
                                     <a href="{% url 'rct:eliminar_receta_admin' receta.id %}" title="Eliminar" class="btn-circle btn-danger btn-sm"><i class="fas fa-trash"></i></a>

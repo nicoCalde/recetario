@@ -4,6 +4,7 @@ from api_rct import views
 
 router=DefaultRouter()
 router.register(r'recetas',views.RecetasViewSet,basename='receta')
+router.register(r'ingredientes',views.IngredientesViewSet,basename='ingredientes')
 
 urlpatterns = [
     path('',include(router.urls)),

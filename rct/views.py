@@ -30,10 +30,14 @@ def recetas(request):
     return render(request,'rct/public/recetas.html',{'recetas':recetas,'archivo':archivo})
 
 @login_required(login_url=settings.LOGIN_URL)
-def mis_recetas(request):
+def mis_recetas_creadas(request):
     recetas = Recetas.objects.filter(fkuser=request.user)
+    return render(request,'rct/public/mis_recetas_creadas.html',{'recetas':recetas})
+
+@login_required(login_url=settings.LOGIN_URL)
+def mis_recetas_guardadas(request):
     archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
-    return render(request,'rct/public/mis_recetas.html',{'recetas':recetas,'archivo':archivo})
+    return render(request,'rct/public/mis_recetas_guardadas.html',{'archivo':archivo})
 
 def receta(request,id=None):
     receta = get_object_or_404(Recetas,id=id)
@@ -262,7 +266,7 @@ def guardar_receta(request,parent_id=None):
             form.fkuser = request.user
             form.receta_guardada = receta
             form.save()
-            return redirect('rct:mis_recetas')
+            return redirect('rct:favoritos')
     else:
         formulario = RecetasGuardadasForm()
     return render(request,'rct/public/guardar_receta.html',{'receta':receta,'formulario':formulario,'recetas':recetas,'archivo':archivo})
@@ -271,7 +275,7 @@ def guardar_receta(request,parent_id=None):
 def borrar_receta(request,parent_id=None,id=None):
     receta = get_object_or_404(RecetasGuardadas,receta_guardada=parent_id,id=id,fkuser=request.user)
     receta.delete()
-    return redirect('rct:mis_recetas')
+    return redirect('rct:favoritos')
 
 #----------------------------------------------------------------------------------------------------------------------------------------
 

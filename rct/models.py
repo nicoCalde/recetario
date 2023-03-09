@@ -11,6 +11,9 @@ class Recetas(models.Model):
     porciones_receta = models.IntegerField(verbose_name='porciones')
     pasos_receta = models.TextField(verbose_name='instrucciones')
     fkuser = models.ForeignKey(User,verbose_name="Usuario", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    public = models.BooleanField(verbose_name='Publica',default=True)
 
     def __str__(self):
         return self.nombre_receta
@@ -27,6 +30,14 @@ class Recetas(models.Model):
     def get_ingredientes(self):
         return self.ingredientes_set.all()
     
+    def public_recipe(self):
+        self.public=True
+        super().save()
+    
+    def private_recipe(self):
+        self.public=False
+        super().save()
+
     def delete(self,using=None,keep_parents=False):
         self.imagen_receta.delete(self.imagen_receta.name) # borrado fisico
         super().delete()

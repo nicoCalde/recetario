@@ -1706,3 +1706,8 @@ section {
 #select-square {
   border-radius: 0px
 }
+
+/* Log in button from pass_reset_complete */
+#button1 {
+  border-radius: 30px;
+}
