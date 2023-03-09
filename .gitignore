@@ -1,3 +1,5 @@
 .env
 db.sqlite3
 recetario/__pycache__/
+rct/__pycache__/
+api_rct/__pycache__/
