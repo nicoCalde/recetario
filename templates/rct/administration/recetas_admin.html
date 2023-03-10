@@ -60,8 +60,8 @@
                                 <td><a href="{% url 'rct:instrucciones_admin' receta.id %}">Ver instrucciones</a></td>
                                 <td><a href="{% url 'rct:ingredientes_receta_admin' receta.id %}">Ver ingredientes</a></td>
                                 <td>{{ receta.fkuser }}</td>
-                                <td>{{ receta.created_at }}</td>
-                                <td>{{ receta.updated_at }}</td>
+                                <td>{{ receta.created_at|date:"d-m-y | h:i:s" }}</td>
+                                <td>{{ receta.updated_at|date:"d-m-y | h:i:s" }}</td>
                                 <td>{{ receta.public }}</td>
                                 <td>
                                     <a href="{% url 'rct:editar_receta_admin' receta.id  %}" title="Editar" class="btn-circle btn-warning btn-sm"><i class="fas fa-pencil"></i></a>

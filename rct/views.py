@@ -14,6 +14,7 @@ from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.db.models import Count
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ def index(request):
 
 # Content views (Retrieve)
 def recetas(request):
-    recetas = Recetas.objects.all()
+    recetas = Recetas.objects.filter(public=True)
     archivo = None
     if  request.user.is_authenticated:
         archivo = RecetasGuardadas.objects.filter(fkuser=request.user)
@@ -288,7 +289,13 @@ def index_administracion(request,id=None):
     productos = Productos.objects.all()
     user = User.objects.get(id=request.user.id)
     mensajes = Messages.objects.filter(receiver=request.user,read=False)
-    return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user,'mensajes':mensajes})
+    try:
+        last_recipe = Recetas.objects.get(created_at=Recetas.objects.order_by('created_at').first().created_at)
+        most_common = User.objects.get(id=list(Recetas.objects.values("fkuser").annotate(count=Count('fkuser')).order_by("-count")[0].values())[0])
+    except AttributeError:
+        last_recipe = 'No hay recetes creadas.'
+        most_common = 'No hay usuarios que hayan creado recetas.'
+    return render(request,'rct/administration/index_administracion.html',{'recetas':recetas,'users':users,'productos':productos,'user':user,'mensajes':mensajes,'last_recipe':last_recipe,'most_common':most_common})
 
 @login_required(login_url=settings.LOGIN_URL)
 def profile_administracion(request,id=None):
