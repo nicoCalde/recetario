@@ -31,15 +31,15 @@
                 <hr>
                 <h5>Publica: 
                     {% if receta.public == True %}
-                    <b>Si</b>
+                    Si
                     {% else %}
-                    <b>No</b>
+                    No
                     {% endif %}
                     |
                     {% if receta.public == True %}
-                    <a href="{% url 'rct:receta_privada' receta.id %}" title='cambiar a NO'>No</a>
+                    <a href="{% url 'rct:receta_privada' receta.id %}" title='cambiar a NO'><i class="bi bi-x-circle"></i></a>
                     {% else %}
-                    <a href="{% url 'rct:receta_publica' receta.id %}" title='cambiar a SI'>Si</a>
+                    <a href="{% url 'rct:receta_publica' receta.id %}" title='cambiar a SI'><i class="bi bi-check-circle"></i></a>
                     {% endif %}
                 </h5>
                 <hr>
