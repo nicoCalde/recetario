@@ -1704,7 +1704,7 @@ section {
 
 /* select from ingredients */
 #select-square {
-  border-radius: 0px
+  border-radius: 0px;
 }
 
 /* Log in button from pass_reset_complete */

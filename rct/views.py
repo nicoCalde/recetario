@@ -100,7 +100,6 @@ def recetas_login(request):
         if user is not None:
             form = login(request, user)
             nxt = request.GET.get('next',None)
-            messages.success(request,f' ')
             if nxt is None:
                 return redirect('rct:index')
             else:
@@ -277,6 +276,20 @@ def borrar_receta(request,parent_id=None,id=None):
     receta = get_object_or_404(RecetasGuardadas,receta_guardada=parent_id,id=id,fkuser=request.user)
     receta.delete()
     return redirect('rct:favoritos')
+
+@login_required(login_url=settings.LOGIN_URL)
+def receta_publica(request,id=None):
+    receta = get_object_or_404(Recetas, id=id,fkuser=request.user)
+    receta.public_recipe()
+    success_url = reverse('rct:receta', kwargs={'id':id})
+    return redirect(success_url)
+
+@login_required(login_url=settings.LOGIN_URL)
+def receta_privada(request,id=None):
+    receta = get_object_or_404(Recetas, id=id,fkuser=request.user)
+    receta.private_recipe()
+    success_url = reverse('rct:receta', kwargs={'id':id})
+    return redirect(success_url)
 
 #----------------------------------------------------------------------------------------------------------------------------------------
 

@@ -29,6 +29,20 @@
             <div class="row">
                 <h5>Creador: {{ receta.fkuser }}</h5>
                 <hr>
+                <h5>Publica: 
+                    {% if receta.public == True %}
+                    <b>Si</b>
+                    {% else %}
+                    <b>No</b>
+                    {% endif %}
+                    |
+                    {% if receta.public == True %}
+                    <a href="{% url 'rct:receta_privada' receta.id %}" title='cambiar a NO'>No</a>
+                    {% else %}
+                    <a href="{% url 'rct:receta_publica' receta.id %}" title='cambiar a SI'>Si</a>
+                    {% endif %}
+                </h5>
+                <hr>
                 <h5>Tiempo Preparación: {{ receta.tiempo_prep_receta }}</h5>
                 <hr>
                 <h5>Porciones: {{ receta.porciones_receta }}</h5>
