@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'recetario.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'recetario', 
+        'NAME': 'caldegol$recetario', 
         'USER': 'caldegol', 
         'PASSWORD': 'c4ld3g0l',
         'HOST': 'caldegol.mysql.pythonanywhere-services.com', 
