@@ -93,9 +93,9 @@ WSGI_APPLICATION = 'recetario.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'recetarios', 
-        'USER': 'postgres', 
-        'PASSWORD': '207',
+        'NAME': os.environ.get('DB_NAME'), 
+        'USER': os.environ.get('DB_USER'), 
+        'PASSWORD': os.environ.get('DB_PASS'),
         'HOST': '127.0.0.1', 
         'PORT': '5432',
     }
