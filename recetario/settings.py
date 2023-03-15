@@ -89,12 +89,12 @@ WSGI_APPLICATION = 'recetario.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'caldegol$recetario', 
-        'USER': 'caldegol', 
-        'PASSWORD': 'c4ld3g0l',
-        'HOST': 'caldegol.mysql.pythonanywhere-services.com', 
-        'PORT': '3306',
+        'ENGINE': 'motor',
+        'NAME': 'nombre', 
+        'USER': 'usuario', 
+        'PASSWORD': 'password',
+        'HOST': 'anfitrion(lol)', 
+        'PORT': 'puertp',
     }
 }
 
@@ -140,7 +140,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ] #debug true
 
-STATIC_ROOT = BASE_DIR / 'static_root' #for production: python manage.py collecstatic
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root") #for production: python manage.py collecstatic
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
