@@ -53,6 +53,7 @@
                 <li><a href="{% url 'rct:contact' %}">Contacto</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'rct:password_change' %}">Cambiar contraseña</a></li>
+                <li><a href="{% url 'rct:logout' %}">Log Out</a></li>
                 {% endif %}
                 {% if user.is_staff == True %}
                     <li><a href="{% url 'rct:administracion' %}">Administracion</a></li>
@@ -61,7 +62,6 @@
             </nav><!-- .navbar -->
             {% if user.is_authenticated %}
                 <span>Hola {{ user.username }}!</span>
-                <a class="btn-book-a-table" href="{% url 'rct:logout' %}">Out</a>
             {% else %}
                 <a class="btn-book-a-table" href="{% url 'rct:login' %}">Log In</a>
             {% endif %}
